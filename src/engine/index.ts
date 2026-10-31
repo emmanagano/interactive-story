@@ -1,3 +1,4 @@
+export { isConditionMet } from './conditions'
 export type {
   Block,
   Branch,
