@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 1.3 · Effects and the automatic rules
+**Current step:** 1.4 · The run loop
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -14,7 +14,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 ### Phase 1 · The engine
 - [x] 1.1 Types
 - [x] 1.2 Conditions
-- [ ] 1.3 Effects and the automatic rules
+- [x] 1.3 Effects and the automatic rules
 - [ ] 1.4 The run loop
 - [ ] 1.5 Memory
 
@@ -58,6 +58,10 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 1.3 | Chip drain is derived from the clock: health lost = full hours elapsed after the effect minus before. No stored counter, so no double charge and the same result however time is split up |
+| 2026-11-01 | 1.3 | Heal or damage is clamped to 0–5 before the drain is taken, so healing at full health cannot absorb a drain. Time floors at 0 |
+| 2026-11-01 | 1.3 | `applyEffect` returns a new state and never mutates. `useItem` removes one copy, ignored if missing. Deciding Flatline at time 0 or health 0 is left to Step 1.4 |
+| 2026-11-01 | 1.3 | Added `constants.ts` (engine numbers) and `testState.ts` (shared `makeState` for tests, moved out of conditions.test.ts) |
 | 2026-11-01 | 1.2 | Emma updated the script: Scene 08 now sets `memory_taken` and `eye_taken`, and every "→ Act 3" / "→ Act 2: ..." became a scene number (Scene 17 for Act 3). Both open issues are closed |
 | 2026-11-01 | 1.2 | `isConditionMet(condition, state)`: `undefined` means always met; a flag matches run or memory flags; `gte`/`lte` are inclusive; a stat condition with no bounds is met; `all: []` is true and `any: []` is false |
 | 2026-11-01 | 1.1 | Format change (Emma approved): `Scene.onEnter` holds effects that fire on arrival, so endings can leave memory flags without engine special-cases |
