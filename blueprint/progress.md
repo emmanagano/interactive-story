@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 3.1 · The HUD
+**Current step:** 3.2 · Cyberpunk styling
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -24,7 +24,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 2.3 Minimal UI
 
 ### Phase 3 · The HUD and the decay
-- [ ] 3.1 The HUD
+- [x] 3.1 The HUD
 - [ ] 3.2 Cyberpunk styling
 - [ ] 3.3 The decaying interface
 - [ ] 3.4 Ending cards and the tracker
@@ -58,6 +58,11 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 3.1 | Announcements are pure functions (`runChanges.ts`): "Time minus 20 minutes. Heat up 1." Order is always time, health, heat. A new run announces "New run. 06:00:00 left. Health 5. Heat 0." |
+| 2026-11-01 | 3.1 | The live region adds an invisible space on alternate choices so two identical sentences in a row are still announced (a live region only speaks when its text changes) |
+| 2026-11-01 | 3.1 | Changed meters pulse for 0.5s only when `prefers-reduced-motion: no-preference`, and keep a static glow either way. Step 3.3's calm mode must also switch the pulse off |
+| 2026-11-01 | 3.1 | Hud is a `dl` (time, health, heat, endings) so the labels are read with their values. Health is five bars with an aria-label ("Health 3 of 5"). Endings total is `TOTAL_ENDINGS = 10` in constants.ts |
+| 2026-11-01 | 3.1 | Verified in headless Chrome: BOLT announces "Time minus 5 minutes. Health down 1. Heat up 1." and the stairs announce "Time minus 20 minutes. Heat up 1." |
 | 2026-11-01 | 2.3 | Logic stays out of components: `view.ts` in the engine decides visible blocks, hidden vs locked choices and which key picks which choice (all tested). `useGame` only holds state and saves when a run ends |
 | 2026-11-01 | 2.3 | `MissingSceneError` is thrown for a goto to a scene that does not exist. `useGame` catches it, shows a notice and stays in the scene, so Act 1's exits into unwritten Act 2 do not crash. Remove the notice once Act 2 exists |
 | 2026-11-01 | 2.3 | Locked choices use `aria-disabled`, not `disabled`, so keyboard and screen-reader users can still find them. They announce "(locked)" and give no hint how to unlock |
