@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 4.3 · Special effects from the script
+**Current step:** 5.1 · Debug panel
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -32,7 +32,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 ### Phase 4 · Acts 2 and 3
 - [x] 4.1 Convert Act 2
 - [x] 4.2 Convert Act 3
-- [ ] 4.3 Special effects from the script
+- [x] 4.3 Special effects from the script
 
 ### Phase 5 · Debug panel and full playtest
 - [ ] 5.1 Debug panel
@@ -58,6 +58,13 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 4.3 | Format change (Emma delegated): `Scene.cleanInterface?: true`. Scene 23 sets it. It forces `--decay` to 0 and the HUD to "TIME ∞ / full health / HEAT 0", and announces "Interface restored…". Validated, documented in CLAUDE.md |
+| 2026-11-01 | 4.3 | Eye payment: a black veil over the left third (14vw on phones) with the story column moved into the rest, not laid over the words. A true overlay would put dim text under AA contrast. The veil closes over 1.2s (not in calm mode or reduced motion) and disappears with the run |
+| 2026-11-01 | 4.3 | Memory payment: the text parser reads `~~struck~~` (struck and dimmed). Scene 23 has a plain and a struck version of the memories paragraph, chosen by `memory_taken`. The script has no other line after Scene 08 that mentions the grid-power night |
+| 2026-11-01 | 4.3 | Typed LAZARUS stays a locked choice (a free-typed word would let players guess past the lock), and terminal lines now type out left to right |
+| 2026-11-01 | 4.3 | Chip glitch strength follows deaths through `chipVoice` (0: broken and cutting out, 1–2: clear, 3–4: human, 5+: calm, no glitch). It is a style, so no chip text is changed. `data-chip-voice` is set on the root |
+| 2026-11-01 | 4.3 | Fix found while testing: `main.tsx` loaded the token stylesheet after the app's, so token overrides in component CSS lost. The shared styles now load first |
+| 2026-11-01 | 4.3 | Not done (not in the build plan): Scene 16's "text slides sideways, words lose their letters". Candidate for Phase 6 polish |
 | 2026-11-01 | 4.2 | Act 3 is `src/story/act3.json`: scenes 17–23 plus `scene-17-lazarus` (typing LAZARUS), `scene-21-end` (after Tell her / Don't) and the endings `company-man`, `removed`, `partners`, `merged`. 153 player-facing lines were checked against the script word for word, none missing. All ten endings now exist, numbered 1–10 (5 deaths, 4 survivals, 1 secret) |
 | 2026-11-01 | 4.2 | Scene 17: the three ways in are an else-if chain (vale_code, else vale_hint, else forced). The forced way is `continue-forced`: −0:20 and the `distrustful` flag. Typing LAZARUS is a locked choice that leads to its own scene and sets `door_lazarus`. Enter takes `continue` or `continue-…` |
 | 2026-11-01 | 4.2 | Inline backtick text (`` `> okay,` the screen says. ``) now renders as amber mono, and terminal lines like `**`IDENTIFY YOURSELF.`**` are system blocks. The text keeps its marks exactly as in the script |
@@ -159,5 +166,5 @@ Things found during a step that need Emma's input. Remove them once they're answ
 - Script, for Emma: "Tavi's jaw tightens · they say nothing for the rest of the act" (KEEP TAVI CLOSE) is stored as nothing. It describes a change to Tavi's later lines that no scene uses. Sold (Scene 09) ends with prose, not a chip line, so its card shows only the banner.
 - Script, for Emma: I left out three lines of authoring instruction instead of showing them to players: "The timer in your vision (shown here at a typical value): **01:05:00**." (Scene 19), "*(If the player waits too long, the clock decides for them…)*" (Scene 19) and "*(The interface, which has been decaying all game, resets… The HUD now reads HEALTH ▮▮▮▮▮ · TIME ∞ · HEAT 0.)*" (Scene 23). The last one is for Step 4.3. Say if any of them should be shown after all.
 - Script, for Emma: Scene 17 lists "[if vale_code]", "[if vale_hint]" and "[otherwise]". I read them as else-if, so a player with both sees only the code text. The "Nothing you type works… rifle" paragraph shows before the player picks Type LAZARUS, because the script writes it that way.
-- Not yet visible: eye_taken (left third of the screen goes dark) and memory_taken (strikes through Tavi's grid-power lines) are set by Scene 08 but their effects belong to Step 4.3.
+- Script, for Emma: the memory payment's struck-through lines can never appear in play. The only line after Scene 08 that mentions the grid-power night is in Merged, and Merged needs `listened` (Scene 12) while the memory payment (`memory_taken`) is Scene 08, and Scene 07 only lets a run take one of those roads. The effect is built and tested, but unreachable. Options: write Tavi lines that mention the night in Scenes 13, 14 or 18, or let the memory payment's flag reach Merged another way. I did not write story text.
 - `npm audit` reports a moderate minimatch advisory inside the ESLint toolchain (dev only, not shipped). The only offered fix downgrades typescript-eslint, so I left it.
