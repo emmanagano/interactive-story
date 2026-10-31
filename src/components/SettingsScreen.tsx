@@ -1,15 +1,19 @@
 import { TEXT_SPEEDS } from '../engine'
 import type { Memory, TextSpeed } from '../engine'
-import CalmToggle from './CalmToggle'
 import SaveTools from './SaveTools'
+import ToggleSwitch from './ToggleSwitch'
 import './SettingsScreen.css'
 
 type Props = {
   calm: boolean
   textSpeed: TextSpeed
+  sound: boolean
+  volume: number
   memory: Memory
   onCalm: (calm: boolean) => void
   onTextSpeed: (speed: TextSpeed) => void
+  onSound: (sound: boolean) => void
+  onVolume: (volume: number) => void
   onImport: (memory: Memory) => void
   onReset: () => void
   onBack: () => void
@@ -17,7 +21,7 @@ type Props = {
 
 const SPEED_LABELS: Record<TextSpeed, string> = { slow: 'Slow', normal: 'Normal', fast: 'Fast', instant: 'Instant' }
 
-function SettingsScreen({ calm, textSpeed, memory, onCalm, onTextSpeed, onImport, onReset, onBack }: Props) {
+function SettingsScreen({ calm, textSpeed, sound, volume, memory, onCalm, onTextSpeed, onSound, onVolume, onImport, onReset, onBack }: Props) {
   return (
     <section className="settings-screen" aria-labelledby="settings-title">
       <h1 id="settings-title" className="settings-screen__title" data-screen-heading tabIndex={-1}>
@@ -25,7 +29,7 @@ function SettingsScreen({ calm, textSpeed, memory, onCalm, onTextSpeed, onImport
       </h1>
 
       <div className="settings-screen__group">
-        <CalmToggle calm={calm} onChange={onCalm} />
+        <ToggleSwitch label="Calm mode" checked={calm} onChange={onCalm} />
         <p className="settings-screen__hint">
           Stops trembling, glitching, flicker and the rain. Colours still drain as time runs out.
         </p>
@@ -45,11 +49,21 @@ function SettingsScreen({ calm, textSpeed, memory, onCalm, onTextSpeed, onImport
       </fieldset>
 
       <div className="settings-screen__group">
-        <label className="settings-screen__option settings-screen__option--disabled">
-          <input type="checkbox" disabled checked={false} readOnly />
-          Sound
+        <ToggleSwitch label="Sound" checked={sound} onChange={onSound} />
+        <label className="settings-screen__slider">
+          Volume {Math.round(volume * 100)}%
+          <input
+            type="range"
+            min={0}
+            max={100}
+            step={5}
+            value={Math.round(volume * 100)}
+            onChange={(event) => onVolume(Number(event.target.value) / 100)}
+          />
         </label>
-        <p className="settings-screen__hint">Not available yet. It will arrive in a later update, off by default.</p>
+        <p className="settings-screen__hint">
+          Rain, a heart monitor that speeds up as time runs out, and a flat tone when you die. Off until you turn it on.
+        </p>
       </div>
 
       <div className="settings-screen__group">

@@ -247,9 +247,13 @@ describe('SettingsScreen', () => {
     <SettingsScreen
       calm={false}
       textSpeed="fast"
+      sound={false}
+      volume={0.5}
       memory={makeState({}, { runs: 3, deaths: 2, endingsSeen: ['a'] }).memory}
       onCalm={() => undefined}
       onTextSpeed={() => undefined}
+      onSound={() => undefined}
+      onVolume={() => undefined}
       onImport={() => undefined}
       onReset={() => undefined}
       onBack={() => undefined}
@@ -272,9 +276,13 @@ describe('SettingsScreen', () => {
     expect(chosen[0]).toContain('value="fast"')
   })
 
-  it('shows sound as unavailable for now', () => {
-    expect(html).toMatch(/<input type="checkbox" disabled=""/)
-    expect(html).toContain('Not available yet')
+  it('has a sound switch that starts off, and a volume slider', () => {
+    const sound = html.match(/<input[^>]*role="switch"[^>]*>/g)?.find((input) => !input.includes('checked'))
+    expect(sound).toBeDefined()
+    expect(html).toContain('>Sound<')
+    expect(html).toContain('Volume 50%')
+    expect(html).toMatch(/<input[^>]*type="range"[^>]*value="50"/)
+    expect(html).toContain('Off until you turn it on')
   })
 
   it('summarises progress and offers backup, restore and reset', () => {

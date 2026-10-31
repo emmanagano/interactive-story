@@ -77,3 +77,12 @@
     padding: var(--space-4);
   }
 }
+
+.settings-screen__slider {
+  display: grid;
+  gap: var(--space-1);
+  max-width: 20rem;
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Backdrop, EyeVeil, GameScreen, SettingsScreen, TitleScreen } from './components'
 import { SPEED_MULTIPLIER } from './components/reveal'
-import { useChipVoice, useChoiceKeys, useDecay, useGame, useReducedMotion, useReveal, useSettings } from './hooks'
+import { heartbeatInterval, soundCueForScene } from './engine'
+import { useChipVoice, useChoiceKeys, useDecay, useGame, useReducedMotion, useReveal, useSettings, useSound } from './hooks'
 import './App.css'
 
 type Screen = 'title' | 'game' | 'settings'
@@ -25,6 +26,15 @@ function App() {
   const speed = settings.textSpeed === 'instant' ? 1 : SPEED_MULTIPLIER[settings.textSpeed]
   const sceneKey = `${game.scene.id}:${game.state.memory.runs}`
   const reveal = useReveal(game.blocks, animateText, sceneKey, speed)
+
+  // Sound is off until the player turns it on. The heart monitor only beats while a run is going.
+  const playing = screen === 'game' && !game.isOver
+  const sound = useSound({
+    enabled: settings.sound,
+    volume: settings.volume,
+    heartbeat: playing ? heartbeatInterval(game.state.run) : null,
+    flatlineKey: screen === 'game' && soundCueForScene(game.scene) === 'flatline' ? sceneKey : null,
+  })
 
   useChoiceKeys({
     active: screen === 'game',
@@ -69,9 +79,16 @@ function App() {
           <SettingsScreen
             calm={settings.calm}
             textSpeed={settings.textSpeed}
+            sound={settings.sound}
+            volume={settings.volume}
             memory={memory}
             onCalm={settings.setCalm}
             onTextSpeed={settings.setTextSpeed}
+            onSound={settings.setSound}
+            onVolume={(volume) => {
+              settings.setVolume(volume)
+              sound.preview()
+            }}
             onImport={game.replaceProgress}
             onReset={game.resetProgress}
             onBack={() => setScreen(leaveSettingsTo)}
@@ -83,9 +100,15 @@ function App() {
               <h1 className="app__title" data-screen-heading tabIndex={-1}>
                 Flatline
               </h1>
-              <button type="button" className="app__settings" onClick={openSettings}>
-                Settings
-              </button>
+              <div className="app__buttons">
+                {/* Always in reach, so ambient sound can be stopped without opening Settings. */}
+                <button type="button" className="app__settings" onClick={() => settings.setSound(!settings.sound)}>
+                  Sound: {settings.sound ? 'on' : 'off'}
+                </button>
+                <button type="button" className="app__settings" onClick={openSettings}>
+                  Settings
+                </button>
+              </div>
             </header>
             <GameScreen game={game} reveal={reveal} sceneKey={sceneKey} cleanInterface={cleanInterface} />
           </>

@@ -74,3 +74,9 @@
 [data-screen-heading]:focus {
   outline: none;
 }
+
+.app__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}

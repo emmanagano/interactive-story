@@ -1,4 +1,4 @@
-.calm-toggle {
+.toggle-switch {
   position: relative;
   display: inline-flex;
   gap: var(--space-3);
@@ -11,7 +11,7 @@
 }
 
 /* The real checkbox stays in place, invisible, so it keeps its focus and keyboard behaviour. */
-.calm-toggle__input {
+.toggle-switch__input {
   position: absolute;
   inset: 0;
   margin: 0;
@@ -19,7 +19,7 @@
   cursor: pointer;
 }
 
-.calm-toggle__track {
+.toggle-switch__track {
   position: relative;
   width: var(--space-7);
   height: var(--space-5);
@@ -28,7 +28,7 @@
   background: var(--glass-night);
 }
 
-.calm-toggle__track::after {
+.toggle-switch__track::after {
   position: absolute;
   top: var(--space-1);
   left: var(--space-1);
@@ -39,17 +39,17 @@
   content: '';
 }
 
-.calm-toggle__input:checked + .calm-toggle__track {
+.toggle-switch__input:checked + .toggle-switch__track {
   background: var(--haze-cyan);
 }
 
-.calm-toggle__input:checked + .calm-toggle__track::after {
+.toggle-switch__input:checked + .toggle-switch__track::after {
   left: calc(100% - var(--space-4) - var(--space-1));
   background: var(--color-cyan);
   box-shadow: var(--glow-cyan);
 }
 
-.calm-toggle__input:focus-visible + .calm-toggle__track {
+.toggle-switch__input:focus-visible + .toggle-switch__track {
   outline: var(--focus-ring-width) solid var(--color-cyan);
   outline-offset: 3px;
 }

@@ -1,25 +1,26 @@
-import './CalmToggle.css'
+import './ToggleSwitch.css'
 
 type Props = {
-  calm: boolean
-  onChange: (calm: boolean) => void
+  label: string
+  checked: boolean
+  onChange: (checked: boolean) => void
 }
 
-/** A plain switch. The full settings screen arrives in Step 6.2. */
-function CalmToggle({ calm, onChange }: Props) {
+/** A labelled on/off switch. The real checkbox stays underneath, so it works with a keyboard and a screen reader. */
+function ToggleSwitch({ label, checked, onChange }: Props) {
   return (
-    <label className="calm-toggle">
+    <label className="toggle-switch">
       <input
         type="checkbox"
         role="switch"
-        className="calm-toggle__input"
-        checked={calm}
+        className="toggle-switch__input"
+        checked={checked}
         onChange={(event) => onChange(event.target.checked)}
       />
-      <span className="calm-toggle__track" aria-hidden="true" />
-      <span className="calm-toggle__label">Calm mode</span>
+      <span className="toggle-switch__track" aria-hidden="true" />
+      <span className="toggle-switch__label">{label}</span>
     </label>
   )
 }
 
-export default CalmToggle
+export default ToggleSwitch
