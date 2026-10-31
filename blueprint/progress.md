@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 1.1 · Types
+**Current step:** 1.2 · Conditions
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -12,7 +12,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 0.3 Deploy early
 
 ### Phase 1 · The engine
-- [ ] 1.1 Types
+- [x] 1.1 Types
 - [ ] 1.2 Conditions
 - [ ] 1.3 Effects and the automatic rules
 - [ ] 1.4 The run loop
@@ -58,6 +58,11 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 1.1 | Format change (Emma approved): `Scene.onEnter` holds effects that fire on arrival, so endings can leave memory flags without engine special-cases |
+| 2026-11-01 | 1.1 | Format change: `Choice.gotoIf` lists conditional destinations (first match wins, else `goto`), for Scene 13's branching exits |
+| 2026-11-01 | 1.1 | Format change: `Condition` gained `{ item }` (painkillers check) and `{ blurred: true }` (blur is a RunState field, not a flag) |
+| 2026-11-01 | 1.1 | `deaths`, `flatlines`, `runs` are not in `Effect`; the engine counts them so story files cannot set them wrongly. `Memory.version` is 1 |
+| 2026-11-01 | 1.1 | CLAUDE.md's Scene data format section updated to match `types.ts` (Emma asked) |
 | 2026-11-01 | 0.3 | Site is live on Netlify. The deployed token page shows all three fonts, glows, chip line and locked-choice sample correctly, which closes the Step 0.2 visual check too |
 | 2026-11-01 | 0.3 | `netlify.toml` pins `NODE_VERSION = "22"` because Vite 8 needs a recent Node. No redirect rules, since the game has no router |
 | 2026-11-01 | 0.2 | Text contrast on night/panel: ink 15.6/14.6, dim 5.8/5.5, magenta 5.7/5.3, cyan 12.3/11.5, green 11.7/10.9, amber 10.7/10.0, red 6.0/5.6. All pass AA (4.5:1) |
@@ -77,4 +82,5 @@ Newest first. One line each: date, step, what was decided and why.
 
 Things found during a step that need Emma's input. Remove them once they're answered.
 
+- Script continuity: several choices end in "→ Act 3" (e.g. Scene 13) without naming a scene. I'm assuming Scene 17 (Vale's Door). To confirm in Step 4.1; the script is untouched.
 - `npm audit` reports a moderate minimatch advisory inside the ESLint toolchain (dev only, not shipped). The only offered fix downgrades typescript-eslint, so I left it.
