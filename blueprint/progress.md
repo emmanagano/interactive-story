@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 2.3 · Minimal UI
+**Current step:** 3.1 · The HUD
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -21,7 +21,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 ### Phase 2 · Act 1, playable and plain
 - [x] 2.1 Convert Act 1
 - [x] 2.2 Story validation
-- [ ] 2.3 Minimal UI
+- [x] 2.3 Minimal UI
 
 ### Phase 3 · The HUD and the decay
 - [ ] 3.1 The HUD
@@ -58,6 +58,12 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 2.3 | Logic stays out of components: `view.ts` in the engine decides visible blocks, hidden vs locked choices and which key picks which choice (all tested). `useGame` only holds state and saves when a run ends |
+| 2026-11-01 | 2.3 | `MissingSceneError` is thrown for a goto to a scene that does not exist. `useGame` catches it, shows a notice and stays in the scene, so Act 1's exits into unwritten Act 2 do not crash. Remove the notice once Act 2 exists |
+| 2026-11-01 | 2.3 | Locked choices use `aria-disabled`, not `disabled`, so keyboard and screen-reader users can still find them. They announce "(locked)" and give no hint how to unlock |
+| 2026-11-01 | 2.3 | Number keys 1–4 follow the order of the choices on screen, and a locked or missing one does nothing. Enter wakes up again after an ending (the button takes focus too). Focus moves to the scene title after each choice |
+| 2026-11-01 | 2.3 | Bold and italic marks are parsed by a 20-line helper (`parseEmphasis`), no Markdown library. The temporary token page was deleted, replaced by the game. The plain "Time · Health · Heat" line in App is temporary until Step 3.1 |
+| 2026-11-01 | 2.3 | Tested by playing in headless Chrome over the DevTools protocol (keys, reload, save): STAY → Doc's Table → Enter → "Ask who he called" unlocked and still unlocked after reload. Components are checked by rendering to a string, so no testing-library package was added |
 | 2026-11-01 | 2.2 | `validateStory` (src/story/validate.ts) returns readable problems. It checks shapes, gotos, dead ends, ending ids and numbers, flags and items used but never set, unreachable scenes, leaked script markup and chip text starting with "> ". It is tested against deliberately broken stories as well as the real one |
 | 2026-11-01 | 2.2 | `placeholders.ts` lists Act 2 scenes (08, 10, 12, 13, 16) and later-act flags (tavi_secret, was_removed, saw_company, saw_sold, saw_merged) Act 1 refers to. The validator fails when an entry becomes real, so the lists must shrink in Steps 4.1 and 4.2 |
 | 2026-11-01 | 2.2 | `story/index.ts` and the story test load `act*.json` by glob, so a new act is loaded and validated with no code change |
