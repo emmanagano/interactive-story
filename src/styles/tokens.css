@@ -1,0 +1,54 @@
+:root {
+  /* Colors */
+  --color-night: #0b0a14;
+  --color-panel: #141226;
+  --color-line: #2a2545;
+  --color-ink: #e6e3f5;
+  --color-dim: #8d88aa;
+  --color-magenta: #ff2e97;
+  --color-cyan: #2de2e6;
+  --color-green: #5fe08a;
+  --color-amber: #ffb000;
+  --color-red: #ff4d4d;
+
+  /* Glows: neon as light, never as flat fill. Same hues as above at low alpha. */
+  --glow-magenta: 0 0 12px rgb(255 46 151 / 55%);
+  --glow-cyan: 0 0 12px rgb(45 226 230 / 50%);
+  --glow-green: 0 0 12px rgb(95 224 138 / 50%);
+  --glow-amber: 0 0 12px rgb(255 176 0 / 50%);
+  --glow-red: 0 0 12px rgb(255 77 77 / 55%);
+
+  /* Fonts */
+  --font-display: 'Oxanium', system-ui, sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale (about 1.25 per step) */
+  --text-xs: 0.8rem;
+  --text-sm: 0.9rem;
+  --text-base: 1.0625rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5rem;
+  --text-xl: 1.875rem;
+  --text-2xl: 2.375rem;
+  --text-3xl: 3rem;
+
+  --leading-tight: 1.2;
+  --leading-body: 1.6;
+
+  /* Spacing (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Shape */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --border-thin: 1px;
+  --focus-ring-width: 2px;
+}
