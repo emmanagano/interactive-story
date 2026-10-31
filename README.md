@@ -21,7 +21,7 @@ A cyberpunk survival story that runs in your browser. You play Kade, a courier w
 
 | | |
 | --- | --- |
-| **Layout** | The story is on the left in a panel of fixed height that scrolls on its own (it follows the text as it types, and the arrow keys scroll it when it has focus). Your choices are on the right and the endings you have found sit underneath, so the whole game fits one screen. On a phone, or when the eye payment leaves less room, it stacks into one column and the page scrolls as normal |
+| **Layout** | The story is on the left in a panel of fixed height that scrolls on its own (it follows the text as it types, and a visible scrollbar and a "Scroll for more" fade show when there is more to read, and the arrow keys scroll it when it has focus). Your choices are on the right and the endings you have found sit underneath, so the whole game fits one screen. On a phone, or when the eye payment leaves less room, it stacks into one column and the page scrolls as normal |
 | **Choose** | Click a choice, or press **1 to 4** |
 | **Skip the typing** | Click the story, or press **Escape**, **Enter** or **Space** (a "Show all text" button is there too) |
 | **Continue** | **Enter** presses a lone "Continue", and wakes you up again after an ending |
@@ -40,7 +40,7 @@ npm install
 npm run dev        # local dev server
 npm run build      # production build into dist/
 npm run preview    # serve the production build
-npm run test       # Vitest, 346 tests in 27 files
+npm run test       # Vitest, 350 tests in 27 files
 npm run lint       # ESLint
 npm run typecheck  # tsc, strict mode
 ```
@@ -164,7 +164,7 @@ Accessibility was part of "done" for every step, not a final pass. A full audit 
 
 ## Testing
 
-**346 tests in 27 files**, run with `npm run test`:
+**350 tests in 27 files**, run with `npm run test`:
 
 - **Engine:** conditions, effects, the hourly drain, the run loop, memory and save codes, settings upgrades, decay, sound rules, and the debug tools.
 - **The story itself:** the validator, and scripted runs that reach each of the 10 endings, including the fastest path to the secret one (three runs, two deaths). The ending guide is checked against the script's own table word for word, and against the endings in the game.
