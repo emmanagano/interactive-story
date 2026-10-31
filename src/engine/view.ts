@@ -1,8 +1,12 @@
 import { isConditionMet } from './conditions'
 import type { Block, Choice, GameState, Scene } from './types'
 
-/** A scene that only needs the player to press on uses a choice with this id; Enter takes it. */
+/** A scene that only needs the player to press on uses a choice with this id (or "continue-…" when it has more than one way on); Enter takes it. */
 export const CONTINUE_CHOICE_ID = 'continue'
+
+function isContinueChoice(id: string): boolean {
+  return id === CONTINUE_CHOICE_ID || id.startsWith(`${CONTINUE_CHOICE_ID}-`)
+}
 
 export type ListedChoice = {
   choice: Choice
@@ -25,7 +29,7 @@ export function listChoices(scene: Scene, state: GameState): ListedChoice[] {
 export function choiceIdForKey(key: string, listed: ListedChoice[]): string | null {
   if (!/^[1-4]$/.test(key)) return null
   const entry = listed[Number(key) - 1]
-  return entry && !entry.locked ? entry.choice.id : null
+  return entry ? entry.choice.id : null
 }
 
 /**
@@ -40,6 +44,6 @@ export function splitEndingBlocks(scene: Scene, blocks: Block[]): { story: Block
 
 /** Enter takes the "continue" choice when the scene has one, and does nothing otherwise. */
 export function choiceIdForEnter(listed: ListedChoice[]): string | null {
-  const entry = listed.find((candidate) => candidate.choice.id === CONTINUE_CHOICE_ID)
-  return entry && !entry.locked ? entry.choice.id : null
+  const entry = listed.find((candidate) => isContinueChoice(candidate.choice.id) && !candidate.locked)
+  return entry ? entry.choice.id : null
 }

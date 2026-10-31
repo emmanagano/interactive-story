@@ -1,0 +1,5 @@
+.rich-text__code {
+  color: var(--color-amber);
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+}

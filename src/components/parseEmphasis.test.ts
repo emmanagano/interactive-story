@@ -26,7 +26,20 @@ describe('parseEmphasis', () => {
     ])
   })
 
-  it('keeps stray asterisks as text', () => {
+  it('reads the chip speaking inside a sentence', () => {
+    expect(parseEmphasis('`> okay,` the screen says. `okay, kade.`')).toEqual([
+      { text: '> okay,', style: 'code' },
+      { text: ' the screen says. ', style: 'plain' },
+      { text: 'okay, kade.', style: 'code' },
+    ])
+  })
+
+  it('reads bold terminal text', () => {
+    expect(parseEmphasis('**`WELCOME HOME.`**')).toEqual([{ text: 'WELCOME HOME.', style: 'boldCode' }])
+  })
+
+  it('keeps stray asterisks and backticks as text', () => {
+    expect(parseEmphasis('one ` tick')).toEqual([{ text: 'one ` tick', style: 'plain' }])
     expect(parseEmphasis('5 * 3 = 15')).toEqual([{ text: '5 * 3 = 15', style: 'plain' }])
     expect(parseEmphasis('**')).toEqual([{ text: '**', style: 'plain' }])
   })

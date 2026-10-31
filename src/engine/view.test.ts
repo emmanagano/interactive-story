@@ -99,6 +99,11 @@ describe('choiceIdForEnter', () => {
     expect(choiceIdForEnter(listed)).toBe('continue')
   })
 
+  it('also takes a continue-… choice, such as a forced entry that costs time', () => {
+    const listed = [{ choice: { id: 'continue-forced', label: 'CONTINUE', goto: 'x' }, locked: false }]
+    expect(choiceIdForEnter(listed)).toBe('continue-forced')
+  })
+
   it('does nothing in a scene that asks the player to decide', () => {
     expect(choiceIdForEnter(listChoices(scene, makeState()))).toBeNull()
   })
