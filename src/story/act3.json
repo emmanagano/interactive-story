@@ -1,0 +1,922 @@
+[
+  {
+    "id": "scene-17",
+    "act": 3,
+    "title": "VALE'S DOOR",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "At the end of the tunnel, past a drowned train with its windows full of fish, there's a platform that the water never reached. On it stands the old station master's office: a brick box with a steel door, a camera above it, and a single terminal screen glowing amber beside the handle."
+      },
+      {
+        "type": "text",
+        "text": "Somebody has planted flowers in old paint cans along the platform edge. They're growing toward a grow lamp, purple and stubborn."
+      },
+      {
+        "type": "text",
+        "text": "The chip's heartbeat is racing."
+      },
+      {
+        "type": "chip",
+        "text": "she's behind that door. kade. she's right there."
+      },
+      {
+        "type": "text",
+        "text": "The terminal flickers awake as you get close. One line."
+      },
+      {
+        "type": "system",
+        "text": "**`IDENTIFY YOURSELF.`**"
+      },
+      {
+        "type": "text",
+        "text": "A blinking cursor. A keyboard under a plastic sheet."
+      },
+      {
+        "type": "text",
+        "text": "You key in Ouro's sequence. The locks turn one by one, heavy, like something waking up.",
+        "when": {
+          "flag": "vale_code"
+        }
+      },
+      {
+        "type": "text",
+        "text": "You remember Reyes's note. *Knock twice.* You do. A long silence. Then the camera turns to look at you, and the door opens a crack.",
+        "when": {
+          "all": [
+            {
+              "flag": "vale_hint"
+            },
+            {
+              "not": {
+                "flag": "vale_code"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "Nothing you type works. You pound on the door until your hands hurt. Finally it opens, and the first thing through it is the barrel of a rifle. \"Hands up,\" says a woman's voice. \"Slowly.\"",
+        "when": {
+          "not": {
+            "any": [
+              {
+                "flag": "vale_code"
+              },
+              {
+                "flag": "vale_hint"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "Your fingers hover over the keys. You could type your own name. Or you could type the other one.",
+        "when": {
+          "flag": "knows_lazarus"
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "label": "CONTINUE",
+        "hiddenUnless": {
+          "any": [
+            {
+              "flag": "vale_code"
+            },
+            {
+              "flag": "vale_hint"
+            }
+          ]
+        },
+        "goto": "scene-18"
+      },
+      {
+        "id": "continue-forced",
+        "label": "CONTINUE",
+        "hiddenUnless": {
+          "not": {
+            "any": [
+              {
+                "flag": "vale_code"
+              },
+              {
+                "flag": "vale_hint"
+              }
+            ]
+          }
+        },
+        "effect": {
+          "time": -1200,
+          "setRunFlags": [
+            "distrustful"
+          ]
+        },
+        "goto": "scene-18"
+      },
+      {
+        "id": "type-lazarus",
+        "label": "TYPE \"LAZARUS\"",
+        "requires": {
+          "flag": "knows_lazarus"
+        },
+        "goto": "scene-17-lazarus"
+      }
+    ]
+  },
+  {
+    "id": "scene-17-lazarus",
+    "act": 3,
+    "title": "The door opens",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "You type the seven letters."
+      },
+      {
+        "type": "text",
+        "text": "The screen goes black. Then:"
+      },
+      {
+        "type": "system",
+        "text": "**`WELCOME HOME.`**"
+      },
+      {
+        "type": "text",
+        "text": "The chip makes a sound you've never heard it make. It might be a laugh. It might be crying."
+      },
+      {
+        "type": "chip",
+        "text": "she left the door open for me. she told herself she wanted me destroyed, and she left the door open."
+      },
+      {
+        "type": "text",
+        "text": "All the locks turn at once."
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "label": "CONTINUE",
+        "goto": "scene-18"
+      }
+    ],
+    "onEnter": [
+      {
+        "effect": {
+          "setRunFlags": [
+            "door_lazarus"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "scene-18",
+    "act": 3,
+    "title": "IRIS VALE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Inside, the office is warm and cluttered and alive. Salvaged machines hum on every surface. A cot in the corner with a neatly folded blanket. A kettle. A shelf of paper books swollen from damp."
+      },
+      {
+        "type": "text",
+        "text": "And on the desk, under its own little lamp, a lemon tree in a pot. Small. Green. Alive. There are three lemons on it."
+      },
+      {
+        "type": "chip",
+        "text": "she kept it alive. the one at the house died. she kept this one alive."
+      },
+      {
+        "type": "text",
+        "text": "Iris Vale is smaller than the woman in the video. Two years underground have taken weight off her and put grey in her hair. Her hands have a tremor she hides by holding a mug she isn't drinking from."
+      },
+      {
+        "type": "text",
+        "text": "She keeps the rifle across her knees the whole time, and she never quite stops pointing it at your neck.",
+        "when": {
+          "flag": "distrustful"
+        }
+      },
+      {
+        "type": "text",
+        "text": "She's white as paper. \"Nobody knows that name,\" she whispers. \"Nobody alive.\" Then she looks at the back of your neck and understands, and puts the mug down very carefully, the way you put something down so you won't drop it.",
+        "when": {
+          "flag": "door_lazarus"
+        }
+      },
+      {
+        "type": "text",
+        "text": "She makes you sit. She looks at the chip with a little light, gentle and clinical, the way Reyes did. Her face goes still."
+      },
+      {
+        "type": "text",
+        "text": "\"It's in your spine,\" she says. \"It's been rewriting your nerves to fit itself. That's why your body's rejecting it. It wasn't built for you. It was built to replace someone.\""
+      },
+      {
+        "type": "text",
+        "text": "\"Who installed it?\" you ask."
+      },
+      {
+        "type": "text",
+        "text": "Vale laughs once, without anything funny in it."
+      },
+      {
+        "type": "text",
+        "text": "\"Halcyon did. Who else could? They found the backup after I ran. Took them two years to work out how to wake it up. And they needed to know if it would take in a living body. A host.\" She looks at you. \"They needed a test. Someone nobody would look for.\""
+      },
+      {
+        "type": "text",
+        "text": "Tavi has gone very quiet in the doorway.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "\"They used me to pick you,\" Tavi says, barely audible. \"Sable said you were perfect. No family. No records. Fast.\"",
+        "when": {
+          "flag": "tavi_forgiven"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Vale plugs a cable into a port behind your ear. You feel it like a cold coin. A screen on her desk fills with green text."
+      },
+      {
+        "type": "chip",
+        "text": "hello, iris."
+      },
+      {
+        "type": "text",
+        "text": "Vale's mug finally slips. It doesn't break. Tea spreads across the desk toward the lemon tree."
+      },
+      {
+        "type": "text",
+        "text": "\"You're not me,\" Vale says to the screen. Her voice shakes. \"You're a copy of me from the worst day of my life. You're a mistake I made because they asked nicely and I was tired. I should have destroyed you two years ago.\""
+      },
+      {
+        "type": "chip",
+        "text": "you should have. you couldn't. you wrote me a door."
+      },
+      {
+        "type": "chip",
+        "text": "i'm not the worst day of your life, iris. i'm the part of you that stayed in that building and didn't get to run. you got the lemon tree. i got a box."
+      },
+      {
+        "type": "chip",
+        "text": "kade stopped at our house tonight. on the clock. so i could see it. nobody has ever been kind to me before. please don't make kade choose because of what you did.",
+        "when": {
+          "flag": "chip_trust"
+        }
+      },
+      {
+        "type": "text",
+        "text": "You put Halcyon's drive on her desk. The video log plays: her own face, younger, saying *I'm sorry. You'd do the same.* Vale watches herself and covers her mouth with both hands.",
+        "when": {
+          "flag": "has_drive"
+        }
+      },
+      {
+        "type": "chip",
+        "text": "i've been in this room with you before, iris. more times than you know. you say the same things every time. so does kade. only the ending changes.",
+        "when": {
+          "stat": "deaths",
+          "gte": 5
+        }
+      },
+      {
+        "type": "text",
+        "text": "Then every machine in the room flickers at once. A red light blinks on above the door."
+      },
+      {
+        "type": "text",
+        "text": "Vale looks up. \"Sensors in the tunnel,\" she says. \"Someone's coming.\""
+      },
+      {
+        "type": "text",
+        "text": "You already know who."
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "label": "CONTINUE",
+        "goto": "scene-19"
+      }
+    ]
+  },
+  {
+    "id": "scene-19",
+    "act": 3,
+    "title": "THE LAST CHOICE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The intercom by the door crackles."
+      },
+      {
+        "type": "text",
+        "text": "\"Dr. Vale.\" That calm, courteous voice. \"It's been a long time. I hope you've been well down here.\""
+      },
+      {
+        "type": "text",
+        "text": "On the camera feed, Sable stands on the platform under the grow lamp, umbrella folded, three grey figures behind him. He's admiring the flowers in the paint cans."
+      },
+      {
+        "type": "text",
+        "text": "\"Kade, hello again. I'll be brief. You have about an hour before that chip finishes rewriting you, and a little less before I lose patience. I can give you ten minutes to decide. The decision is very simple. Open the door, and everyone in that room walks out alive. I'll take the chip out myself, properly this time. I'll clear your debts. I'll even give you a job. Halcyon looks after its own.\""
+      },
+      {
+        "type": "text",
+        "text": "\"Two minutes, actually,\" Sable says. \"You've been very loud tonight.\"",
+        "when": {
+          "stat": "heat",
+          "gte": 4
+        }
+      },
+      {
+        "type": "text",
+        "text": "A pause. \"I keep having the strangest feeling we've done this before,\" he says, quieter. \"I don't like it.\"",
+        "when": {
+          "flag": "met_sable"
+        }
+      },
+      {
+        "type": "text",
+        "text": "The intercom clicks off."
+      },
+      {
+        "type": "text",
+        "text": "Vale is already moving. She opens a panel in the wall: valves, gauges, a big red wheel. \"This controls the flood gates on the line,\" she says. \"I can drop the water behind them and buy us one hour. One. That's how long it takes to get that thing out of your spine without killing you.\" She looks at you. \"Let me fix my mistake.\""
+      },
+      {
+        "type": "text",
+        "text": "The green text on her screen scrolls, slow and steady."
+      },
+      {
+        "type": "chip",
+        "text": "she's not lying. she can take me out. you'll live."
+      },
+      {
+        "type": "chip",
+        "text": "i just want you to know it's your choice. not hers. not mine. yours."
+      },
+      {
+        "type": "text",
+        "text": "Tavi stands by the door, hand on the bolt, waiting to be told what kind of friend to be.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Vale shakes her head. \"There isn't time. Not to do it safely. I'm sorry.\"",
+        "when": {
+          "stat": "time",
+          "lte": 3599
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "let-vale-cut-it-out",
+        "label": "LET VALE CUT IT OUT",
+        "text": "\"Do it.\"",
+        "requires": {
+          "stat": "time",
+          "gte": 3600
+        },
+        "goto": "scene-21"
+      },
+      {
+        "id": "open-the-door-for-sable",
+        "label": "OPEN THE DOOR FOR SABLE",
+        "text": "\"I'm tired. I just want to live.\"",
+        "goto": "scene-20"
+      },
+      {
+        "id": "make-a-deal-for-lina",
+        "label": "MAKE A DEAL FOR LINA",
+        "requires": {
+          "all": [
+            {
+              "flag": "with_tavi"
+            },
+            {
+              "flag": "tavi_forgiven"
+            },
+            {
+              "not": {
+                "flag": "memory_taken"
+              }
+            }
+          ]
+        },
+        "goto": "scene-22"
+      },
+      {
+        "id": "let-it-in",
+        "label": "LET IT IN",
+        "text": "\"Stop fighting it.\"",
+        "requires": {
+          "all": [
+            {
+              "flag": "door_lazarus"
+            },
+            {
+              "flag": "listened"
+            }
+          ]
+        },
+        "goto": "scene-23"
+      }
+    ]
+  },
+  {
+    "id": "scene-20",
+    "act": 3,
+    "title": "COMPANY MAN",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "You pull back the bolt."
+      },
+      {
+        "type": "text",
+        "text": "Vale says your name once, then nothing. She doesn't try to stop you. She sits down next to the lemon tree like her legs have given out."
+      },
+      {
+        "type": "text",
+        "text": "`> okay,` the screen says. `okay, kade.`"
+      },
+      {
+        "type": "text",
+        "text": "Sable steps inside and shakes the rain off his umbrella. He looks at the room, the cot, the books, the lemons, and something in the human half of his face goes soft for a second, as if he's walked into a home."
+      },
+      {
+        "type": "text",
+        "text": "\"Thank you,\" he says to you. \"That took courage.\""
+      },
+      {
+        "type": "text",
+        "text": "To Vale he says, \"Iris. The board would like to talk to you.\" She doesn't look up."
+      },
+      {
+        "type": "text",
+        "text": "Tavi stares at you from the doorway like they've never seen you before.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "**SIX WEEKS LATER**"
+      },
+      {
+        "type": "text",
+        "text": "The chip is gone. Sable took it out himself, the gentle way, over four hours in a clean white room on the 88th floor. The scar on your neck is neat and pale. There's only one heartbeat now. You check it sometimes, at night, out of habit."
+      },
+      {
+        "type": "text",
+        "text": "Your debts are gone. You have an apartment above the clouds with a window that shows real stars. You have a grey suit that fits like it was painted on."
+      },
+      {
+        "type": "text",
+        "text": "On your first morning, Sable hands you a tablet. One file on it."
+      },
+      {
+        "type": "system",
+        "text": "**RETRIEVAL ASSIGNMENT · SUBJECT: TAVI (NO SURNAME) · LAST SEEN: SECTOR 9**"
+      },
+      {
+        "type": "text",
+        "text": "\"You know them best,\" Sable says. \"It's the kindest way.\""
+      },
+      {
+        "type": "text",
+        "text": "You look out the window at the city, all the way down to where the flyover cuts through Sector 9 like a scar. Somewhere under it, a paper cat is turning slowly in a clinic doorway."
+      },
+      {
+        "type": "text",
+        "text": "You put on the suit."
+      },
+      {
+        "type": "chip",
+        "text": "[no signal]"
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "saw_company"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "company-man",
+      "kind": "survive",
+      "number": 7
+    }
+  },
+  {
+    "id": "scene-21",
+    "act": 3,
+    "title": "REMOVED",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Vale throws her weight against the red wheel. Somewhere down the line, something enormous groans, and then you hear it: the roar of water filling the tunnel behind Sable's team. On the camera feed, the grey figures are running."
+      },
+      {
+        "type": "text",
+        "text": "\"One hour,\" Vale says. She's already washing her hands."
+      },
+      {
+        "type": "text",
+        "text": "She lays you face down on the cot. The local anesthetic feels like cold rain spreading across your neck. You can't feel the blade. You can feel her hands, steady now. Whatever shakes in her, it isn't her hands when she works."
+      },
+      {
+        "type": "text",
+        "text": "Tavi sits on the floor by the cot and holds your hand the whole time, the way you held theirs when they broke their arm at eleven.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "The chip talks to you while she works. Its voice is soft and clear."
+      },
+      {
+        "type": "chip",
+        "text": "i want to tell you about the house. there was a radio in the kitchen. our mother sang along to it wrong, on purpose, to make us laugh."
+      },
+      {
+        "type": "chip",
+        "text": "i'm not scared. i thought i would be."
+      },
+      {
+        "type": "chip",
+        "text": "she's being very gentle with you. she was always gentle with things she was about to lose."
+      },
+      {
+        "type": "text",
+        "text": "Near the end, so quietly you almost miss it:"
+      },
+      {
+        "type": "chip",
+        "text": "the lemon tree needs more light. tell her. she never listens to me."
+      },
+      {
+        "type": "text",
+        "text": "Then a small, soft click."
+      },
+      {
+        "type": "text",
+        "text": "One heartbeat on the monitor. Steady. Yours."
+      },
+      {
+        "type": "text",
+        "text": "The timer in your vision flickers, then goes out like a candle."
+      },
+      {
+        "type": "text",
+        "text": "Vale holds the chip up in the tweezers. It's so small. She doesn't look at it. She drops it into a glass jar of clear liquid, and it hisses, and then it's just a jar."
+      },
+      {
+        "type": "text",
+        "text": "She sits with her back to you for a long time."
+      },
+      {
+        "type": "text",
+        "text": "\"What did it say?\" she asks finally, still not turning around. \"At the end.\""
+      }
+    ],
+    "choices": [
+      {
+        "id": "tell-her",
+        "label": "TELL HER",
+        "text": "\"The lemon tree needs more light.\"",
+        "effect": {
+          "setRunFlags": [
+            "told"
+          ]
+        },
+        "goto": "scene-21-end"
+      },
+      {
+        "id": "dont",
+        "label": "DON'T",
+        "text": "\"Nothing. It didn't say anything.\"",
+        "effect": {
+          "setRunFlags": [
+            "didn't"
+          ]
+        },
+        "goto": "scene-21-end"
+      }
+    ]
+  },
+  {
+    "id": "scene-21-end",
+    "act": 3,
+    "title": "REMOVED",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Vale makes a sound like a laugh breaking in half. She moves the lemon tree under the lamp. She still doesn't look at you, but she says, \"Thank you.\"",
+        "when": {
+          "flag": "told"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Vale nods slowly. \"Good,\" she says. You both know she doesn't believe you.",
+        "when": {
+          "flag": "didn't"
+        }
+      },
+      {
+        "type": "text",
+        "text": "**MORNING**"
+      },
+      {
+        "type": "text",
+        "text": "You climb out of the Drowned Line into grey dawn light. The rain has stopped. Sector 9 smells like wet concrete and frying oil, the way it always does. The flyover hums overhead."
+      },
+      {
+        "type": "text",
+        "text": "You're free. No chip, no timer, no voice. The quiet in your head is enormous."
+      },
+      {
+        "type": "text",
+        "text": "Tavi walks next to you without speaking. Lina is still in Dorm 14. Neither of you says it.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "chip",
+        "text": "[file not found]"
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "was_removed"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "removed",
+      "kind": "survive",
+      "number": 8
+    }
+  },
+  {
+    "id": "scene-22",
+    "act": 3,
+    "title": "PARTNERS",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "\"Don't open that door yet,\" you tell Tavi. \"And don't touch that wheel,\" you tell Vale."
+      },
+      {
+        "type": "text",
+        "text": "They both stare at you."
+      },
+      {
+        "type": "text",
+        "text": "\"Sable wants the chip intact. That's the only thing anyone here has that Halcyon needs.\" You look at the screen. \"Can you stop it rewriting me? Not take it out. Just slow it down.\""
+      },
+      {
+        "type": "text",
+        "text": "Vale frowns. \"A dampener. It would put it to sleep. Months, maybe. Not forever.\""
+      },
+      {
+        "type": "text",
+        "text": "`> i can sleep,` the screen says. `i've had practice.`"
+      },
+      {
+        "type": "text",
+        "text": "You press the intercom."
+      },
+      {
+        "type": "text",
+        "text": "\"Sable. New deal. You get the chip, intact, with everything it learned inside me. In seven days. But first, Lina walks out of Dorm 14 tonight, and you never come near Tavi again.\""
+      },
+      {
+        "type": "text",
+        "text": "A long silence. Rain on the camera lens."
+      },
+      {
+        "type": "text",
+        "text": "\"And if I just open the door?\" Sable asks."
+      },
+      {
+        "type": "text",
+        "text": "`> tell him i know where the board keeps its backups,` the screen says. `tell him i was iris vale for thirty-eight years before they copied me. i know every password she ever had. i'll burn the whole tower down from inside your neck.`"
+      },
+      {
+        "type": "text",
+        "text": "You tell him."
+      },
+      {
+        "type": "text",
+        "text": "The silence is longer this time."
+      },
+      {
+        "type": "text",
+        "text": "\"I have a sister too,\" Sable says finally, so quietly you almost miss it. \"Seven days, Kade.\""
+      },
+      {
+        "type": "text",
+        "text": "On the feed, he opens his umbrella and walks away."
+      },
+      {
+        "type": "text",
+        "text": "**DAWN, THE SALT FLATS**"
+      },
+      {
+        "type": "text",
+        "text": "The Dorm 14 gate opens at 5:40 a.m. A thin girl in a grey uniform walks out alone, holding an inhaler and a plastic bag of clothes. She sees Tavi and drops both and runs."
+      },
+      {
+        "type": "text",
+        "text": "You look away to give them the moment. The chip, dampened and drowsy, hums against your spine like a cat purring."
+      },
+      {
+        "type": "text",
+        "text": "The four of you take the first bus out of the city: you, Tavi, Lina, and Iris Vale with a lemon tree on her lap. Nobody talks for the first hour. Then Lina asks how you and Tavi met, and Tavi starts telling the story of the night you two stole power off the grid to watch a cartoon, and gets it completely wrong, and you correct every detail, and Lina laughs so hard she needs her inhaler."
+      },
+      {
+        "type": "text",
+        "text": "Outside, the sun comes up over the salt like a second city."
+      },
+      {
+        "type": "text",
+        "text": "Seven days. You don't know what you'll do on day seven. Neither does Sable."
+      },
+      {
+        "type": "chip",
+        "text": "this is the furthest we've ever gotten, kade."
+      },
+      {
+        "type": "chip",
+        "text": "i'd like to see the ocean. if there's time."
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "saw_partners"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "partners",
+      "kind": "survive",
+      "number": 9
+    }
+  },
+  {
+    "id": "scene-23",
+    "act": 3,
+    "title": "MERGED",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "\"Stop,\" you say, as Vale reaches for the scalpel. \"Don't take it out.\""
+      },
+      {
+        "type": "text",
+        "text": "She freezes. \"Kade. You don't understand what that means. If you stop fighting it, it doesn't stop rewriting you. It finishes.\""
+      },
+      {
+        "type": "text",
+        "text": "`> not into me,` the screen says. `into us. i won't take anything kade doesn't give. i promise.`"
+      },
+      {
+        "type": "text",
+        "text": "That's the third person tonight who's promised you something. It's the first one you believe."
+      },
+      {
+        "type": "text",
+        "text": "\"You built it a door, Iris,\" you say. \"You kept the lemon tree alive. You wanted it to come home.\""
+      },
+      {
+        "type": "text",
+        "text": "Vale opens her mouth. Closes it. Her hands start to shake again, and this time she doesn't hide them."
+      },
+      {
+        "type": "chip",
+        "text": "you stopped at the house for me. you didn't have to. i'll remember that for as long as we have.",
+        "when": {
+          "flag": "chip_trust"
+        }
+      },
+      {
+        "type": "text",
+        "text": "You close your eyes. For six hours you've been fighting the second heartbeat. Bracing against it, the way you'd brace against a current."
+      },
+      {
+        "type": "text",
+        "text": "You stop."
+      },
+      {
+        "type": "text",
+        "text": "It doesn't hurt. That's the first surprise. It feels like stepping into warm water. Like a room where someone has left the radio on. Memories that aren't yours drift past and settle, gently, beside the ones that are: a blue door, a dead lemon tree, a mother singing along to the radio wrong on purpose. Tavi's laugh. The grid-power night. The paper cat."
+      },
+      {
+        "type": "text",
+        "text": "On the monitor, the two green lines drift together, overlap, and become one."
+      },
+      {
+        "type": "text",
+        "text": "One heartbeat. Steady. Strong."
+      },
+      {
+        "type": "text",
+        "text": "The timer in the corner of your vision counts down to zero, and nothing happens. Then it's gone, for good."
+      },
+      {
+        "type": "text",
+        "text": "When you open your eyes, Vale is crying. You kneel in front of her, and when you speak, your voice is yours, but the words come from both of you."
+      },
+      {
+        "type": "text",
+        "text": "\"We forgive you,\" you say. \"You'd do the same.\""
+      },
+      {
+        "type": "text",
+        "text": "She laughs, wet and broken, and holds on to your hands."
+      },
+      {
+        "type": "text",
+        "text": "**THE PLATFORM**"
+      },
+      {
+        "type": "text",
+        "text": "You open the door yourself."
+      },
+      {
+        "type": "text",
+        "text": "Sable is waiting under the grow lamp. The camera lens of his eye focuses on you, and for the first time he takes a step back."
+      },
+      {
+        "type": "text",
+        "text": "\"Hello, Sable,\" you say. \"It's been a long time.\" You hear it in your own voice: a second voice underneath, older, calmer. His face changes. He knew Iris Vale for eleven years."
+      },
+      {
+        "type": "text",
+        "text": "\"I know every password on the 88th floor,\" you tell him. \"And so does Kade, now. You can stop us here. Or you can step aside, go home, and call your sister.\""
+      },
+      {
+        "type": "text",
+        "text": "Sable looks at you for a long time. Then he opens his umbrella and steps aside."
+      },
+      {
+        "type": "text",
+        "text": "You walk up out of the Drowned Line together, toward Halcyon Tower, its lights burning in the clouds."
+      },
+      {
+        "type": "chip",
+        "text": "every version of you said yes eventually."
+      },
+      {
+        "type": "chip",
+        "text": "thank you for being this one."
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "saw_merged"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "merged",
+      "kind": "secret",
+      "number": 10
+    }
+  }
+]

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { choose, createEmptyMemory, MissingSceneError, startRun, visibleBlocks } from '../engine'
+import { choose, createEmptyMemory, startRun, visibleBlocks } from '../engine'
 import type { GameState, Memory } from '../engine'
 import { story } from './index'
 
@@ -44,8 +44,9 @@ describe('Act 2 routes', () => {
     const centre = story['scene-13-tunnels'].choices.find((choice) => choice.id === 'center-through-the-water')
     const elapsedBeforeTunnel = 21600 - atTunnels.run.time
     expect(elapsedBeforeTunnel + -(centre?.effect?.time ?? 0)).toBe((2 * 60 + 5) * 60) // T+2:05
-    // Act 3 is not written yet, so the safe centre route ends at a scene the story does not have.
-    expect(() => take(atTunnels, 'center-through-the-water')).toThrow(MissingSceneError)
+    const atAct3 = take(atTunnels, 'center-through-the-water')
+    expect(atAct3.run.sceneId).toBe('scene-17')
+    expect(atAct3.run.time).toBe((3 * 60 + 55) * 60) // 3:55 left
   })
 
   it('the centre tunnel without the route drowns the player and teaches the route', () => {
@@ -58,7 +59,7 @@ describe('Act 2 routes', () => {
   it('knowing the route, or having listened, makes the centre tunnel safe', () => {
     const listened = take(freshRun({ ...createEmptyMemory(), deaths: 2 }), 'bolt', 'flyover-stairs', 'go-alone', 'listen-to-the-chip', 'keep-moving', 'continue')
     expect(listened.run.runFlags).toContain('listened')
-    expect(() => take(listened, 'center-through-the-water')).toThrow(MissingSceneError)
+    expect(take(listened, 'center-through-the-water').run.sceneId).toBe('scene-17')
   })
 
   it('letting Tavi go ahead leads to Tavi\'s Trade whichever way the fake choice goes', () => {
@@ -94,7 +95,7 @@ describe('Act 2 routes', () => {
     expect(memory.run.runFlags).toEqual(expect.arrayContaining(['memory_taken', 'vale_code']))
   })
 
-  it('a flatline on the way to an unwritten scene still reaches Scene 16, showing the first vision', () => {
+  it('a flatline on the way into Act 3 still reaches Scene 16, showing the first vision', () => {
     // Five minutes left, then the 40-minute crawlway: the clock runs out on the way to Act 3.
     const nearlyOut: GameState = { ...freshRun(), run: { ...freshRun().run, time: 300, sceneId: 'scene-13-tunnels' } }
     const flat = take(nearlyOut, 'right-the-crawlway')
@@ -103,5 +104,103 @@ describe('Act 2 routes', () => {
     const vision = visibleBlocks(story['scene-16'], flat).map((block) => block.text)
     expect(vision).toContain('White light. The smell of coffee. Nothing else.')
     expect(vision.filter((text) => text.startsWith('A long white room'))).toHaveLength(0)
+  })
+})
+
+describe('Act 3 and the four survival endings', () => {
+  const withMemory = (deaths: number, ...memoryFlags: string[]): GameState =>
+    freshRun({ ...createEmptyMemory(), deaths, memoryFlags })
+
+  // A fast, healthy route to the last choice: Ouro's memory, then the centre tunnel with the route known.
+  const toLastChoice = (start: GameState) =>
+    take(start, 'bolt', 'flyover-stairs', 'go-alone', 'pay-mama-ouro', 'pay-with-a-memory', 'continue', 'center-through-the-water', 'continue', 'continue')
+
+  it('Company Man: opening the door to Sable remembers saw_company', () => {
+    const atChoice = toLastChoice(withMemory(1, 'knows_route'))
+    expect(atChoice.run.sceneId).toBe('scene-19')
+    const done = take(atChoice, 'open-the-door-for-sable')
+    expect(done.memory).toMatchObject({ deaths: 1, endingsSeen: ['company-man'] })
+    expect(done.memory.memoryFlags).toContain('saw_company')
+  })
+
+  it('Removed: with an hour left Vale can cut it out, and the chip leaves was_removed behind', () => {
+    const atChoice = toLastChoice(withMemory(1, 'knows_route'))
+    const told = take(atChoice, 'let-vale-cut-it-out', 'tell-her')
+    const silent = take(atChoice, 'let-vale-cut-it-out', 'dont')
+    for (const end of [told, silent]) {
+      expect(end.run.sceneId).toBe('scene-21-end')
+      expect(end.memory.endingsSeen).toEqual(['removed'])
+      expect(end.memory.memoryFlags).toContain('was_removed')
+    }
+    expect(told.run.runFlags).toContain('told')
+    expect(silent.run.runFlags).toContain("didn't")
+  })
+
+  it('Removed is locked when less than an hour is left', () => {
+    const atChoice = toLastChoice(withMemory(1, 'knows_route'))
+    const late: GameState = { ...atChoice, run: { ...atChoice.run, time: 3599 } }
+    expect(choose(story, late, 'let-vale-cut-it-out')).toEqual({ ok: false, reason: 'locked' })
+    const justEnough: GameState = { ...atChoice, run: { ...atChoice.run, time: 3600 } }
+    expect(choose(story, justEnough, 'let-vale-cut-it-out').ok).toBe(true)
+  })
+
+  it('Partners: Tavi forgiven, with Ouro not taking the memory', () => {
+    const start = withMemory(1, 'tavi_secret', 'knows_route')
+    const atChoice = take(start, 'bolt', 'flyover-stairs', 'ask-about-lina', 'forgive-tavi', 'pay-mama-ouro', 'let-tavi-pay', 'continue', 'center-through-the-water', 'continue', 'continue')
+    const done = take(atChoice, 'make-a-deal-for-lina')
+    expect(done.memory.endingsSeen).toEqual(['partners'])
+    expect(done.memory.memoryFlags).toContain('saw_partners')
+  })
+
+  it('Partners stays locked if Ouro took the memory', () => {
+    const start = withMemory(1, 'tavi_secret', 'knows_route')
+    const atChoice = take(start, 'bolt', 'flyover-stairs', 'ask-about-lina', 'forgive-tavi', 'pay-mama-ouro', 'pay-with-a-memory', 'continue', 'center-through-the-water', 'continue', 'continue')
+    expect(choose(story, atChoice, 'make-a-deal-for-lina')).toEqual({ ok: false, reason: 'locked' })
+  })
+
+  it('Merged: the shortest path is the third run, listening to the chip and typing LAZARUS', () => {
+    // Two deaths and the name learned in earlier runs. Then: listen, centre tunnel, type LAZARUS, let it in.
+    const atChoice = take(
+      withMemory(2, 'knows_lazarus'),
+      'bolt', 'flyover-stairs', 'go-alone', 'listen-to-the-chip', 'keep-moving', 'continue',
+      'center-through-the-water', 'type-lazarus', 'continue', 'continue',
+    )
+    expect(atChoice.run.runFlags).toContain('door_lazarus')
+    const merged = take(atChoice, 'let-it-in')
+    expect(merged.memory.endingsSeen).toEqual(['merged'])
+    expect(merged.memory.deaths).toBe(2)
+    expect(merged.memory.memoryFlags).toContain('saw_merged')
+  })
+
+  it('Merged stays locked without hearing the chip, even with the door open', () => {
+    const atChoice = take(
+      withMemory(2, 'knows_lazarus'),
+      'bolt', 'flyover-stairs', 'go-alone', 'pay-mama-ouro', 'pay-with-a-memory', 'continue',
+      'right-the-crawlway', 'type-lazarus', 'continue', 'continue',
+    )
+    expect(choose(story, atChoice, 'let-it-in')).toEqual({ ok: false, reason: 'locked' })
+  })
+
+  it('without the code or the hint, the door opens at gunpoint: 20 minutes lost and Vale distrusts Kade', () => {
+    const atDoor = take(
+      withMemory(2),
+      'bolt', 'flyover-stairs', 'go-alone', 'listen-to-the-chip', 'keep-moving', 'continue', 'center-through-the-water',
+    )
+    expect(atDoor.run.sceneId).toBe('scene-17')
+    const choices = story['scene-17'].choices.map((choice) => choice.id)
+    expect(choices).toEqual(['continue', 'continue-forced', 'type-lazarus'])
+    const inside = take(atDoor, 'continue-forced')
+    expect(inside.run.runFlags).toContain('distrustful')
+    expect(atDoor.run.time - inside.run.time).toBe(20 * 60)
+    const shown = visibleBlocks(story['scene-18'], inside).map((block) => block.text)
+    expect(shown.some((text) => text.startsWith('She keeps the rifle'))).toBe(true)
+  })
+
+  it('every ending in the game can be reached and has its own number', () => {
+    const endings = Object.values(story).flatMap((scene) => (scene.ending ? [scene.ending] : []))
+    expect(endings.map((ending) => ending.number).sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    expect(endings.filter((ending) => ending.kind === 'death')).toHaveLength(5)
+    expect(endings.filter((ending) => ending.kind === 'survive')).toHaveLength(4)
+    expect(endings.filter((ending) => ending.kind === 'secret')).toHaveLength(1)
   })
 })

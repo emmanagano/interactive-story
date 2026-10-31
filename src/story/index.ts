@@ -1,11 +1,10 @@
 import type { Scene, Story } from '../engine'
+import act1 from './act1.json'
+import act2 from './act2.json'
+import act3 from './act3.json'
 
-// Every act file is picked up by name, so adding act2.json needs no change here. The
-// generic below is a promise, not a check: story.test.ts is what proves the data fits.
-const actFiles = import.meta.glob<Scene[]>('./act*.json', { eager: true, import: 'default' })
-
-const allScenes: Scene[] = Object.keys(actFiles)
-  .sort()
-  .flatMap((path) => actFiles[path])
+// JSON imports are typed loosely (`act` is a number, not 1 | 2 | 3), so the shape is asserted
+// once here. story.test.ts proves the data fits, and that every act file in this folder is listed.
+const allScenes = [...act1, ...act2, ...act3] as Scene[]
 
 export const story: Story = Object.fromEntries(allScenes.map((scene) => [scene.id, scene]))
