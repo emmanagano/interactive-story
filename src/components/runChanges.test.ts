@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { describeChanges, diffRun, NO_CHANGES } from './runChanges'
+import { describeChanges, describeNewRun, diffRun, NO_CHANGES } from './runChanges'
 import { makeState } from '../engine/testState'
 
 describe('diffRun', () => {
@@ -43,5 +43,11 @@ describe('describeChanges', () => {
 
   it('lists everything in the same order every time', () => {
     expect(describeChanges({ time: -600, health: -1, heat: 1 })).toBe('Time minus 10 minutes. Health down 1. Heat up 1.')
+  })
+})
+
+describe('describeNewRun', () => {
+  it('reads out the fresh meters', () => {
+    expect(describeNewRun(makeState().run)).toBe('New run. 06:00:00 left. Health 5. Heat 0.')
   })
 })

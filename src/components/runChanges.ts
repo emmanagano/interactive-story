@@ -1,4 +1,5 @@
 import type { RunState } from '../engine'
+import { formatClock } from './formatClock'
 
 /** How far each meter moved: after minus before. Time is in seconds. */
 export type RunChanges = {
@@ -44,4 +45,9 @@ export function describeChanges(changes: RunChanges): string {
     sentences.push(`${name} ${change > 0 ? 'up' : 'down'} ${Math.abs(change)}.`)
   }
   return sentences.join(' ')
+}
+
+/** What a screen reader hears when the player wakes up again. */
+export function describeNewRun(run: RunState): string {
+  return `New run. ${formatClock(run.time)} left. Health ${run.health}. Heat ${run.heat}.`
 }
