@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 6.2 · Title and settings screens (5.3, Emma's playtest, is still open)
+**Current step:** 6.3 · Accessibility audit (5.3, Emma's playtest, is still open)
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -41,7 +41,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 
 ### Phase 6 · Polish and accessibility
 - [x] 6.1 Text reveal and transitions
-- [ ] 6.2 Title and settings screens
+- [x] 6.2 Title and settings screens
 - [ ] 6.3 Accessibility audit
 
 ### Phase 7 · Audio
@@ -58,6 +58,12 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 6.2 | The app switches between `title`, `game` and `settings` (state in `App`, no router). The text reveal only starts once the player presses Start, and opening Settings mid-run does not restart it. Number keys only answer on the game screen. Focus goes to each screen's heading on entry (the title focuses Start itself) |
+| 2026-11-01 | 6.2 | Title: Start for a new player, Continue for a returning one (runs, deaths or any ending found), plus Settings and "Endings n/10". Continue starts the next run with everything learned, since runs are not saved midway. The two heartbeat traces (Kade's green, the chip's amber, out of step) sweep across, and sit still in calm mode or with reduced motion. No tagline was added: no new story copy |
+| 2026-11-01 | 6.2 | Settings: calm mode, text speed (slow 0.6x, normal, fast 2.2x, instant), sound (disabled, "not available yet" until Phase 7), save code export (shown on request, with Copy) and import, and reset. Format change: settings are version 2 under the same `flatline:settings:v1` key, upgraded from version 1 on load. The game save format is unchanged. CLAUDE.md notes it |
+| 2026-11-01 | 6.2 | Import and reset ask first in a native `<dialog>` (no `confirm()`): the browser traps focus, Escape cancels, focus starts on Cancel. Import shows the current progress next to the save code's, and bad codes get a plain sentence. Verified in headless Chrome, including a real Escape |
+| 2026-11-01 | 6.2 | The Calm mode switch moved from the game header into Settings, with a Settings button in its place. The debug panel's "Reset memory" now also starts a fresh run (it shares `resetProgress`) |
+| 2026-11-01 | 6.2 | Slip: a failed `git add` made Step 6.2's two planned commits one commit (settings version 2 and the screens together). Not rewritten, since history changes are Emma's call |
 | 2026-11-01 | 6.1 | Text types out at 320 characters per second (about 8 s for Scene 01), with 0.12 s between paragraphs. Chip lines scramble and resolve left to right (0.03 s per character, at most 1.2 s). Speeds are constants in `reveal.ts` for Step 6.2's text-speed setting. Each new scene fades in and rises over 0.3 s |
 | 2026-11-01 | 6.1 | Accessibility: while typing, screen readers get the whole paragraph in a visually hidden copy and the animated copy is `aria-hidden`; when typing ends the page swaps to plain text. The typed text keeps its place (hidden, not removed) so nothing jumps |
 | 2026-11-01 | 6.1 | Skip: click the story, Escape, Enter or Space (when no button has focus), or the visible "Show all text" button beside the title. Number keys still choose at once (replays stay fast). Choices fade back while text types but stay usable. The ending card and Wake up button appear once the text is done, so they cannot give the ending away or take Enter early |

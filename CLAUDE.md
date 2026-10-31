@@ -168,6 +168,7 @@ Cyberpunk, seen through Kade's eyes. The screen is Kade's neural HUD laid over a
 ## Persistence
 
 - localStorage key: `flatline:v1`. Store a version number with the data.
+- Preferences (calm mode, text speed) live apart from progress under `flatline:settings:v1` (settings version 2; version 1 is upgraded on load), so settings never change the save format.
 - Wrap every read and write in try/catch. The game must work, without saving, if storage is unavailable.
 - Settings screen offers: export a save code (base64 JSON), import a save code, reset all progress (with an in-game confirmation, not `confirm()`).
 
