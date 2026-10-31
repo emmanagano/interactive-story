@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 3.3 · The decaying interface
+**Current step:** 3.4 · Ending cards and the tracker
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -26,7 +26,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 ### Phase 3 · The HUD and the decay
 - [x] 3.1 The HUD
 - [x] 3.2 Cyberpunk styling
-- [ ] 3.3 The decaying interface
+- [x] 3.3 The decaying interface
 - [ ] 3.4 Ending cards and the tracker
 
 ### Phase 4 · Acts 2 and 3
@@ -58,6 +58,12 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 3.3 | `computeDecay` (engine/decay.ts): time adds decay linearly in the last hour (under 1:00:00), health adds it linearly below 3 HP, and the two combine as 1−(1−t)(1−h). Full at 0 time or 0 health. Merged (Step 4.3) must force it to 0 |
+| 2026-11-01 | 3.3 | Colour drain is static and stays in calm mode. Trembling, red/cyan ghosting and the painkiller blur are off in calm mode, and trembling and ghosting are also off under prefers-reduced-motion. Calm mode removes the blur (a mechanic, but the `blurred` flag still works) |
+| 2026-11-01 | 3.3 | Calm mode is saved under its own key, `flatline:settings:v1`, so the save format did not change. On a first visit it follows prefers-reduced-motion. A plain "Calm mode" switch sits beside the title until Step 6.2 builds the settings screen |
+| 2026-11-01 | 3.3 | Contrast at full drain (saturate 0.15) was computed: ink 15.6/14.6, dim 5.8/5.5, cyan 10.4/9.7, green 10.7/10.0, amber 9.5/8.9 on night/panel, all AA. Red fell to 4.2/3.9, so the heat value is large text (24px, 3:1). Magenta (3.3/3.1) is only used at 30px and up |
+| 2026-11-01 | 3.3 | The decay preview sliders show only in development or with `?debug` in the address, and write time and health straight into the run (skipping engine rules). Step 5.1's debug panel should replace them |
+| 2026-11-01 | 3.3 | Verified in headless Chrome: decay 0 → no animation or filter; 30 min → 0.5, trembling, saturate .575; 5 min and 1 HP → 0.97; calm on → no animation, drain kept and saved; emulated reduced-motion → no animation; first visit with reduced-motion → calm on |
 | 2026-11-01 | 3.2 | The city is CSS plus `src/assets/skyline.svg`, used only as a mask (its `#000` fill is never shown, so no real color is hard-coded). Texture lives in one `Backdrop` component: skyline, windows, sign glows, rain, noise, scanlines |
 | 2026-11-01 | 3.2 | All motion is inside `@media (prefers-reduced-motion: no-preference)` and `:root:not([data-calm])`, and the texture hides under `:root[data-calm]`. Step 3.3's calm-mode toggle only has to set `data-calm` on the root |
 | 2026-11-01 | 3.2 | New tokens: translucent `--glass-*`, `--haze-*`, `--scanline`, `--rain-streak` (all `color-mix` of the existing colors), `--measure` (story column, 40rem), `--hud-clearance`, `--aberration`. The body is transparent so the fixed backdrop shows through |
