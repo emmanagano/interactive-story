@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 1.5 · Memory
+**Current step:** 2.1 · Convert Act 1
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -16,7 +16,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 1.2 Conditions
 - [x] 1.3 Effects and the automatic rules
 - [x] 1.4 The run loop
-- [ ] 1.5 Memory
+- [x] 1.5 Memory
 
 ### Phase 2 · Act 1, playable and plain
 - [ ] 2.1 Convert Act 1
@@ -58,6 +58,10 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 1.5 | Save format v1 is the `Memory` object as JSON under `flatline:v1`. All data from storage or an import goes through one validator, `parseMemory`, which is also where future migrations go |
+| 2026-11-01 | 1.5 | `loadMemory` always returns usable memory plus a status (`loaded`, `empty`, `corrupted`, `unavailable`) so the UI can explain. `saveMemory` returns false when a save did not stick |
+| 2026-11-01 | 1.5 | Import replaces progress rather than merging (Emma approved); unreadable saves get overwritten by the next save; save codes are plain base64, not secret. Codes over 10,000 characters are refused |
+| 2026-11-01 | 1.5 | Phase 1 (the engine) is complete: conditions, effects and the drain, the run loop, and memory |
 | 2026-11-01 | 1.4 | Format change (Emma approved): `Effect.blur?: true` sets the painkiller blur. The blur lasts until the player's next choice, because every `choose` sets `blurred` afresh |
 | 2026-11-01 | 1.4 | `choose` returns `{ ok, state }` or `{ ok: false, reason }` (`unknown-choice`, `hidden`, `locked`, `run-over`) and never throws for player input. A missing scene id throws, since that is a story-data bug |
 | 2026-11-01 | 1.4 | `gotoIf` is checked against the state before the choice's own cost ("at 1 HP" means arriving at 1 HP). Documented in CLAUDE.md |
