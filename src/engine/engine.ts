@@ -55,7 +55,8 @@ function pickDestination(choice: Choice, stateWhenChosen: GameState): string {
 function redirectIfFlatlined(story: Story, state: GameState, destinationId: string): string {
   const flatlined = state.run.time <= 0 || state.run.health <= 0
   if (!flatlined) return destinationId
-  return getScene(story, destinationId).ending?.kind === 'death' ? destinationId : FLATLINE_SCENE_ID
+  // Look the scene up without throwing: a destination that is not written yet is still a Flatline.
+  return story[destinationId]?.ending?.kind === 'death' ? destinationId : FLATLINE_SCENE_ID
 }
 
 function applySceneEntry(state: GameState, scene: Scene): GameState {

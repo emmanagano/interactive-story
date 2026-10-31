@@ -27,6 +27,7 @@ const fakeStory: Story = {
       { id: 'stall', label: 'STALL', effect: { time: -22000 }, goto: 'scene-02' },
       { id: 'bleed', label: 'BLEED', effect: { health: -5 }, goto: 'scene-02' },
       { id: 'collapse', label: 'COLLAPSE', effect: { health: -5 }, goto: 'scene-03' },
+      { id: 'doom', label: 'DOOM', effect: { time: -22000 }, goto: 'not-written-yet' },
       { id: 'drain', label: 'DRAIN', effect: { health: -1 }, goto: 'scene-01', gotoIf: [{ when: { stat: 'health', lte: 1 }, goto: 'scene-03' }] },
     ],
   },
@@ -203,6 +204,12 @@ describe('flatline', () => {
     expect(after.memory.deaths).toBe(1)
     expect(after.memory.flatlines).toBe(1)
     expect(after.memory.endingsSeen).toEqual(['flatline'])
+  })
+
+  it('still sends the player to scene 16 when the destination has not been written yet', () => {
+    const after = chosen(choose(fakeStory, startRun(makeState().memory), 'doom'))
+    expect(after.run.sceneId).toBe('scene-16')
+    expect(after.memory.flatlines).toBe(1)
   })
 
   it('sends the player to scene 16 when health hits zero', () => {
