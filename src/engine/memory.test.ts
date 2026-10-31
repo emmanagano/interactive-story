@@ -2,6 +2,8 @@ import { afterEach, describe, expect, it } from 'vitest'
 import {
   browserStorage,
   createEmptyMemory,
+  exportSaveCode,
+  importSaveCode,
   loadMemory,
   parseMemory,
   resetMemory,
@@ -164,5 +166,51 @@ describe('browserStorage', () => {
   it('returns null when the browser has no localStorage', () => {
     Reflect.deleteProperty(globalThis, 'localStorage')
     expect(browserStorage()).toBeNull()
+  })
+})
+
+describe('save codes', () => {
+  const encode = (value: unknown) => btoa(JSON.stringify(value))
+
+  it('survives an export and import round trip', () => {
+    expect(importSaveCode(exportSaveCode(savedMemory))).toEqual({ ok: true, memory: savedMemory })
+  })
+
+  it('exports plain base64 JSON', () => {
+    expect(JSON.parse(atob(exportSaveCode(savedMemory)))).toEqual(savedMemory)
+  })
+
+  it('ignores spaces and line breaks around a pasted code', () => {
+    const padded = `  \n${exportSaveCode(savedMemory)}\n `
+    expect(importSaveCode(padded)).toEqual({ ok: true, memory: savedMemory })
+  })
+
+  it('round-trips flags with non-ASCII characters', () => {
+    const odd: Memory = { ...savedMemory, memoryFlags: ['café', '終わり'] }
+    expect(importSaveCode(exportSaveCode(odd))).toEqual({ ok: true, memory: odd })
+  })
+
+  it.each([
+    ['an empty code', ''],
+    ['text that is not base64', 'this is not a save code!'],
+    ['base64 that is not JSON', btoa('hello there')],
+    ['a code that is far too long', 'A'.repeat(20_000)],
+  ])('refuses %s', (_label, code) => {
+    expect(importSaveCode(code)).toEqual({ ok: false, reason: 'not-a-save-code' })
+  })
+
+  it('refuses a save from another version', () => {
+    expect(importSaveCode(encode({ ...savedMemory, version: 2 }))).toEqual({ ok: false, reason: 'wrong-version' })
+  })
+
+  it('refuses JSON of the wrong shape', () => {
+    expect(importSaveCode(encode({ ...savedMemory, deaths: -4 }))).toEqual({ ok: false, reason: 'invalid' })
+    expect(importSaveCode(encode({ version: 1 }))).toEqual({ ok: false, reason: 'invalid' })
+  })
+
+  it('drops extra fields and duplicate flags from an imported code', () => {
+    const messy = { ...savedMemory, memoryFlags: ['a', 'a'], cheat: true }
+    const result = importSaveCode(encode(messy))
+    expect(result).toEqual({ ok: true, memory: { ...savedMemory, memoryFlags: ['a'] } })
   })
 })

@@ -1,4 +1,4 @@
-import { SAVE_KEY, SAVE_VERSION } from './constants'
+import { MAX_SAVE_CODE_LENGTH, SAVE_KEY, SAVE_VERSION } from './constants'
 import type { Memory } from './types'
 
 export function createEmptyMemory(): Memory {
@@ -105,4 +105,49 @@ export function resetMemory(storage: StorageLike | null = browserStorage()): Mem
     // Nothing more to do. The game still carries on with fresh memory.
   }
   return createEmptyMemory()
+}
+
+export type ImportFailure =
+  | 'not-a-save-code' // too long, not base64, or not JSON
+  | 'wrong-version' // a save from a version this build does not know
+  | 'invalid' // JSON, but not a save the game can trust
+
+export type ImportResult = { ok: true; memory: Memory } | { ok: false; reason: ImportFailure }
+
+// btoa only handles single-byte text, so go through UTF-8 bytes to be safe.
+function encodeBase64(text: string): string {
+  const bytes = new TextEncoder().encode(text)
+  return btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(''))
+}
+
+function decodeBase64(code: string): string {
+  const binary = atob(code)
+  const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0))
+  return new TextDecoder('utf-8', { fatal: true }).decode(bytes)
+}
+
+/** A save code is just the memory as base64 JSON. It is not secret and can be edited. */
+export function exportSaveCode(memory: Memory): string {
+  return encodeBase64(JSON.stringify(memory))
+}
+
+/** Replaces progress outright; the settings screen is expected to warn before calling this. */
+export function importSaveCode(code: string): ImportResult {
+  const trimmed = code.trim()
+  if (trimmed.length === 0 || trimmed.length > MAX_SAVE_CODE_LENGTH) {
+    return { ok: false, reason: 'not-a-save-code' }
+  }
+
+  let decoded: unknown
+  try {
+    decoded = JSON.parse(decodeBase64(trimmed))
+  } catch {
+    return { ok: false, reason: 'not-a-save-code' }
+  }
+
+  if (isRecord(decoded) && decoded.version !== SAVE_VERSION) {
+    return { ok: false, reason: 'wrong-version' }
+  }
+  const memory = parseMemory(decoded)
+  return memory ? { ok: true, memory } : { ok: false, reason: 'invalid' }
 }
