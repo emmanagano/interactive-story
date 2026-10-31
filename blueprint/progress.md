@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 8.2 · Outside playtest (needs Emma; 5.3 and the 8.1 Lighthouse run are still open)
+**Current step:** 8.2 · Outside playtest (needs Emma; 5.3 and the 8.1 Lighthouse run are still open; 8.3 README is written)
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -50,7 +50,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 ### Phase 8 · Ship it
 - [x] 8.1 Performance and meta tags
 - [ ] 8.2 Outside playtest
-- [ ] 8.3 README for the portfolio
+- [x] 8.3 README for the portfolio
 
 ## Decisions log
 
@@ -58,6 +58,8 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 8.3 | `README.md` written from the code as it stands: what it is (spoiler-free), how to play and run it, the stack, how the engine and run memory work, the story as data and its checker, accessibility, testing, privacy and security, ten technical decisions with trade-offs, and known limits. Numbers were taken from the repo (326 tests in 26 files; 318 KB of JavaScript, 100 KB gzipped) |
+| 2026-11-01 | 8.3 | The README states in Emma's first person that she wrote the story and the brief, and credits Claude Code for the code, because the commit trailers and `CLAUDE.md` already show it. Edit or remove as you wish. The live link is a placeholder, since the Netlify address was never given. No licence line was added: that is Emma's call |
 | 2026-11-01 | Bug | Emma reported "when I take the first painkiller nothing happens, it freezes". Not a code freeze (no error, the page kept responding, the next key worked), but a feedback gap I introduced: at full health the +1 HP changes nothing visible, the painkiller button silently vanishes, the choices blur with no explanation, nothing says a painkiller was used, and a keyboard user's focus was dropped to the top of the page |
 | 2026-11-01 | Bug | Fix, tests first (8 failing tests written before the change): the HUD lists items with counts ("painkillers ×1", only while carrying any); the live region says "Used painkillers. Choice text is blurred until your next choice."; a notice sits directly above the choices while the blur lasts (first placed at the top of the page, where it scrolled out of view, so it moved); focus moves to the next choice when a choice takes its own button away. Verified in Chrome with only Tab and Enter |
 | 2026-11-01 | 8.1 | Page head: title "Flatline: a cyberpunk survival story" (36 chars), a 130-character description, theme-color `#0b0a14`, Open Graph and Twitter tags, an SVG favicon, an Apple touch icon (180px) and a 1200x630 social image (30 KB) taken from the real title screen. The copy is mine, edit it freely. A `<noscript>` line explains the game needs JavaScript |
