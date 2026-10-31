@@ -1,9 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
+// The shared stylesheets load first so that a component's own rules (and its phone overrides)
+// always come after the tokens they adjust.
 import './styles/tokens.css'
 import './styles/base.css'
 import './styles/decay.css'
+import App from './App.tsx'
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
