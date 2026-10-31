@@ -1,0 +1,224 @@
+.token-page {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+.token-page__swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.token-page__swatch-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2);
+  border: var(--border-thin) solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-panel);
+}
+
+.token-page__swatch {
+  flex: none;
+  width: var(--space-6);
+  height: var(--space-6);
+  border: var(--border-thin) solid var(--color-dim);
+  border-radius: var(--radius-sm);
+}
+
+.token-page code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.token-page__swatch--night {
+  background: var(--color-night);
+}
+
+.token-page__swatch--panel {
+  background: var(--color-panel);
+}
+
+.token-page__swatch--line {
+  background: var(--color-line);
+}
+
+.token-page__swatch--ink {
+  background: var(--color-ink);
+}
+
+.token-page__swatch--dim {
+  background: var(--color-dim);
+}
+
+.token-page__swatch--magenta {
+  background: var(--color-magenta);
+}
+
+.token-page__swatch--cyan {
+  background: var(--color-cyan);
+}
+
+.token-page__swatch--green {
+  background: var(--color-green);
+}
+
+.token-page__swatch--amber {
+  background: var(--color-amber);
+}
+
+.token-page__swatch--red {
+  background: var(--color-red);
+}
+
+.token-page__glows {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.token-page__glow {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
+.token-page__glow--magenta {
+  color: var(--color-magenta);
+  text-shadow: var(--glow-magenta);
+}
+
+.token-page__glow--cyan {
+  color: var(--color-cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.token-page__glow--green {
+  color: var(--color-green);
+  text-shadow: var(--glow-green);
+}
+
+.token-page__glow--amber {
+  color: var(--color-amber);
+  text-shadow: var(--glow-amber);
+}
+
+.token-page__glow--red {
+  color: var(--color-red);
+  text-shadow: var(--glow-red);
+}
+
+.token-page__font-display {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+}
+
+.token-page__font-mono {
+  font-family: var(--font-mono);
+}
+
+.token-page__chip-line {
+  color: var(--color-amber);
+  font-family: var(--font-mono);
+}
+
+.token-page__locked {
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-thin) dashed var(--color-amber);
+  border-radius: var(--radius-sm);
+  color: var(--color-dim);
+  font-family: var(--font-mono);
+}
+
+.token-page__type {
+  margin: 0 0 var(--space-2);
+  font-family: var(--font-mono);
+}
+
+.token-page__type--xs {
+  font-size: var(--text-xs);
+}
+
+.token-page__type--sm {
+  font-size: var(--text-sm);
+}
+
+.token-page__type--base {
+  font-size: var(--text-base);
+}
+
+.token-page__type--md {
+  font-size: var(--text-md);
+}
+
+.token-page__type--lg {
+  font-size: var(--text-lg);
+}
+
+.token-page__type--xl {
+  font-size: var(--text-xl);
+}
+
+.token-page__type--2xl {
+  font-size: var(--text-2xl);
+}
+
+.token-page__type--3xl {
+  font-size: var(--text-3xl);
+}
+
+.token-page__space-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+.token-page__space-row code {
+  width: 6rem;
+}
+
+.token-page__space-bar {
+  height: var(--space-3);
+  background: var(--color-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.token-page__space-bar--1 {
+  width: var(--space-1);
+}
+
+.token-page__space-bar--2 {
+  width: var(--space-2);
+}
+
+.token-page__space-bar--3 {
+  width: var(--space-3);
+}
+
+.token-page__space-bar--4 {
+  width: var(--space-4);
+}
+
+.token-page__space-bar--5 {
+  width: var(--space-5);
+}
+
+.token-page__space-bar--6 {
+  width: var(--space-6);
+}
+
+.token-page__space-bar--7 {
+  width: var(--space-7);
+}
+
+.token-page__space-bar--8 {
+  width: var(--space-8);
+}

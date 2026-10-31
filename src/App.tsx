@@ -1,7 +1,9 @@
+import TokenPage from './components/TokenPage'
+
 function App() {
   return (
     <main>
-      <h1>Flatline</h1>
+      <TokenPage />
     </main>
   )
 }
