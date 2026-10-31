@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 3.2 · Cyberpunk styling
+**Current step:** 3.3 · The decaying interface
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -25,7 +25,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 
 ### Phase 3 · The HUD and the decay
 - [x] 3.1 The HUD
-- [ ] 3.2 Cyberpunk styling
+- [x] 3.2 Cyberpunk styling
 - [ ] 3.3 The decaying interface
 - [ ] 3.4 Ending cards and the tracker
 
@@ -58,6 +58,11 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 3.2 | The city is CSS plus `src/assets/skyline.svg`, used only as a mask (its `#000` fill is never shown, so no real color is hard-coded). Texture lives in one `Backdrop` component: skyline, windows, sign glows, rain, noise, scanlines |
+| 2026-11-01 | 3.2 | All motion is inside `@media (prefers-reduced-motion: no-preference)` and `:root:not([data-calm])`, and the texture hides under `:root[data-calm]`. Step 3.3's calm-mode toggle only has to set `data-calm` on the root |
+| 2026-11-01 | 3.2 | New tokens: translucent `--glass-*`, `--haze-*`, `--scanline`, `--rain-streak` (all `color-mix` of the existing colors), `--measure` (story column, 40rem), `--hud-clearance`, `--aberration`. The body is transparent so the fixed backdrop shows through |
+| 2026-11-01 | 3.2 | The HUD is sticky so time and health stay visible while reading; `scroll-padding-top` keeps focused items from hiding under it. Scene title takes focus without an outline (it is a heading, not a control) |
+| 2026-11-01 | 3.2 | Checked in headless Chrome at 1280 and 375 pixels: no horizontal scroll, HUD is a two-by-two grid on phones, choice buttons are at least 2.75rem tall |
 | 2026-11-01 | 3.1 | Announcements are pure functions (`runChanges.ts`): "Time minus 20 minutes. Heat up 1." Order is always time, health, heat. A new run announces "New run. 06:00:00 left. Health 5. Heat 0." |
 | 2026-11-01 | 3.1 | The live region adds an invisible space on alternate choices so two identical sentences in a row are still announced (a live region only speaks when its text changes) |
 | 2026-11-01 | 3.1 | Changed meters pulse for 0.5s only when `prefers-reduced-motion: no-preference`, and keep a static glow either way. Step 3.3's calm mode must also switch the pulse off |
