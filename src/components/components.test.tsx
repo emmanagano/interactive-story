@@ -49,11 +49,11 @@ describe('SceneView', () => {
     expect(html).not.toContain('Show all text')
   })
 
-  it('has a hidden-from-readers "scroll for more" cue, which starts out off', () => {
+  it('has a silent, hidden-from-readers fade at the bottom, which starts out off', () => {
     const blocks: Block[] = [{ type: 'text', text: 'A long scene.' }]
     const html = renderToStaticMarkup(<SceneView scene={scene} blocks={blocks} reveal={shownAtOnce(blocks)} sceneKey="a" />)
-    expect(html).toMatch(/<div class="scene-view__more" aria-hidden="true">/)
-    expect(html).toContain('Scroll for more')
+    expect(html).toMatch(/<div class="scene-view__more" aria-hidden="true"><\/div>/)
+    expect(html).not.toContain('Scroll for more')
     expect(html).not.toContain('scene-view__more--visible')
   })
 

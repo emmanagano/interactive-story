@@ -129,10 +129,8 @@ function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
           )
         })}
       </div>
-      {/* A cue that there is more to read. Screen readers already get all the text, so it is only for the eyes. */}
-      <div className={moreBelow ? 'scene-view__more scene-view__more--visible' : 'scene-view__more'} aria-hidden="true">
-        <span>Scroll for more</span> <span className="scene-view__more-arrow">▾</span>
-      </div>
+      {/* A quiet fade at the bottom while there is more to read. Screen readers already get all the text, so it is only for the eyes. */}
+      <div className={moreBelow ? 'scene-view__more scene-view__more--visible' : 'scene-view__more'} aria-hidden="true" />
     </article>
   )
 }

@@ -114,28 +114,18 @@
   }
 }
 
-/* "Scroll for more": a fade over the bottom of the panel while there is text below. It sits at the
-   end of the content and is pulled up over it, so it adds no height. The panel's padding holds a
-   sticky element back from the edge, so it is pushed out into that padding to reach the real bottom. */
+/* A quiet fade over the bottom of the panel while there is text below, so it does not look cut off.
+   No words and no movement. It sits at the end of the content and is pulled up over it, so it adds
+   no height. The panel's padding holds a sticky element back from the edge, so it is pushed out into
+   that padding to reach the real bottom. */
 .scene-view__more {
-  --cue-height: 4.5rem;
+  --cue-height: 3rem;
 
   position: sticky;
   bottom: calc(var(--space-5) * -1);
-  display: flex;
-  gap: var(--space-1);
-  align-items: flex-end;
-  justify-content: center;
   height: var(--cue-height);
   margin-top: calc(var(--cue-height) * -1);
-  padding-bottom: var(--space-2);
-  background: linear-gradient(to bottom, transparent, var(--glass-night) 75%);
-  color: var(--color-cyan);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.1em;
-  text-shadow: var(--glow-cyan);
-  text-transform: uppercase;
+  background: linear-gradient(to bottom, transparent, var(--glass-night) 85%);
   opacity: 0;
   pointer-events: none;
 }
@@ -144,18 +134,8 @@
   opacity: 1;
 }
 
-@keyframes scene-view-nudge {
-  50% {
-    translate: 0 var(--space-1);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .scene-view__more {
     transition: opacity 0.2s;
-  }
-
-  :root:not([data-calm]) .scene-view__more--visible .scene-view__more-arrow {
-    animation: scene-view-nudge 1.4s ease-in-out infinite;
   }
 }

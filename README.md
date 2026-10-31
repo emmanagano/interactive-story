@@ -21,7 +21,7 @@ A cyberpunk survival story that runs in your browser. You play Kade, a courier w
 
 | | |
 | --- | --- |
-| **Layout** | The story is on the left in a panel of fixed height that scrolls on its own (it follows the text as it types, and a visible scrollbar and a "Scroll for more" fade show when there is more to read, and the arrow keys scroll it when it has focus). Your choices are on the right and the endings you have found sit underneath, so the whole game fits one screen. On a phone, or when the eye payment leaves less room, it stacks into one column and the page scrolls as normal |
+| **Layout** | The story is on the left in a panel of fixed height that scrolls on its own (it follows the text as it types, and a visible scrollbar and a quiet fade at the bottom show when there is more to read, and the arrow keys scroll it when it has focus). Your choices are on the right and the endings you have found sit underneath, so the whole game fits one screen. On a phone, or when the eye payment leaves less room, it stacks into one column and the page scrolls as normal |
 | **Choose** | Click a choice, or press **1 to 4** |
 | **Skip the typing** | Click the story, or press **Escape**, **Enter** or **Space** (a "Show all text" button is there too) |
 | **Continue** | **Enter** presses a lone "Continue", and wakes you up again after an ending |
