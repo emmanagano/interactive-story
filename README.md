@@ -21,10 +21,12 @@ A cyberpunk survival story that runs in your browser. You play Kade, a courier w
 
 | | |
 | --- | --- |
+| **Layout** | The story is on the left and your choices are on the right, pinned beside a long scene. The endings you have found sit underneath. It stacks into one column on narrow screens |
 | **Choose** | Click a choice, or press **1 to 4** |
 | **Skip the typing** | Click the story, or press **Escape**, **Enter** or **Space** (a "Show all text" button is there too) |
 | **Continue** | **Enter** presses a lone "Continue", and wakes you up again after an ending |
 | **Locked choices** | Shown greyed out with a dashed border and no hint. They open because of what happened in earlier runs |
+| **Stuck, or hunting every ending?** | **Summary** (title screen or game header) is a recap of the story and a guide to all ten endings, behind a spoiler warning. It marks the endings you have found |
 | **Calm mode, sound, text speed** | Settings (there is also a quick Sound button in the game header). Calm mode removes trembling, glitching and flicker |
 
 Time only moves when you choose. The chip also takes 1 health for every hour of story time that passes.
@@ -38,7 +40,7 @@ npm install
 npm run dev        # local dev server
 npm run build      # production build into dist/
 npm run preview    # serve the production build
-npm run test       # Vitest, 326 tests in 26 files
+npm run test       # Vitest, 341 tests in 27 files
 npm run lint       # ESLint
 npm run typecheck  # tsc, strict mode
 ```
@@ -162,10 +164,10 @@ Accessibility was part of "done" for every step, not a final pass. A full audit 
 
 ## Testing
 
-**326 tests in 26 files**, run with `npm run test`:
+**341 tests in 27 files**, run with `npm run test`:
 
 - **Engine:** conditions, effects, the hourly drain, the run loop, memory and save codes, settings upgrades, decay, sound rules, and the debug tools.
-- **The story itself:** the validator, and scripted runs that reach each of the 10 endings, including the fastest path to the secret one (three runs, two deaths).
+- **The story itself:** the validator, and scripted runs that reach each of the 10 endings, including the fastest path to the secret one (three runs, two deaths). The ending guide is checked against the script's own table word for word, and against the endings in the game.
 - **UI:** components are rendered to a string and checked, with no browser or testing library.
 - **Sound:** the audio engine is tested against a fake audio context, including "nothing is created until sound is turned on".
 - **Shipping:** the page head, the security headers and the privacy rule (below).
