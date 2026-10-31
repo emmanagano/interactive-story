@@ -1,0 +1,79 @@
+.settings-screen {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--measure);
+  padding: var(--space-5) var(--space-6);
+  border: var(--border-thin) solid var(--color-line);
+  border-left: var(--focus-ring-width) solid var(--color-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--glass-night);
+  backdrop-filter: blur(3px);
+}
+
+.settings-screen__title {
+  margin: 0;
+  letter-spacing: 0.08em;
+}
+
+.settings-screen__group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.settings-screen__group legend {
+  margin-bottom: var(--space-2);
+  padding: 0;
+  font-family: var(--font-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.settings-screen__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+}
+
+.settings-screen__option {
+  display: inline-flex;
+  gap: var(--space-2);
+  align-items: center;
+  min-height: 2.75rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  cursor: pointer;
+}
+
+.settings-screen__option--disabled {
+  color: var(--color-dim);
+  cursor: not-allowed;
+}
+
+.settings-screen__hint {
+  margin: var(--space-1) 0 0;
+  color: var(--color-dim);
+  font-size: var(--text-sm);
+}
+
+.settings-screen__back {
+  justify-self: start;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-6);
+  border: var(--border-thin) solid var(--color-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--glass-panel);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (max-width: 40rem) {
+  .settings-screen {
+    padding: var(--space-4);
+  }
+}

@@ -1,40 +1,33 @@
-import {
-  Backdrop,
-  CalmToggle,
-  ChoiceList,
-  DebugPanel,
-  EndingCard,
-  EndingTracker,
-  EyeVeil,
-  GameNotices,
-  Hud,
-  RestartButton,
-  SceneView,
-} from './components'
-import { listStoryFlags } from './engine'
-import { DEBUG_PRESETS } from './story/debugPresets'
-import { story } from './story'
-import { useCalmMode, useChipVoice, useChoiceKeys, useDecay, useGame, useReducedMotion, useReveal } from './hooks'
+import { useEffect, useState } from 'react'
+import { Backdrop, EyeVeil, GameScreen, SettingsScreen, TitleScreen } from './components'
+import { SPEED_MULTIPLIER } from './components/reveal'
+import { useChipVoice, useChoiceKeys, useDecay, useGame, useReducedMotion, useReveal, useSettings } from './hooks'
 import './App.css'
 
-// The debug panel shows in development or with ?debug in the address.
-const showDebugPanel = import.meta.env.DEV || new URLSearchParams(window.location.search).has('debug')
-
-const debugScenes = Object.values(story).map((scene) => ({ id: scene.id, title: scene.title }))
-const debugFlags = listStoryFlags(story)
+type Screen = 'title' | 'game' | 'settings'
 
 function App() {
   const game = useGame()
-  const { calm, setCalm } = useCalmMode()
+  const settings = useSettings()
+  const [screen, setScreen] = useState<Screen>('title')
+  const [leaveSettingsTo, setLeaveSettingsTo] = useState<'title' | 'game'>('title')
+  const [started, setStarted] = useState(false)
+
   const cleanInterface = game.scene.cleanInterface === true
   const eyeTaken = game.state.run.runFlags.includes('eye_taken')
   useDecay(game.state.run, cleanInterface)
   useChipVoice(game.state.memory.deaths)
-  // Text types out and scenes fade in, unless calm mode or the system asks for less motion.
+
+  // Text types out and scenes fade in, unless calm mode, the system or the text speed says otherwise.
+  // It starts when the player presses Start, so the first scene is not already typed by then.
   const reducedMotion = useReducedMotion()
+  const animateText = started && !settings.calm && !reducedMotion && settings.textSpeed !== 'instant'
+  const speed = settings.textSpeed === 'instant' ? 1 : SPEED_MULTIPLIER[settings.textSpeed]
   const sceneKey = `${game.scene.id}:${game.state.memory.runs}`
-  const reveal = useReveal(game.blocks, !calm && !reducedMotion, sceneKey)
+  const reveal = useReveal(game.blocks, animateText, sceneKey, speed)
+
   useChoiceKeys({
+    active: screen === 'game',
     choices: game.choices,
     isOver: game.isOver,
     revealing: reveal.revealing,
@@ -43,52 +36,59 @@ function App() {
     onRestart: game.restart,
   })
 
+  // When the screen changes, focus lands on that screen's heading, so a screen reader starts reading
+  // at the top instead of being left on a button that no longer exists. The title focuses Start itself.
+  useEffect(() => {
+    if (screen !== 'title') document.querySelector<HTMLElement>('[data-screen-heading]')?.focus()
+  }, [screen])
+
+  const openSettings = () => {
+    setLeaveSettingsTo(screen === 'game' ? 'game' : 'title')
+    setScreen('settings')
+  }
+  const memory = game.state.memory
+  const returning = memory.runs > 0 || memory.deaths > 0 || memory.endingsSeen.length > 0
+
   return (
     <>
       <Backdrop />
-      {eyeTaken && <EyeVeil />}
-      <main className={eyeTaken ? 'app app--eye-taken' : 'app'}>
-        <header className="app__header">
-          <h1 className="app__title">Flatline</h1>
-          <CalmToggle calm={calm} onChange={setCalm} />
-        </header>
-        <Hud
-          run={game.state.run}
-          endingsFound={game.state.memory.endingsSeen.length}
-          changes={game.lastChange.changes}
-          changeId={game.lastChange.id}
-          announcement={game.lastChange.announcement}
-          clean={cleanInterface}
-        />
-        <GameNotices
-          loadStatus={game.loadStatus}
-          saveFailed={game.saveFailed}
-          reachedUnwrittenScene={game.reachedUnwrittenScene}
-        />
-        <SceneView scene={game.scene} blocks={game.blocks} reveal={reveal} sceneKey={sceneKey} />
-        {game.isOver ? (
-          // The ending card waits for the text, so it cannot give the ending away early.
-          !reveal.revealing && (
-            <>
-              <EndingCard scene={game.scene} finalChip={game.finalChip} />
-              <RestartButton onRestart={game.restart} />
-            </>
-          )
-        ) : (
-          <div className={reveal.revealing ? 'app__choices app__choices--pending' : 'app__choices'}>
-            <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
-          </div>
-        )}
-        <EndingTracker slots={game.endingSlots} />
-        {showDebugPanel && (
-          <DebugPanel
-            state={game.state}
-            scenes={debugScenes}
-            flags={debugFlags}
-            presets={DEBUG_PRESETS}
-            onApply={game.debugApply}
-            onResetMemory={game.debugResetMemory}
+      {eyeTaken && screen !== 'title' && <EyeVeil />}
+      <main className={eyeTaken && screen !== 'title' ? 'app app--eye-taken' : 'app'}>
+        {screen === 'title' && (
+          <TitleScreen
+            returning={returning}
+            endingsFound={memory.endingsSeen.length}
+            onStart={() => {
+              setStarted(true)
+              setScreen('game')
+            }}
+            onSettings={openSettings}
           />
+        )}
+        {screen === 'settings' && (
+          <SettingsScreen
+            calm={settings.calm}
+            textSpeed={settings.textSpeed}
+            memory={memory}
+            onCalm={settings.setCalm}
+            onTextSpeed={settings.setTextSpeed}
+            onImport={game.replaceProgress}
+            onReset={game.resetProgress}
+            onBack={() => setScreen(leaveSettingsTo)}
+          />
+        )}
+        {screen === 'game' && (
+          <>
+            <header className="app__header">
+              <h1 className="app__title" data-screen-heading tabIndex={-1}>
+                Flatline
+              </h1>
+              <button type="button" className="app__settings" onClick={openSettings}>
+                Settings
+              </button>
+            </header>
+            <GameScreen game={game} reveal={reveal} sceneKey={sceneKey} cleanInterface={cleanInterface} />
+          </>
         )}
       </main>
     </>

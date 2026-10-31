@@ -1,0 +1,64 @@
+.title-screen {
+  display: grid;
+  gap: var(--space-5);
+  justify-items: center;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding-top: 12vh;
+  text-align: center;
+}
+
+.title-screen__name {
+  margin: 0;
+  font-size: clamp(var(--text-3xl), 14vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow:
+    var(--glow-magenta),
+    0 0 40px var(--haze-magenta);
+}
+
+.title-screen__menu {
+  display: grid;
+  gap: var(--space-3);
+  width: min(100%, 18rem);
+}
+
+.title-screen__button {
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-thin) solid var(--color-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--glass-panel);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.title-screen__button--primary {
+  border-color: var(--color-magenta);
+  box-shadow: var(--glow-magenta);
+}
+
+.title-screen__button:hover {
+  box-shadow: var(--glow-cyan);
+}
+
+.title-screen__button--primary:hover {
+  box-shadow: var(--glow-magenta);
+  background: var(--haze-magenta);
+}
+
+.title-screen__progress {
+  margin: 0;
+  color: var(--color-dim);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

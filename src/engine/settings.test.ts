@@ -28,15 +28,25 @@ describe('settings', () => {
     expect(loadSettings(makeStorage()).settings).toBeNull()
   })
 
-  it('remembers calm mode', () => {
+  it('remembers calm mode and text speed', () => {
     const storage = makeStorage()
-    expect(saveSettings({ version: 1, calmMode: true }, storage)).toBe(true)
-    expect(loadSettings(storage).settings).toEqual({ version: 1, calmMode: true })
+    expect(saveSettings({ version: 2, calmMode: true, textSpeed: 'fast' }, storage)).toBe(true)
+    expect(loadSettings(storage).settings).toEqual({ version: 2, calmMode: true, textSpeed: 'fast' })
+  })
+
+  it('upgrades a version 1 setting, keeping calm mode and defaulting the text speed', () => {
+    const storage = makeStorage({ 'flatline:settings:v1': '{"version":1,"calmMode":true}' })
+    expect(loadSettings(storage).settings).toEqual({ version: 2, calmMode: true, textSpeed: 'normal' })
+  })
+
+  it('falls back to the normal speed when the saved one is not a real speed', () => {
+    const storage = makeStorage({ 'flatline:settings:v1': '{"version":2,"calmMode":false,"textSpeed":"warp"}' })
+    expect(loadSettings(storage).settings).toEqual({ version: 2, calmMode: false, textSpeed: 'normal' })
   })
 
   it('is stored under its own key, not the save', () => {
     const storage = makeStorage({ 'flatline:v1': '{"version":1}' })
-    saveSettings({ version: 1, calmMode: false }, storage)
+    saveSettings({ version: 2, calmMode: false, textSpeed: 'normal' }, storage)
     expect(storage.getItem('flatline:v1')).toBe('{"version":1}')
     expect(storage.getItem('flatline:settings:v1')).not.toBeNull()
   })
@@ -44,7 +54,7 @@ describe('settings', () => {
   it.each([
     ['not JSON', 'oops'],
     ['the wrong type', '{"version":1,"calmMode":"yes"}'],
-    ['another version', '{"version":2,"calmMode":true}'],
+    ['another version', '{"version":3,"calmMode":true}'],
     ['a missing field', '{"version":1}'],
   ])('ignores %s and falls back to the default', (_label, stored) => {
     expect(loadSettings(makeStorage({ 'flatline:settings:v1': stored })).settings).toBeNull()
@@ -53,7 +63,7 @@ describe('settings', () => {
   it('works without saving when storage is blocked or missing', () => {
     expect(loadSettings(brokenStorage).settings).toBeNull()
     expect(loadSettings(null).settings).toBeNull()
-    expect(saveSettings({ version: 1, calmMode: true }, brokenStorage)).toBe(false)
-    expect(saveSettings({ version: 1, calmMode: true }, null)).toBe(false)
+    expect(saveSettings({ version: 2, calmMode: true, textSpeed: 'normal' }, brokenStorage)).toBe(false)
+    expect(saveSettings({ version: 2, calmMode: true, textSpeed: 'normal' }, null)).toBe(false)
   })
 })

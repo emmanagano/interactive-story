@@ -1,0 +1,68 @@
+import { listStoryFlags } from '../engine'
+import type { Game, Reveal } from '../hooks'
+import { DEBUG_PRESETS } from '../story/debugPresets'
+import { story } from '../story'
+import ChoiceList from './ChoiceList'
+import DebugPanel from './DebugPanel'
+import EndingCard from './EndingCard'
+import EndingTracker from './EndingTracker'
+import GameNotices from './GameNotices'
+import Hud from './Hud'
+import RestartButton from './RestartButton'
+import SceneView from './SceneView'
+
+// The debug panel shows in development or with ?debug in the address.
+const showDebugPanel = import.meta.env.DEV || new URLSearchParams(window.location.search).has('debug')
+const debugScenes = Object.values(story).map((scene) => ({ id: scene.id, title: scene.title }))
+const debugFlags = listStoryFlags(story)
+
+type Props = {
+  game: Game
+  reveal: Reveal
+  sceneKey: string
+  cleanInterface: boolean
+}
+
+/** Everything in the game itself: the HUD, the scene, the choices and the endings found so far. */
+function GameScreen({ game, reveal, sceneKey, cleanInterface }: Props) {
+  return (
+    <>
+      <Hud
+        run={game.state.run}
+        endingsFound={game.state.memory.endingsSeen.length}
+        changes={game.lastChange.changes}
+        changeId={game.lastChange.id}
+        announcement={game.lastChange.announcement}
+        clean={cleanInterface}
+      />
+      <GameNotices loadStatus={game.loadStatus} saveFailed={game.saveFailed} reachedUnwrittenScene={game.reachedUnwrittenScene} />
+      <SceneView scene={game.scene} blocks={game.blocks} reveal={reveal} sceneKey={sceneKey} />
+      {game.isOver ? (
+        // The ending card waits for the text, so it cannot give the ending away early.
+        !reveal.revealing && (
+          <>
+            <EndingCard scene={game.scene} finalChip={game.finalChip} />
+            <RestartButton onRestart={game.restart} />
+          </>
+        )
+      ) : (
+        <div className={reveal.revealing ? 'app__choices app__choices--pending' : 'app__choices'}>
+          <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
+        </div>
+      )}
+      <EndingTracker slots={game.endingSlots} />
+      {showDebugPanel && (
+        <DebugPanel
+          state={game.state}
+          scenes={debugScenes}
+          flags={debugFlags}
+          presets={DEBUG_PRESETS}
+          onApply={game.debugApply}
+          onResetMemory={game.resetProgress}
+        />
+      )}
+    </>
+  )
+}
+
+export default GameScreen

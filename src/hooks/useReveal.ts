@@ -17,8 +17,8 @@ const FRAME_MS = 40
  * starts the reveal again; the same scene shown again (a painkiller, a loop) is not retyped.
  * With `enabled` off (calm mode, reduced motion) everything is shown at once.
  */
-export function useReveal(blocks: Block[], enabled: boolean, resetKey: string): Reveal {
-  const plan = planReveal(blocks)
+export function useReveal(blocks: Block[], enabled: boolean, resetKey: string, speed: number): Reveal {
+  const plan = planReveal(blocks, speed)
   const [state, setState] = useState({ resetKey, elapsed: 0, skipped: false })
 
   // A new scene starts a new reveal. Adjusting state while rendering is React's way to reset on a changed key.

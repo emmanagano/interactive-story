@@ -3,6 +3,7 @@ import { choiceIdForEnter, choiceIdForKey } from '../engine'
 import type { ListedChoice } from '../engine'
 
 type Options = {
+  active: boolean // only the game screen answers to keys
   choices: ListedChoice[]
   isOver: boolean
   revealing: boolean // the scene's text is still appearing
@@ -12,8 +13,9 @@ type Options = {
 }
 
 /** Number keys 1–4 pick a choice. Escape, Enter or Space show all text while it is still appearing. Enter continues a scene that only needs pressing on, or wakes up again after an ending. */
-export function useChoiceKeys({ choices, isOver, revealing, onSkip, onChoose, onRestart }: Options): void {
+export function useChoiceKeys({ active, choices, isOver, revealing, onSkip, onChoose, onRestart }: Options): void {
   useEffect(() => {
+    if (!active) return
     function handleKeyDown(event: KeyboardEvent): void {
       if (event.metaKey || event.ctrlKey || event.altKey) return
       const target = event.target instanceof HTMLElement ? event.target : null
@@ -51,5 +53,5 @@ export function useChoiceKeys({ choices, isOver, revealing, onSkip, onChoose, on
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [choices, isOver, revealing, onSkip, onChoose, onRestart])
+  }, [active, choices, isOver, revealing, onSkip, onChoose, onRestart])
 }

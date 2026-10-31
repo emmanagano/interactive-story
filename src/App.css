@@ -57,3 +57,20 @@
     transition: none;
   }
 }
+
+.app__settings {
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-4);
+  border: var(--border-thin) solid var(--color-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--glass-panel);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+/* Focus lands on a screen's heading only so a screen reader starts there. It is not a control. */
+[data-screen-heading]:focus {
+  outline: none;
+}

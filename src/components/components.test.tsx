@@ -3,10 +3,13 @@ import { describe, expect, it } from 'vitest'
 import type { Block, Scene } from '../engine'
 import type { Reveal } from '../hooks'
 import ChoiceList from './ChoiceList'
+import ConfirmDialog from './ConfirmDialog'
 import DebugPanel from './DebugPanel'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import Hud from './Hud'
+import SettingsScreen from './SettingsScreen'
+import TitleScreen from './TitleScreen'
 import { planReveal } from './reveal'
 import { NO_CHANGES } from './runChanges'
 import { makeState } from '../engine/testState'
@@ -212,5 +215,79 @@ describe('DebugPanel', () => {
   it('shows which flags are set right now', () => {
     expect(html.match(/checked=""/g)?.length).toBe(2) // listened (run) and knows_lazarus (memory)
     expect(html).toContain('item: painkillers')
+  })
+})
+
+describe('TitleScreen', () => {
+  const noop = () => undefined
+
+  it('offers Start to a new player and no progress', () => {
+    const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={noop} onSettings={noop} />)
+    expect(html).toContain('>Start<')
+    expect(html).not.toContain('Continue')
+    expect(html).not.toContain('Endings ')
+    expect(html).toContain('Settings')
+  })
+
+  it('offers Continue to a returning player, with how many endings they have', () => {
+    const html = renderToStaticMarkup(<TitleScreen returning endingsFound={3} onStart={noop} onSettings={noop} />)
+    expect(html).toContain('>Continue<')
+    expect(html).not.toContain('>Start<')
+    expect(html).toContain('Endings 3/10')
+  })
+
+  it('hides the decorative heartbeat lines from assistive technology', () => {
+    const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={noop} onSettings={noop} />)
+    expect(html).toMatch(/<svg[^>]*aria-hidden="true"/)
+  })
+})
+
+describe('SettingsScreen', () => {
+  const html = renderToStaticMarkup(
+    <SettingsScreen
+      calm={false}
+      textSpeed="fast"
+      memory={makeState({}, { runs: 3, deaths: 2, endingsSeen: ['a'] }).memory}
+      onCalm={() => undefined}
+      onTextSpeed={() => undefined}
+      onImport={() => undefined}
+      onReset={() => undefined}
+      onBack={() => undefined}
+    />,
+  )
+
+  it('offers the four text speeds with the current one chosen', () => {
+    for (const label of ['Slow', 'Normal', 'Fast', 'Instant']) expect(html).toContain(label)
+    const radios = html.match(/<input[^>]*type="radio"[^>]*>/g) ?? []
+    expect(radios).toHaveLength(4)
+    const chosen = radios.filter((radio) => radio.includes('checked=""'))
+    expect(chosen).toHaveLength(1)
+    expect(chosen[0]).toContain('value="fast"')
+  })
+
+  it('shows sound as unavailable for now', () => {
+    expect(html).toMatch(/<input type="checkbox" disabled=""/)
+    expect(html).toContain('Not available yet')
+  })
+
+  it('summarises progress and offers backup, restore and reset', () => {
+    expect(html).toContain('Now: 1 of 10 endings, 3 runs, 2 deaths.')
+    expect(html).toContain('Show save code')
+    expect(html).toContain('Paste a save code')
+    expect(html).toContain('Reset all progress')
+  })
+})
+
+describe('ConfirmDialog', () => {
+  it('is a native dialog, labelled by its title, with Cancel before the dangerous button', () => {
+    const html = renderToStaticMarkup(
+      <ConfirmDialog open={false} title="Reset all progress?" confirmLabel="Reset everything" onCancel={() => undefined} onConfirm={() => undefined}>
+        <p>Cannot be undone.</p>
+      </ConfirmDialog>,
+    )
+    expect(html).toContain('<dialog')
+    expect(html).toContain('aria-labelledby="confirm-dialog-title"')
+    expect(html.indexOf('Cancel')).toBeLessThan(html.indexOf('Reset everything'))
+    expect(html).toContain('Cannot be undone.')
   })
 })

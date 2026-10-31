@@ -19,17 +19,19 @@ export type RevealPlan = {
 
 type PlannedBlock = { type: 'text' | 'chip' | 'system'; text: string }
 
+/** How fast each text speed setting runs, as a multiple of the normal speed. "Instant" does not animate at all. */
+export const SPEED_MULTIPLIER = { slow: 0.6, normal: 1, fast: 2.2 } as const
+
 /** When each block starts and how long it takes. Text types out; a chip line scrambles, then resolves. */
-export function planReveal(blocks: PlannedBlock[]): RevealPlan {
+export function planReveal(blocks: PlannedBlock[], speed = 1): RevealPlan {
   let cursor = 0
   const steps = blocks.map((block): RevealStep => {
     const length = plainText(block.text).length
     const duration =
-      block.type === 'chip'
-        ? Math.min(SCRAMBLE_MAX_SECONDS, length * SCRAMBLE_SECONDS_PER_CHAR)
-        : length / CHARS_PER_SECOND
+      (block.type === 'chip' ? Math.min(SCRAMBLE_MAX_SECONDS, length * SCRAMBLE_SECONDS_PER_CHAR) : length / CHARS_PER_SECOND) /
+      speed
     const step = { start: cursor, duration, length }
-    cursor += duration + PAUSE_BETWEEN_BLOCKS
+    cursor += duration + PAUSE_BETWEEN_BLOCKS / speed
     return step
   })
   return { steps, total: cursor }

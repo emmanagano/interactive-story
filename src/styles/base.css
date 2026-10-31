@@ -74,3 +74,8 @@ p {
   clip-path: inset(50%);
   white-space: nowrap;
 }
+
+/* Checkboxes, radios and sliders use the HUD's cyan instead of the browser's default blue. */
+input {
+  accent-color: var(--color-cyan);
+}

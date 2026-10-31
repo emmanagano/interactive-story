@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { applyDebugPatch, choose as takeChoice, createEmptyMemory, listChoices, listEndingSlots, loadMemory, MissingSceneError, resetMemory, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
-import type { Block, DebugPatch, EndingSlot, GameState, ListedChoice, LoadStatus, Scene } from '../engine'
+import type { Block, DebugPatch, EndingSlot, GameState, ListedChoice, LoadStatus, Memory, Scene } from '../engine'
 import { describeChanges, describeNewRun, diffRun, INTERFACE_RESTORED, NO_CHANGES } from '../components/runChanges'
 import type { RunChanges } from '../components/runChanges'
 import { story } from '../story'
@@ -27,7 +27,10 @@ export type Game = {
   choose: (choiceId: string) => void
   restart: () => void
   debugApply: (patch: DebugPatch) => void
-  debugResetMemory: () => void
+  /** Replaces everything the game remembers (an imported save) and starts a fresh run with it. */
+  replaceProgress: (memory: Memory) => void
+  /** Forgets everything: clears the save and starts again as a new player. */
+  resetProgress: () => void
 }
 
 /** Connects the pure engine to React. It holds state and saves progress; it decides nothing about the story. */
@@ -79,11 +82,26 @@ export function useGame(): Game {
     [state],
   )
 
-  const debugResetMemory = useCallback(() => {
+  const startAgainWith = useCallback((memory: Memory) => {
+    const fresh = startRun(memory)
+    setReachedUnwrittenScene(false)
+    setState(fresh)
+    setLastChange((previous) => ({ id: previous.id + 1, changes: NO_CHANGES, announcement: describeNewRun(fresh.run) }))
+  }, [])
+
+  const replaceProgress = useCallback(
+    (memory: Memory) => {
+      setSaveFailed(!saveMemory(memory))
+      startAgainWith(memory)
+    },
+    [startAgainWith],
+  )
+
+  const resetProgress = useCallback(() => {
     resetMemory()
     setSaveFailed(false)
-    setState((current) => ({ ...current, memory: createEmptyMemory() }))
-  }, [])
+    startAgainWith(createEmptyMemory())
+  }, [startAgainWith])
 
   const scene = story[state.run.sceneId]
   const ending = splitEndingBlocks(scene, visibleBlocks(scene, state))
@@ -102,6 +120,7 @@ export function useGame(): Game {
     choose,
     restart,
     debugApply,
-    debugResetMemory,
+    replaceProgress,
+    resetProgress,
   }
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CHARS_PER_SECOND, PAUSE_BETWEEN_BLOCKS, planReveal, revealedCount, scrambleFrame, SCRAMBLE_MAX_SECONDS } from './reveal'
+import { CHARS_PER_SECOND, PAUSE_BETWEEN_BLOCKS, planReveal, revealedCount, scrambleFrame, SCRAMBLE_MAX_SECONDS, SPEED_MULTIPLIER } from './reveal'
 
 describe('planReveal', () => {
   it('types text at the set speed and starts each block after the last, with a pause', () => {
@@ -27,6 +27,21 @@ describe('planReveal', () => {
 
   it('has no time at all for no blocks', () => {
     expect(planReveal([]).total).toBe(0)
+  })
+})
+
+describe('planReveal at other speeds', () => {
+  const blocks = [{ type: 'text' as const, text: 'a'.repeat(320) }, { type: 'chip' as const, text: 'b'.repeat(20) }]
+
+  it('takes proportionally less time when faster and more when slower', () => {
+    const normal = planReveal(blocks).total
+    expect(planReveal(blocks, 2).total).toBeCloseTo(normal / 2)
+    expect(planReveal(blocks, 0.5).total).toBeCloseTo(normal * 2)
+  })
+
+  it('has a slow, normal and fast setting that run in that order', () => {
+    expect(SPEED_MULTIPLIER.slow).toBeLessThan(SPEED_MULTIPLIER.normal)
+    expect(SPEED_MULTIPLIER.normal).toBeLessThan(SPEED_MULTIPLIER.fast)
   })
 })
 
