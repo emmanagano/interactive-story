@@ -1,30 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { isConditionMet } from './conditions'
-import type { Condition, GameState, Memory, RunState } from './types'
-
-function makeState(run: Partial<RunState> = {}, memory: Partial<Memory> = {}): GameState {
-  return {
-    run: {
-      time: 21600,
-      health: 5,
-      heat: 0,
-      sceneId: 'scene-01',
-      runFlags: [],
-      inventory: [],
-      blurred: false,
-      ...run,
-    },
-    memory: {
-      version: 1,
-      deaths: 0,
-      flatlines: 0,
-      runs: 0,
-      endingsSeen: [],
-      memoryFlags: [],
-      ...memory,
-    },
-  }
-}
+import { makeState } from './testState'
+import type { Condition } from './types'
 
 describe('no condition', () => {
   it('is always met', () => {
