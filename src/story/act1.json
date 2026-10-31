@@ -582,5 +582,181 @@
         "goto": "scene-06"
       }
     ]
+  },
+  {
+    "id": "scene-06",
+    "act": 1,
+    "title": "ASK ABOUT LINA",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "\"How's Lina?\""
+      },
+      {
+        "type": "text",
+        "text": "Tavi flinches like you hit them."
+      },
+      {
+        "type": "text",
+        "text": "You've never asked that question in that voice before. Flat. Knowing. Tavi looks at you for a long moment, and you can watch them do the math: *Kade knows. How does Kade know?*"
+      },
+      {
+        "type": "text",
+        "text": "Then Tavi sits down hard on the crate, and all the fight goes out of them."
+      },
+      {
+        "type": "text",
+        "text": "\"She's in Dorm 14,\" Tavi says. \"Halcyon worker housing, out past the salt flats. She signed a five-year contract when she was sixteen because they promised to pay for her lungs. They paid. Now they own her. She's not allowed to leave. She's not allowed to call.\" Tavi's voice drops. \"A man came to me last week. Half his face was metal. He said if I got a certain package delivered by a certain courier, on a certain route, Lina could come home.\""
+      },
+      {
+        "type": "text",
+        "text": "Tavi looks up at you, eyes red."
+      },
+      {
+        "type": "text",
+        "text": "\"I didn't know they'd put it *in* you. I swear on her. But I knew it was a setup, Kade. I knew, and I booked you anyway.\""
+      },
+      {
+        "type": "text",
+        "text": "The market roars on around you. Somebody laughs too loud two stalls down."
+      },
+      {
+        "type": "chip",
+        "text": "they were going to hand you over at the flood gate. i've seen it. four times."
+      },
+      {
+        "type": "chip",
+        "text": "i've watched you forgive them on some runs. i've watched you leave them on others. i never know which kade wakes up.",
+        "when": {
+          "stat": "deaths",
+          "gte": 5
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "forgive-tavi",
+        "label": "FORGIVE TAVI",
+        "text": "\"Then we get her out too. All three of us.\"",
+        "effect": {
+          "setRunFlags": [
+            "with_tavi",
+            "tavi_forgiven"
+          ]
+        },
+        "goto": "scene-07"
+      },
+      {
+        "id": "leave-tavi",
+        "label": "LEAVE TAVI",
+        "text": "\"Good luck, Tavi. I hope she's worth me.\"",
+        "goto": "scene-07"
+      }
+    ]
+  },
+  {
+    "id": "scene-07",
+    "act": 1,
+    "title": "THREE WAYS TO VALE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Mama Ouro sets a bowl of noodles in front of you without asking. \"Eat. You're grey.\" Then she pulls aside your collar with two fingers, the way you'd check a melon, and looks at the chip for a long time."
+      },
+      {
+        "type": "text",
+        "text": "\"Halcyon,\" she says. \"That's a Vale design. See the little ridge? Like a fingerprint.\" She lets go. \"Iris Vale built half the implants in this city, then walked out of Halcyon Tower one night with something in her pocket and never came back. If that's what I think it is, baby, you're not carrying a chip. You're carrying a district.\""
+      },
+      {
+        "type": "text",
+        "text": "Tavi is staring at the noodles and not eating.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "\"Only Vale can take it out without frying you,\" Ouro says. \"So. You need to find a woman nobody's found in two years, before\" — she glances at the timer you didn't know she could see — \"about four and a half hours from now.\""
+      },
+      {
+        "type": "text",
+        "text": "She holds up three fingers."
+      },
+      {
+        "type": "text",
+        "text": "\"One: I know people who know where she sleeps. That costs. Two: her old lab at Halcyon Tower. Still sealed. Still guarded. Her files would be there, if you're brave or stupid. Three…\" She shrugs. \"Pray.\""
+      },
+      {
+        "type": "text",
+        "text": "You put Reyes's delivery slip on the counter. *Line 4, past the flood gate.* Ouro reads it and laughs once, surprised. \"Well. Somebody likes you.\"",
+        "when": {
+          "flag": "vale_hint"
+        }
+      },
+      {
+        "type": "text",
+        "text": "The chip pulses. The second heartbeat skips."
+      },
+      {
+        "type": "chip",
+        "text": "she's close. i can feel her. she built me to feel her."
+      },
+      {
+        "type": "text",
+        "text": "As you stand, the chip speaks one more time, clearer than it has all night. Not static. A woman's voice. Tired. Gentle. Familiar in a way that makes your skin crawl."
+      },
+      {
+        "type": "chip",
+        "text": "when you find her, kade, she's going to tell you i'm a mistake."
+      },
+      {
+        "type": "chip",
+        "text": "ask her why i sound like her."
+      }
+    ],
+    "choices": [
+      {
+        "id": "pay-mama-ouro",
+        "label": "PAY MAMA OURO",
+        "text": "\"Name your price.\"",
+        "effect": {
+          "time": -1200
+        },
+        "goto": "scene-08"
+      },
+      {
+        "id": "break-into-halcyon",
+        "label": "BREAK INTO HALCYON",
+        "text": "\"I'm going to the tower.\"",
+        "effect": {
+          "time": -3000,
+          "heat": 1
+        },
+        "goto": "scene-10"
+      },
+      {
+        "id": "listen-to-the-chip",
+        "label": "LISTEN TO THE CHIP",
+        "requires": {
+          "stat": "deaths",
+          "gte": 2
+        },
+        "effect": {
+          "time": -600
+        },
+        "goto": "scene-12"
+      },
+      {
+        "id": "go-to-line-4",
+        "label": "GO TO LINE 4",
+        "hiddenUnless": {
+          "flag": "vale_hint"
+        },
+        "effect": {
+          "time": -2100
+        },
+        "goto": "scene-13"
+      }
+    ]
   }
 ]
