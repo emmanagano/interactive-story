@@ -4,3 +4,6 @@ export const MAX_HEALTH = 5
 export const MAX_HEAT = 5
 export const START_SCENE_ID = 'scene-01'
 export const FLATLINE_SCENE_ID = 'scene-16' // Ending 05, reached when time or health hits 0
+export const SAVE_KEY = 'flatline:v1'
+export const SAVE_VERSION = 1
+export const MAX_SAVE_CODE_LENGTH = 10_000 // far above a real save, so a pasted wall of text is refused
