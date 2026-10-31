@@ -58,6 +58,7 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 0.3 | Site is live on Netlify. The deployed token page shows all three fonts, glows, chip line and locked-choice sample correctly, which closes the Step 0.2 visual check too |
 | 2026-11-01 | 0.3 | `netlify.toml` pins `NODE_VERSION = "22"` because Vite 8 needs a recent Node. No redirect rules, since the game has no router |
 | 2026-11-01 | 0.2 | Text contrast on night/panel: ink 15.6/14.6, dim 5.8/5.5, magenta 5.7/5.3, cyan 12.3/11.5, green 11.7/10.9, amber 10.7/10.0, red 6.0/5.6. All pass AA (4.5:1) |
 | 2026-11-01 | 0.2 | `--color-line` is only 1.36:1 on night, so it is for decoration only. Controls need a cyan or amber border to meet the 3:1 non-text rule |
@@ -77,5 +78,3 @@ Newest first. One line each: date, step, what was decided and why.
 Things found during a step that need Emma's input. Remove them once they're answered.
 
 - `npm audit` reports a moderate minimatch advisory inside the ESLint toolchain (dev only, not shipped). The only offered fix downgrades typescript-eslint, so I left it.
-- Step 0.3 is done in code, but "live on a Netlify URL" needs Emma to connect the repo on Netlify (steps given in chat). Paste the URL here once it is live.
-- Step 0.2 needs Emma's visual check: open `npm run dev`, confirm the token page looks right, and in the Network tab confirm the three Google Fonts load.
