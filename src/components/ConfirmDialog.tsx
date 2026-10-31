@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import './ConfirmDialog.css'
 
 type Props = {
@@ -16,6 +16,8 @@ type Props = {
  */
 function ConfirmDialog({ open, title, children, confirmLabel, onConfirm, onCancel }: Props) {
   const dialogRef = useRef<HTMLDialogElement>(null)
+  // Every dialog needs its own id, or one dialog is named after another's title.
+  const titleId = useId()
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -25,8 +27,8 @@ function ConfirmDialog({ open, title, children, confirmLabel, onConfirm, onCance
   }, [open])
 
   return (
-    <dialog ref={dialogRef} className="confirm-dialog" aria-labelledby="confirm-dialog-title" onCancel={onCancel}>
-      <h2 id="confirm-dialog-title" className="confirm-dialog__title">
+    <dialog ref={dialogRef} className="confirm-dialog" aria-labelledby={titleId} onCancel={onCancel}>
+      <h2 id={titleId} className="confirm-dialog__title">
         {title}
       </h2>
       <div className="confirm-dialog__body">{children}</div>

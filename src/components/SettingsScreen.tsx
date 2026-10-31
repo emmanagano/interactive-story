@@ -20,9 +20,9 @@ const SPEED_LABELS: Record<TextSpeed, string> = { slow: 'Slow', normal: 'Normal'
 function SettingsScreen({ calm, textSpeed, memory, onCalm, onTextSpeed, onImport, onReset, onBack }: Props) {
   return (
     <section className="settings-screen" aria-labelledby="settings-title">
-      <h2 id="settings-title" className="settings-screen__title" data-screen-heading tabIndex={-1}>
+      <h1 id="settings-title" className="settings-screen__title" data-screen-heading tabIndex={-1}>
         Settings
-      </h2>
+      </h1>
 
       <div className="settings-screen__group">
         <CalmToggle calm={calm} onChange={onCalm} />

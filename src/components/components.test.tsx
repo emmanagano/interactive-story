@@ -256,6 +256,13 @@ describe('SettingsScreen', () => {
     />,
   )
 
+  it('has one top-level heading, then headings in order', () => {
+    const levels = [...html.matchAll(/<h([1-6])/g)].map((match) => Number(match[1]))
+    expect(levels[0]).toBe(1)
+    expect(levels.filter((level) => level === 1)).toHaveLength(1)
+    for (let i = 1; i < levels.length; i += 1) expect(levels[i] - levels[i - 1]).toBeLessThanOrEqual(1)
+  })
+
   it('offers the four text speeds with the current one chosen', () => {
     for (const label of ['Slow', 'Normal', 'Fast', 'Instant']) expect(html).toContain(label)
     const radios = html.match(/<input[^>]*type="radio"[^>]*>/g) ?? []
@@ -286,8 +293,27 @@ describe('ConfirmDialog', () => {
       </ConfirmDialog>,
     )
     expect(html).toContain('<dialog')
-    expect(html).toContain('aria-labelledby="confirm-dialog-title"')
+    const titleId = html.match(/<h2 id="([^"]+)"/)?.[1]
+    expect(titleId).toBeTruthy()
+    expect(html).toContain(`aria-labelledby="${titleId}"`)
     expect(html.indexOf('Cancel')).toBeLessThan(html.indexOf('Reset everything'))
     expect(html).toContain('Cannot be undone.')
+  })
+
+  it('gives each dialog its own title id, so one is never named after another', () => {
+    const two = renderToStaticMarkup(
+      <>
+        <ConfirmDialog open={false} title="First" confirmLabel="Yes" onCancel={() => undefined} onConfirm={() => undefined}>
+          <p>a</p>
+        </ConfirmDialog>
+        <ConfirmDialog open={false} title="Second" confirmLabel="Yes" onCancel={() => undefined} onConfirm={() => undefined}>
+          <p>b</p>
+        </ConfirmDialog>
+      </>,
+    )
+    const ids = [...two.matchAll(/<h2 id="([^"]+)"/g)].map((match) => match[1])
+    expect(ids).toHaveLength(2)
+    expect(new Set(ids).size).toBe(2)
+    for (const id of ids) expect(two).toContain(`aria-labelledby="${id}"`)
   })
 })

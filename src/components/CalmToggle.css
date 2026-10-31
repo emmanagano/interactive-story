@@ -3,6 +3,7 @@
   display: inline-flex;
   gap: var(--space-3);
   align-items: center;
+  min-height: 2.75rem; /* a comfortable tap target; the switch itself is smaller */
   color: var(--color-ink);
   font-family: var(--font-mono);
   font-size: var(--text-sm);

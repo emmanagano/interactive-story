@@ -42,7 +42,7 @@ function SaveTools({ memory, onImport, onReset }: Props) {
   return (
     <>
       <section className="save-tools" aria-labelledby="save-tools-title">
-        <h3 id="save-tools-title">Your progress</h3>
+        <h2 id="save-tools-title">Your progress</h2>
         <p className="save-tools__summary">Now: {describeProgress(memory)}.</p>
 
         <button type="button" className="save-tools__button" onClick={() => setShowCode((shown) => !shown)} aria-expanded={showCode}>
