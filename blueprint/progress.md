@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 4.2 · Convert Act 3
+**Current step:** 4.3 · Special effects from the script
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -31,7 +31,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 
 ### Phase 4 · Acts 2 and 3
 - [x] 4.1 Convert Act 2
-- [ ] 4.2 Convert Act 3
+- [x] 4.2 Convert Act 3
 - [ ] 4.3 Special effects from the script
 
 ### Phase 5 · Debug panel and full playtest
@@ -58,6 +58,13 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 4.2 | Act 3 is `src/story/act3.json`: scenes 17–23 plus `scene-17-lazarus` (typing LAZARUS), `scene-21-end` (after Tell her / Don't) and the endings `company-man`, `removed`, `partners`, `merged`. 153 player-facing lines were checked against the script word for word, none missing. All ten endings now exist, numbered 1–10 (5 deaths, 4 survivals, 1 secret) |
+| 2026-11-01 | 4.2 | Scene 17: the three ways in are an else-if chain (vale_code, else vale_hint, else forced). The forced way is `continue-forced`: −0:20 and the `distrustful` flag. Typing LAZARUS is a locked choice that leads to its own scene and sets `door_lazarus`. Enter takes `continue` or `continue-…` |
+| 2026-11-01 | 4.2 | Inline backtick text (`` `> okay,` the screen says. ``) now renders as amber mono, and terminal lines like `**`IDENTIFY YOURSELF.`**` are system blocks. The text keeps its marks exactly as in the script |
+| 2026-11-01 | 4.2 | Time-skip captions (SIX WEEKS LATER, MORNING, DAWN, THE PLATFORM) are bold text blocks, like "ONE WEEK LATER". Scene 19's Removed choice needs `time ≥ 3600`, and under that Vale's line shows (the note "This option is shown greyed out." was dropped from it) |
+| 2026-11-01 | 4.2 | Company Man sets `saw_company` and Merged sets `saw_merged` even though their scenes have no Sets line, because the Act 3 table says the next run remembers them. LET IT IN keeps its line "Stop fighting it." under the locked choice, since the script gives it |
+| 2026-11-01 | 4.2 | `story/index.ts` lists acts by hand instead of using `import.meta.glob` (Vitest cached the glob and missed act3.json). A story test fails if an act file exists that index.ts does not load. Both placeholder lists are now empty |
+| 2026-11-01 | 4.2 | A search-and-replace broke the locked-choice guard on number keys for one commit; the existing test caught it and a follow-up commit fixed it |
 | 2026-11-01 | 4.1 | Act 2 is `src/story/act2.json`: scenes 08–16 plus sub-scenes `scene-10-files` (The files), `scene-13-tunnels` (Part 2) and `scene-14-end` (the single ending after Tavi's fake choice). 148 player-facing lines were checked against the script word for word, none missing. Ending ids: `sold`, `caught`, `tavis-trade`, `drowned`, `flatline` |
 | 2026-11-01 | 4.1 | Travel to Scene 13 is folded into the choices that lead there (−0:45 from Ouro, −1:00 from the Lab). Checked against the script's clock check: fastest route reaches Act 3 at T+2:05 exactly, and the slowest at T+3:55 |
 | 2026-11-01 | 4.1 | "→ Scene 11" after the Heat ≥ 3 elevator paragraph is a CONTINUE choice (id `continue`, label "CONTINUE", the only word added to the data and it is UI, not story). The rest of Scene 10 is hidden at Heat ≥ 3. Enter presses a lone `continue`. Same pattern lets Scene 13 move on to the tunnels and the files move on to Scene 13 |
@@ -150,5 +157,7 @@ Things found during a step that need Emma's input. Remove them once they're answ
 - Script, for Emma: `[if blurred]` in Scene 15 and the "blurred by painkillers" branch of CENTER can never be true. The only painkiller choice is in Scene 04 and the blur lasts one choice. Written as the script has it. Do you want painkillers usable in Scene 13?
 - Script, for Emma: Scene 13 says "The timer: **01:58:12**." as fixed text, but the real time varies. Stored as written, like "run six".
 - Script, for Emma: "Tavi's jaw tightens · they say nothing for the rest of the act" (KEEP TAVI CLOSE) is stored as nothing. It describes a change to Tavi's later lines that no scene uses. Sold (Scene 09) ends with prose, not a chip line, so its card shows only the banner.
+- Script, for Emma: I left out three lines of authoring instruction instead of showing them to players: "The timer in your vision (shown here at a typical value): **01:05:00**." (Scene 19), "*(If the player waits too long, the clock decides for them…)*" (Scene 19) and "*(The interface, which has been decaying all game, resets… The HUD now reads HEALTH ▮▮▮▮▮ · TIME ∞ · HEAT 0.)*" (Scene 23). The last one is for Step 4.3. Say if any of them should be shown after all.
+- Script, for Emma: Scene 17 lists "[if vale_code]", "[if vale_hint]" and "[otherwise]". I read them as else-if, so a player with both sees only the code text. The "Nothing you type works… rifle" paragraph shows before the player picks Type LAZARUS, because the script writes it that way.
 - Not yet visible: eye_taken (left third of the screen goes dark) and memory_taken (strikes through Tavi's grid-power lines) are set by Scene 08 but their effects belong to Step 4.3.
 - `npm audit` reports a moderate minimatch advisory inside the ESLint toolchain (dev only, not shipped). The only offered fix downgrades typescript-eslint, so I left it.
