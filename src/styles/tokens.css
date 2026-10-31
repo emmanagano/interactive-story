@@ -57,6 +57,7 @@
 
   /* Layout */
   --measure: 40rem; /* width of the story column, about 70 characters */
+  --eye-veil-width: 33.333vw; /* the left third of the view, lost with Kade's eye */
   --hud-clearance: 9rem; /* room kept above focused items so the sticky HUD never covers them */
 
   /* Shape */

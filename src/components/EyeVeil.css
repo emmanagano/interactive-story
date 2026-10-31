@@ -1,0 +1,26 @@
+.eye-veil {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  width: var(--eye-veil-width);
+  background: linear-gradient(to right, var(--color-night) 82%, transparent);
+  pointer-events: none;
+}
+
+@keyframes eye-veil-close {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-calm]) .eye-veil {
+    animation: eye-veil-close 1.2s ease-out;
+  }
+}

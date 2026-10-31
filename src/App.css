@@ -29,3 +29,16 @@
     font-size: var(--text-xl);
   }
 }
+
+/* Kade's left eye is gone: the story keeps to the right two thirds, clear of the black. */
+.app--eye-taken {
+  width: calc(100% - var(--eye-veil-width));
+  max-width: none;
+  margin-left: var(--eye-veil-width);
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --eye-veil-width: 14vw; /* a phone cannot spare a third of its width, so the black is a narrower band */
+  }
+}

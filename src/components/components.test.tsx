@@ -87,6 +87,7 @@ describe('Hud', () => {
       changes={{ time: -1200, health: 0, heat: 1 }}
       changeId={1}
       announcement="Time minus 20 minutes. Heat up 1."
+      clean={false}
     />,
   )
 
@@ -108,9 +109,19 @@ describe('Hud', () => {
     expect(html.match(/hud__value--changed/g)?.length).toBe(2)
   })
 
+  it('shows the reset interface: unlimited time, full health, heat 0', () => {
+    const reset = renderToStaticMarkup(
+      <Hud run={makeState({ time: 100, health: 1, heat: 4 }).run} endingsFound={9} changes={NO_CHANGES} changeId={2} announcement="" clean />,
+    )
+    expect(reset).toContain('∞')
+    expect(reset).toContain('aria-label="Health 5 of 5"')
+    expect(reset).not.toContain('00:01:40')
+    expect(reset).not.toContain('4/5')
+  })
+
   it('marks nothing as changed when nothing moved', () => {
     const calm = renderToStaticMarkup(
-      <Hud run={run} endingsFound={0} changes={NO_CHANGES} changeId={0} announcement="" />,
+      <Hud run={run} endingsFound={0} changes={NO_CHANGES} changeId={0} announcement="" clean={false} />,
     )
     expect(calm).not.toContain('hud__value--changed')
   })

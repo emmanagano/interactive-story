@@ -51,3 +51,6 @@ export function describeChanges(changes: RunChanges): string {
 export function describeNewRun(run: RunState): string {
   return `New run. ${formatClock(run.time)} left. Health ${run.health}. Heat ${run.heat}.`
 }
+
+/** What a screen reader hears when the Merged ending restores the interface. */
+export const INTERFACE_RESTORED = 'Interface restored. Time is no longer limited. Health full. Heat 0.'

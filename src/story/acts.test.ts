@@ -196,6 +196,20 @@ describe('Act 3 and the four survival endings', () => {
     expect(shown.some((text) => text.startsWith('She keeps the rifle'))).toBe(true)
   })
 
+  it("Merged crosses out the grid-power night when Ouro took it, and only then", () => {
+    const merged = story['scene-23']
+    const withMemory: GameState = { ...freshRun(), run: { ...freshRun().run, sceneId: 'scene-23', runFlags: ['memory_taken'] } }
+    const without: GameState = { ...freshRun(), run: { ...freshRun().run, sceneId: 'scene-23' } }
+    const shown = (state: GameState) => visibleBlocks(merged, state).map((block) => block.text).filter((text) => text.includes('grid-power night'))
+    expect(shown(withMemory)).toEqual([expect.stringContaining('~~The grid-power night.~~')])
+    expect(shown(without)).toEqual([expect.not.stringContaining('~~')])
+  })
+
+  it('only Merged resets the interface', () => {
+    const resetting = Object.values(story).filter((scene) => scene.cleanInterface).map((scene) => scene.ending?.id)
+    expect(resetting).toEqual(['merged'])
+  })
+
   it('every ending in the game can be reached and has its own number', () => {
     const endings = Object.values(story).flatMap((scene) => (scene.ending ? [scene.ending] : []))
     expect(endings.map((ending) => ending.number).sort((a, b) => a - b)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import { choose as takeChoice, listChoices, listEndingSlots, loadMemory, MissingSceneError, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
 import type { Block, EndingSlot, GameState, ListedChoice, LoadStatus, RunState, Scene } from '../engine'
-import { describeChanges, describeNewRun, diffRun, NO_CHANGES } from '../components/runChanges'
+import { describeChanges, describeNewRun, diffRun, INTERFACE_RESTORED, NO_CHANGES } from '../components/runChanges'
 import type { RunChanges } from '../components/runChanges'
 import { story } from '../story'
 
@@ -45,7 +45,9 @@ export function useGame(): Game {
         setReachedUnwrittenScene(false)
         setState(result.state)
         const changes = diffRun(state.run, result.state.run)
-        setLastChange((previous) => ({ id: previous.id + 1, changes, announcement: describeChanges(changes) }))
+        const restored = story[result.state.run.sceneId]?.cleanInterface === true
+        const announcement = [describeChanges(changes), restored ? INTERFACE_RESTORED : ''].filter(Boolean).join(' ')
+        setLastChange((previous) => ({ id: previous.id + 1, changes, announcement }))
         // Memory only changes when a run ends, so that is the only time to save.
         if (result.state.memory !== state.memory) setSaveFailed(!saveMemory(result.state.memory))
       } catch (error) {
