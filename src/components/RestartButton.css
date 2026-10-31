@@ -1,16 +1,18 @@
 .restart-button {
   margin: var(--space-5) 0;
-  padding: var(--space-3) var(--space-5);
-  border: var(--border-thin) solid var(--color-cyan);
+  padding: var(--space-3) var(--space-6);
+  border: var(--border-thin) solid var(--color-magenta);
   border-radius: var(--radius-sm);
-  background: var(--color-panel);
+  background: var(--glass-panel);
+  box-shadow: var(--glow-magenta);
   color: var(--color-ink);
-  font-family: var(--font-mono);
-  font-size: var(--text-base);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
   font-weight: 700;
+  letter-spacing: 0.12em;
   cursor: pointer;
 }
 
 .restart-button:hover {
-  box-shadow: var(--glow-cyan);
+  background: var(--haze-magenta);
 }

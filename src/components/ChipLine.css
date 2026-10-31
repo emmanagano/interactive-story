@@ -1,4 +1,34 @@
 .chip-line {
+  padding-left: var(--space-3);
   color: var(--color-amber);
   font-family: var(--font-mono);
+  text-shadow: var(--glow-amber);
+}
+
+/* One quick red and cyan split as the chip comes through, then it settles. */
+@keyframes chip-glitch-in {
+  0% {
+    transform: translateX(calc(var(--aberration) * -2));
+    text-shadow:
+      calc(var(--aberration) * -1) 0 var(--color-red),
+      var(--aberration) 0 var(--color-cyan);
+  }
+
+  40% {
+    transform: translateX(var(--aberration));
+    text-shadow:
+      var(--aberration) 0 var(--color-red),
+      calc(var(--aberration) * -1) 0 var(--color-cyan);
+  }
+
+  100% {
+    transform: none;
+    text-shadow: var(--glow-amber);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-calm]) .chip-line {
+    animation: chip-glitch-in 0.35s steps(4) 1;
+  }
 }

@@ -1,0 +1,21 @@
+.game-notices {
+  max-width: var(--measure);
+  margin-bottom: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  border-left: var(--border-thin) dashed var(--color-amber);
+  background: var(--glass-night);
+  color: var(--color-dim);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* Kept in the page even when empty, so a notice that appears later is still announced. */
+.game-notices:empty {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.game-notices p {
+  margin: var(--space-1) 0;
+}

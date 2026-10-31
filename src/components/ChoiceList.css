@@ -1,7 +1,7 @@
 .choice-list {
   display: grid;
   gap: var(--space-3);
-  max-width: 42rem;
+  max-width: var(--measure);
   margin: var(--space-5) 0;
   padding: 0;
   list-style: none;
@@ -9,46 +9,75 @@
 
 .choice-list__button {
   display: grid;
-  grid-template-columns: var(--space-5) 1fr;
+  grid-template-columns: var(--space-6) 1fr;
   column-gap: var(--space-3);
+  align-items: baseline;
   width: 100%;
+  min-height: 2.75rem; /* a comfortable touch target on phones */
   padding: var(--space-3) var(--space-4);
   border: var(--border-thin) solid var(--color-cyan);
+  border-left-width: var(--focus-ring-width);
   border-radius: var(--radius-sm);
-  background: var(--color-panel);
+  background: var(--glass-panel);
   color: var(--color-ink);
   font-family: var(--font-mono);
   font-size: var(--text-base);
   text-align: left;
   cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    transform 0.15s;
 }
 
-.choice-list__button:hover:not(.choice-list__button--locked) {
+.choice-list__button:hover:not(.choice-list__button--locked),
+.choice-list__button:focus-visible:not(.choice-list__button--locked) {
   box-shadow: var(--glow-cyan);
+}
+
+.choice-list__button:active:not(.choice-list__button--locked) {
+  transform: translateX(var(--space-1));
 }
 
 .choice-list__key {
   color: var(--color-cyan);
+  font-weight: 700;
+}
+
+.choice-list__key::before {
+  content: '[';
+}
+
+.choice-list__key::after {
+  content: ']';
 }
 
 .choice-list__label {
   grid-column: 2;
   font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .choice-list__text {
   grid-column: 2;
   color: var(--color-dim);
+  font-size: var(--text-sm);
 }
 
 /* Locked: greyed, dashed amber, and no hint about how to unlock it. */
 .choice-list__button--locked {
   border-style: dashed;
   border-color: var(--color-amber);
+  background: var(--glass-night);
   color: var(--color-dim);
   cursor: not-allowed;
 }
 
 .choice-list__button--locked .choice-list__key {
   color: var(--color-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice-list__button {
+    transition: none;
+  }
 }

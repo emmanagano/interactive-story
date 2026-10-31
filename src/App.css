@@ -1,5 +1,23 @@
 .app {
   max-width: 64rem;
   margin: 0 auto;
-  padding: var(--space-6) var(--space-4);
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+.app__title {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 40rem) {
+  .app {
+    padding-top: var(--space-4);
+  }
+
+  .app__title {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-xl);
+  }
 }
