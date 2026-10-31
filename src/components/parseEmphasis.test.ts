@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseEmphasis } from './parseEmphasis'
+import { parseEmphasis, plainText, splitSegments } from './parseEmphasis'
 
 describe('parseEmphasis', () => {
   it('leaves plain text alone', () => {
@@ -50,5 +50,40 @@ describe('parseEmphasis', () => {
     expect(parseEmphasis('one ` tick')).toEqual([{ text: 'one ` tick', style: 'plain' }])
     expect(parseEmphasis('5 * 3 = 15')).toEqual([{ text: '5 * 3 = 15', style: 'plain' }])
     expect(parseEmphasis('**')).toEqual([{ text: '**', style: 'plain' }])
+  })
+})
+
+describe('plainText', () => {
+  it('drops the marks and keeps the words', () => {
+    expect(plainText('The timer: **05:59:58**. *Knock twice.* `> okay,` ~~gone~~')).toBe('The timer: 05:59:58. Knock twice. > okay, gone')
+  })
+})
+
+describe('splitSegments', () => {
+  const segments = parseEmphasis('One **two three** four')
+
+  it('splits inside a styled piece and keeps its style on both halves', () => {
+    const { shown, rest } = splitSegments(segments, 7)
+    expect(shown).toEqual([
+      { text: 'One ', style: 'plain' },
+      { text: 'two', style: 'bold' },
+    ])
+    expect(rest).toEqual([
+      { text: ' three', style: 'bold' },
+      { text: ' four', style: 'plain' },
+    ])
+  })
+
+  it('shows nothing at 0 and everything at or past the end', () => {
+    expect(splitSegments(segments, 0).shown).toEqual([])
+    expect(splitSegments(segments, 999).rest).toEqual([])
+    expect(splitSegments(segments, 999).shown).toEqual(segments)
+  })
+
+  it('never loses a character', () => {
+    for (let count = 0; count <= 22; count += 1) {
+      const { shown, rest } = splitSegments(segments, count)
+      expect([...shown, ...rest].map((segment) => segment.text).join('')).toBe('One two three four')
+    }
   })
 })

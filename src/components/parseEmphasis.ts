@@ -31,3 +31,30 @@ export function parseEmphasis(text: string): TextSegment[] {
       return { text: part, style: 'plain' }
     })
 }
+
+/** The words a player reads, without the marks: what a screen reader should hear. */
+export function plainText(text: string): string {
+  return parseEmphasis(text)
+    .map((segment) => segment.text)
+    .join('')
+}
+
+/** Splits styled text after the first `count` characters, keeping each piece's style. */
+export function splitSegments(segments: TextSegment[], count: number): { shown: TextSegment[]; rest: TextSegment[] } {
+  const shown: TextSegment[] = []
+  const rest: TextSegment[] = []
+  let remaining = Math.max(0, count)
+  for (const segment of segments) {
+    if (remaining >= segment.text.length) {
+      shown.push(segment)
+      remaining -= segment.text.length
+    } else if (remaining <= 0) {
+      rest.push(segment)
+    } else {
+      shown.push({ ...segment, text: segment.text.slice(0, remaining) })
+      rest.push({ ...segment, text: segment.text.slice(remaining) })
+      remaining = 0
+    }
+  }
+  return { shown, rest }
+}
