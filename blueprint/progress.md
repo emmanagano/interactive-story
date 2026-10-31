@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 1.4 · The run loop
+**Current step:** 1.5 · Memory
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -15,7 +15,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 1.1 Types
 - [x] 1.2 Conditions
 - [x] 1.3 Effects and the automatic rules
-- [ ] 1.4 The run loop
+- [x] 1.4 The run loop
 - [ ] 1.5 Memory
 
 ### Phase 2 · Act 1, playable and plain
@@ -58,6 +58,11 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 1.4 | Format change (Emma approved): `Effect.blur?: true` sets the painkiller blur. The blur lasts until the player's next choice, because every `choose` sets `blurred` afresh |
+| 2026-11-01 | 1.4 | `choose` returns `{ ok, state }` or `{ ok: false, reason }` (`unknown-choice`, `hidden`, `locked`, `run-over`) and never throws for player input. A missing scene id throws, since that is a story-data bug |
+| 2026-11-01 | 1.4 | `gotoIf` is checked against the state before the choice's own cost ("at 1 HP" means arriving at 1 HP). Documented in CLAUDE.md |
+| 2026-11-01 | 1.4 | Flatline (scene-16) overrides any destination when time or health is 0, except a destination that is already a death ending. Flatline counts as a death and a flatline |
+| 2026-11-01 | 1.4 | `runs` goes up in `endRun` (completed runs), not at `startRun`. `startRun` does not apply scene-01's `onEnter`. Start scene is `scene-01`, flatline is `scene-16` (constants.ts), so Step 2.1 must use those ids |
 | 2026-11-01 | 1.3 | Chip drain is derived from the clock: health lost = full hours elapsed after the effect minus before. No stored counter, so no double charge and the same result however time is split up |
 | 2026-11-01 | 1.3 | Heal or damage is clamped to 0–5 before the drain is taken, so healing at full health cannot absorb a drain. Time floors at 0 |
 | 2026-11-01 | 1.3 | `applyEffect` returns a new state and never mutates. `useItem` removes one copy, ignored if missing. Deciding Flatline at time 0 or health 0 is left to Step 1.4 |
