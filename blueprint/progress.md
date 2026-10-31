@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 2.2 · Story validation
+**Current step:** 2.3 · Minimal UI
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -20,7 +20,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 
 ### Phase 2 · Act 1, playable and plain
 - [x] 2.1 Convert Act 1
-- [ ] 2.2 Story validation
+- [x] 2.2 Story validation
 - [ ] 2.3 Minimal UI
 
 ### Phase 3 · The HUD and the decay
@@ -58,6 +58,9 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 2.2 | `validateStory` (src/story/validate.ts) returns readable problems. It checks shapes, gotos, dead ends, ending ids and numbers, flags and items used but never set, unreachable scenes, leaked script markup and chip text starting with "> ". It is tested against deliberately broken stories as well as the real one |
+| 2026-11-01 | 2.2 | `placeholders.ts` lists Act 2 scenes (08, 10, 12, 13, 16) and later-act flags (tavi_secret, was_removed, saw_company, saw_sold, saw_merged) Act 1 refers to. The validator fails when an entry becomes real, so the lists must shrink in Steps 4.1 and 4.2 |
+| 2026-11-01 | 2.2 | `story/index.ts` and the story test load `act*.json` by glob, so a new act is loaded and validated with no code change |
 | 2026-11-01 | Process | Emma asked Claude to make all the decisions. CLAUDE.md now says: no plan approval, no stopping between steps, format and save-format changes allowed if tested, logged and documented. Emma still decides pushes, new npm packages and outside-server requests, and Steps 5.3 and 8.2 need her playtests |
 | 2026-11-01 | 2.1 | Act 1 is `src/story/act1.json` (8 scenes: 01–07 plus `scene-03-office` for the "Searching the office" screen). Text was copied from the script by a script and checked back against it: 93 player-facing lines, none missing |
 | 2026-11-01 | 2.1 | Kept `*` and `**` marks in text exactly as written (Step 2.3 renders them). Chip lines are stored without the `> `; ChipLine adds it. Time costs are H:MM in the script, so −0:40 is −2400 seconds |
