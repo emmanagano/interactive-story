@@ -840,7 +840,19 @@
       },
       {
         "type": "text",
-        "text": "It doesn't hurt. That's the first surprise. It feels like stepping into warm water. Like a room where someone has left the radio on. Memories that aren't yours drift past and settle, gently, beside the ones that are: a blue door, a dead lemon tree, a mother singing along to the radio wrong on purpose. Tavi's laugh. The grid-power night. The paper cat."
+        "text": "It doesn't hurt. That's the first surprise. It feels like stepping into warm water. Like a room where someone has left the radio on. Memories that aren't yours drift past and settle, gently, beside the ones that are: a blue door, a dead lemon tree, a mother singing along to the radio wrong on purpose. Tavi's laugh. The grid-power night. The paper cat.",
+        "when": {
+          "not": {
+            "flag": "memory_taken"
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "It doesn't hurt. That's the first surprise. It feels like stepping into warm water. Like a room where someone has left the radio on. Memories that aren't yours drift past and settle, gently, beside the ones that are: a blue door, a dead lemon tree, a mother singing along to the radio wrong on purpose. Tavi's laugh. ~~The grid-power night.~~ The paper cat.",
+        "when": {
+          "flag": "memory_taken"
+        }
       },
       {
         "type": "text",
@@ -913,6 +925,7 @@
         }
       }
     ],
+    "cleanInterface": true,
     "ending": {
       "id": "merged",
       "kind": "secret",

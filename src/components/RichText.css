@@ -3,3 +3,9 @@
   font-family: var(--font-mono);
   font-size: 0.95em;
 }
+
+/* A memory Ouro took: still on the page, but crossed out and faded, like something Kade cannot reach. */
+.rich-text__struck {
+  color: var(--color-dim);
+  text-decoration-thickness: var(--focus-ring-width);
+}

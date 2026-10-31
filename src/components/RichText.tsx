@@ -6,6 +6,7 @@ function RichText({ text }: { text: string }) {
   return (
     <>
       {parseEmphasis(text).map((segment, index) => {
+        if (segment.style === 'strike') return <s key={index} className="rich-text__struck">{segment.text}</s>
         if (segment.style === 'code') return <code key={index} className="rich-text__code">{segment.text}</code>
         if (segment.style === 'boldCode') {
           return (

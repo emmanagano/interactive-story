@@ -38,6 +38,14 @@ describe('parseEmphasis', () => {
     expect(parseEmphasis('**`WELCOME HOME.`**')).toEqual([{ text: 'WELCOME HOME.', style: 'boldCode' }])
   })
 
+  it('reads struck-through words, the memory Ouro took', () => {
+    expect(parseEmphasis('Tavi\'s laugh. ~~The grid-power night.~~ The paper cat.')).toEqual([
+      { text: "Tavi's laugh. ", style: 'plain' },
+      { text: 'The grid-power night.', style: 'strike' },
+      { text: ' The paper cat.', style: 'plain' },
+    ])
+  })
+
   it('keeps stray asterisks and backticks as text', () => {
     expect(parseEmphasis('one ` tick')).toEqual([{ text: 'one ` tick', style: 'plain' }])
     expect(parseEmphasis('5 * 3 = 15')).toEqual([{ text: '5 * 3 = 15', style: 'plain' }])
