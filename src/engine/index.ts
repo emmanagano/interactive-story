@@ -1,7 +1,8 @@
 export { isConditionMet } from './conditions'
 export { applyEffect } from './effects'
 export { choose, endRun, startRun } from './engine'
-export { createEmptyMemory, parseMemory } from './memory'
+export { browserStorage, createEmptyMemory, loadMemory, parseMemory, resetMemory, saveMemory } from './memory'
+export type { LoadResult, LoadStatus, StorageLike } from './memory'
 export type {
   Block,
   Branch,
