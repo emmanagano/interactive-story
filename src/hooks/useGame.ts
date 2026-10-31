@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import { choose as takeChoice, listChoices, loadMemory, MissingSceneError, saveMemory, startRun, visibleBlocks } from '../engine'
-import type { Block, GameState, ListedChoice, LoadStatus, Scene } from '../engine'
+import type { Block, GameState, ListedChoice, LoadStatus, RunState, Scene } from '../engine'
 import { describeChanges, describeNewRun, diffRun, NO_CHANGES } from '../components/runChanges'
 import type { RunChanges } from '../components/runChanges'
 import { story } from '../story'
@@ -24,6 +24,7 @@ export type Game = {
   lastChange: LastChange
   choose: (choiceId: string) => void
   restart: () => void
+  previewRun: (values: Partial<Pick<RunState, 'time' | 'health'>>) => void
 }
 
 /** Connects the pure engine to React. It holds state and saves progress; it decides nothing about the story. */
@@ -61,6 +62,11 @@ export function useGame(): Game {
     setLastChange((previous) => ({ id: previous.id + 1, changes: NO_CHANGES, announcement: describeNewRun(fresh.run) }))
   }, [state.memory])
 
+  // Temporary, for previewing the decay by hand. It skips the engine's rules on purpose.
+  const previewRun = useCallback((values: Partial<Pick<RunState, 'time' | 'health'>>) => {
+    setState((current) => ({ ...current, run: { ...current.run, ...values } }))
+  }, [])
+
   const scene = story[state.run.sceneId]
   return {
     state,
@@ -74,5 +80,6 @@ export function useGame(): Game {
     lastChange,
     choose,
     restart,
+    previewRun,
   }
 }

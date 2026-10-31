@@ -1,3 +1,5 @@
+export { useCalmMode } from './useCalmMode'
 export { useChoiceKeys } from './useChoiceKeys'
+export { useDecay } from './useDecay'
 export { useGame } from './useGame'
 export type { Game, LastChange } from './useGame'
