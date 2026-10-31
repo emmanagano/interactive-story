@@ -158,6 +158,11 @@ describe('validateStory', () => {
     expect(problems).toContainEqual(expect.stringContaining('needs a type'))
   })
 
+  it('catches a cleanInterface that is not true', () => {
+    const problems = problemsFor((s) => { Object.assign(s[1], { cleanInterface: false }) })
+    expect(problems).toContainEqual(expect.stringContaining('cleanInterface can only be true'))
+  })
+
   it('catches a bad act number and a missing title', () => {
     const problems = problemsFor((s) => { Object.assign(s[0], { act: 4, title: '' }) })
     expect(problems).toContainEqual(expect.stringContaining('act must be 1, 2 or 3'))

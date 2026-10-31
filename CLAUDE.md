@@ -123,6 +123,7 @@ type Scene = {
   blocks: Block[];
   choices: Choice[];
   onEnter?: SceneEntry[];   // applied on arrival, e.g. memory flags an ending leaves behind
+  cleanInterface?: true;    // the interface resets: no decay, time shown as ∞ (the Merged ending)
   ending?: { id: string; kind: 'death' | 'survive' | 'secret'; number: number };
 };
 ```

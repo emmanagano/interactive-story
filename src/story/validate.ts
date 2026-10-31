@@ -142,6 +142,8 @@ export function validateStory(files: unknown[], options: ValidationOptions): str
       }
     })
 
+    if ('cleanInterface' in scene && scene.cleanInterface !== true) problems.push(`${id}: cleanInterface can only be true`)
+
     if (Array.isArray(scene.onEnter)) {
       scene.onEnter.forEach((entry: unknown, position: number) => {
         const where = `${id} › onEnter ${position + 1}`
