@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 5.1 · Debug panel
+**Current step:** 5.2 · Path tests
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -35,7 +35,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 4.3 Special effects from the script
 
 ### Phase 5 · Debug panel and full playtest
-- [ ] 5.1 Debug panel
+- [x] 5.1 Debug panel
 - [ ] 5.2 Path tests
 - [ ] 5.3 Emma's playtest
 
@@ -58,6 +58,8 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 5.1 | Debug panel (dev or `?debug` only; verified hidden in the production build without it). Logic is pure and tested: `applyDebugPatch` clamps and replaces, `listStoryFlags` reads flags and items from the scenes. Presets live in `story/debugPresets.ts` and a test fails if one names a flag the story cannot set |
+| 2026-11-01 | 5.1 | Debug changes to past runs are saved, so a reload keeps the tracker and unlocks. "Reset memory" clears the save. The temporary decay sliders were removed. Verified: preset, then "Let it in", reaches Merged in about a second of browser time |
 | 2026-11-01 | 4.3 | Format change (Emma delegated): `Scene.cleanInterface?: true`. Scene 23 sets it. It forces `--decay` to 0 and the HUD to "TIME ∞ / full health / HEAT 0", and announces "Interface restored…". Validated, documented in CLAUDE.md |
 | 2026-11-01 | 4.3 | Eye payment: a black veil over the left third (14vw on phones) with the story column moved into the rest, not laid over the words. A true overlay would put dim text under AA contrast. The veil closes over 1.2s (not in calm mode or reduced motion) and disappears with the run |
 | 2026-11-01 | 4.3 | Memory payment: the text parser reads `~~struck~~` (struck and dimmed). Scene 23 has a plain and a struck version of the memories paragraph, chosen by `memory_taken`. The script has no other line after Scene 08 that mentions the grid-power night |
