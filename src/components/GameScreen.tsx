@@ -11,6 +11,7 @@ import GameNotices from './GameNotices'
 import Hud from './Hud'
 import RestartButton from './RestartButton'
 import SceneView from './SceneView'
+import './GameScreen.css'
 
 // The debug panel shows in development or with ?debug in the address. It is loaded only then,
 // so ordinary players never download it.
@@ -40,21 +41,28 @@ function GameScreen({ game, reveal, sceneKey, cleanInterface, calm }: Props) {
         clean={cleanInterface}
       />
       <GameNotices loadStatus={game.loadStatus} saveFailed={game.saveFailed} />
-      <SceneView scene={game.scene} blocks={game.blocks} reveal={reveal} sceneKey={sceneKey} />
-      {game.isOver ? (
-        // The ending card waits for the text, so it cannot give the ending away early.
-        !reveal.revealing && (
-          <>
-            <EndingCard scene={game.scene} finalChip={game.finalChip} />
-            <RestartButton onRestart={game.restart} />
-          </>
-        )
-      ) : (
-        <div className={reveal.revealing ? 'app__choices app__choices--pending' : 'app__choices'}>
-          <BlurNotice blurred={game.state.run.blurred} calm={calm} />
-          <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
+      {/* The story on the left, what you can do about it on the right, the endings underneath. */}
+      <div className="game-screen__frame">
+        <div className="game-screen__stage">
+          <SceneView scene={game.scene} blocks={game.blocks} reveal={reveal} sceneKey={sceneKey} />
+          <div className="game-screen__actions">
+            {game.isOver ? (
+              // The ending card waits for the text, so it cannot give the ending away early.
+              !reveal.revealing && (
+                <>
+                  <EndingCard scene={game.scene} finalChip={game.finalChip} />
+                  <RestartButton onRestart={game.restart} />
+                </>
+              )
+            ) : (
+              <div className={reveal.revealing ? 'app__choices app__choices--pending' : 'app__choices'}>
+                <BlurNotice blurred={game.state.run.blurred} calm={calm} />
+                <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
+              </div>
+            )}
+          </div>
         </div>
-      )}
+      </div>
       <EndingTracker slots={game.endingSlots} />
       {showDebugPanel && (
         <Suspense fallback={null}>

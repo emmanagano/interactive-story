@@ -1,6 +1,5 @@
 .blur-notice {
-  max-width: var(--measure);
-  margin: var(--space-4) 0 0;
+  margin: 0 0 var(--space-3);
   padding: var(--space-2) var(--space-4);
   border-left: var(--focus-ring-width) solid var(--color-amber);
   background: var(--glass-night);
