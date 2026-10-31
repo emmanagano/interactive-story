@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 8.1 · Performance and meta tags (5.3, Emma's playtest, is still open)
+**Current step:** 8.2 · Outside playtest (needs Emma; 5.3 and the 8.1 Lighthouse run are still open)
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -48,7 +48,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 7.1 Sound
 
 ### Phase 8 · Ship it
-- [ ] 8.1 Performance and meta tags
+- [x] 8.1 Performance and meta tags
 - [ ] 8.2 Outside playtest
 - [ ] 8.3 README for the portfolio
 
@@ -58,6 +58,12 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 8.1 | Page head: title "Flatline: a cyberpunk survival story" (36 chars), a 130-character description, theme-color `#0b0a14`, Open Graph and Twitter tags, an SVG favicon, an Apple touch icon (180px) and a 1200x630 social image (30 KB) taken from the real title screen. The copy is mine, edit it freely. A `<noscript>` line explains the game needs JavaScript |
+| 2026-11-01 | 8.1 | The social image address is absolute only when built on Netlify: a small Vite plugin replaces `__SITE_URL__` with Netlify's `URL` at build time (empty locally), so no address is hard-coded and a custom domain works later |
+| 2026-11-01 | 8.1 | `netlify.toml` headers: hashed `/assets/*` cached for a year (immutable), and a Content-Security-Policy with no inline scripts and no eval that lets only Google Fonts in from outside (`connect-src 'self'`, no framing, no plugins), plus nosniff, a referrer policy and a permissions policy. Verified by serving the production build with those exact headers in Chrome: the title, a run, a death, sound, Settings and a dialog gave 0 policy violations and 0 errors, and all three fonts loaded |
+| 2026-11-01 | 8.1 | `shipping.test.ts` guards all of it: the head tags and the files they point to, a script policy with no `unsafe-inline` or `unsafe-eval`, only the two Google Fonts hosts allowed, and "no web address other than Google Fonts anywhere in the page or code" (this enforces CLAUDE.md's privacy rule; proved it fails when a tracker address is added) |
+| 2026-11-01 | 8.1 | Bundle: 317 KB of JavaScript (100 KB gzipped) and 29 KB of CSS (6 KB gzipped); most is React and the three story files. The debug panel is a separate 3 KB chunk loaded only with `?debug` or in development |
+| 2026-11-01 | 8.1 | My own phone-like measurement (Chrome with 4x slower CPU and a slow-4G network, cold cache, average of 3): content and largest paint at about 1.2 s, layout shift 0.001, blocking time about 227 ms (just over the 200 ms that scores best). These are Chrome's own metrics, not a Lighthouse score |
 | 2026-11-01 | 7.1 | All sound is generated with the Web Audio API (rain from filtered noise, a heart-monitor beep, a flat 1 kHz tone), so there are no files and no licence to track |
 | 2026-11-01 | 7.1 | Never before the player asks: `SoundEngine` creates no audio context until `start()`, which `useSound` calls only when sound is on AND the player has clicked or pressed a key (browsers require that too). A saved "on" waits for the first interaction. Verified in Chrome with a recording wrapper, and by a unit test against a fake context |
 | 2026-11-01 | 7.1 | Tension: the beep interval runs 1.5 s at the start to 0.3 s at the end, set by the larger of the clock pressure (up to 0.6 of the range over 6 hours) and the decay (time under 1:00, health under 3). Measured: about 2.7 beeps per 3 s at the start, 7 per 3 s at 2 minutes and 1 HP. The beat plays only while a run is going (not on the title, in Settings, or after a run ends) |
@@ -184,6 +190,7 @@ Newest first. One line each: date, step, what was decided and why.
 
 Things found during a step that need Emma's input. Remove them once they're answered.
 
+- Step 8.1 final check, for Emma (after the next push deploys): (1) run Lighthouse on the live Netlify site: Chrome DevTools, Lighthouse tab, Mobile, Performance and Accessibility. The step wants 90 or more in both. If performance is a little under, the likely cause is the 227 ms of blocking time, and I can trim it. (2) Paste the live link into a preview checker (for example the LinkedIn Post Inspector, or just a chat app) and see whether the image shows. I could not do either: Lighthouse is a third-party tool the sandbox blocks, and a link preview needs the live site.
 - Script mismatch: Scene 01's was_removed chip line (`you let her cut me out last time. i'm asking you not to let him put me to sleep.`) differs from the Act 3 reference's (`you let her kill me last time.`). I used Scene 01's. The Act 3 reference also shortens the deaths ≥ 5 line to `run six. hi, kade. it's me again.`; I used Scene 01's full line.
 - Script mismatch: "run six" is meant to count up with each run (Act 3 reference), but story text is fixed. It is stored as written; needs a small template feature if you want the number to change.
 - Format question: when the opening chip line is a variant, the default line is hidden, so "The words aren't on the monitor. They're behind your eyes, flickering like a bad sign." follows no chip line. Read Scene 01 on a later run and tell me if it reads wrong.
