@@ -1,0 +1,89 @@
+.hud {
+  margin-bottom: var(--space-5);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-thin) solid var(--color-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--color-panel);
+}
+
+.hud__meters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  margin: 0;
+}
+
+.hud__meter {
+  min-width: 5rem;
+}
+
+.hud__label {
+  color: var(--color-dim);
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hud__value-row {
+  margin: 0;
+}
+
+.hud__value {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+}
+
+.hud__meter--time .hud__value {
+  color: var(--color-cyan);
+}
+
+.hud__meter--heat .hud__value {
+  color: var(--color-red);
+}
+
+.hud__bars {
+  display: inline-flex;
+  gap: var(--space-1);
+  margin: var(--space-2) 0 var(--space-1);
+  padding: var(--space-1) 0;
+}
+
+.hud__bar {
+  width: var(--space-4);
+  height: var(--space-4);
+  border: var(--border-thin) solid var(--color-green);
+  border-radius: var(--radius-sm);
+}
+
+.hud__bar--full {
+  background: var(--color-green);
+  box-shadow: var(--glow-green);
+}
+
+/* A meter that just moved keeps a static glow, so the change is visible even without motion. */
+.hud__value--changed {
+  text-shadow: var(--glow-cyan);
+}
+
+.hud__bars.hud__value--changed {
+  outline: var(--border-thin) solid var(--color-ink);
+  outline-offset: var(--space-1);
+}
+
+@keyframes hud-pulse {
+  from {
+    transform: scale(1.25);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hud__value--changed {
+    animation: hud-pulse 0.5s ease-out;
+  }
+}

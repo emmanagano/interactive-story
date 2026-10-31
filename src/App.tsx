@@ -1,5 +1,4 @@
-import { ChoiceList, GameNotices, RestartButton, SceneView } from './components'
-import { formatClock } from './components/formatClock'
+import { ChoiceList, GameNotices, Hud, RestartButton, SceneView } from './components'
 import { useChoiceKeys, useGame } from './hooks'
 import './App.css'
 
@@ -12,14 +11,16 @@ function App() {
     onRestart: game.restart,
   })
 
-  const { run } = game.state
   return (
     <main className="app">
       <h1>Flatline</h1>
-      {/* Temporary plain readout until the HUD arrives in Step 3.1. */}
-      <p className="app__status">
-        Time {formatClock(run.time)} · Health {run.health}/5 · Heat {run.heat}/5
-      </p>
+      <Hud
+        run={game.state.run}
+        endingsFound={game.state.memory.endingsSeen.length}
+        changes={game.lastChange.changes}
+        changeId={game.lastChange.id}
+        announcement={game.lastChange.announcement}
+      />
       <GameNotices
         loadStatus={game.loadStatus}
         saveFailed={game.saveFailed}

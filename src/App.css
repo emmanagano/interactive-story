@@ -3,9 +3,3 @@
   margin: 0 auto;
   padding: var(--space-6) var(--space-4);
 }
-
-.app__status {
-  color: var(--color-dim);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-}

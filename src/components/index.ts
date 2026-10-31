@@ -1,6 +1,7 @@
 export { default as ChipLine } from './ChipLine'
 export { default as ChoiceList } from './ChoiceList'
 export { default as GameNotices } from './GameNotices'
+export { default as Hud } from './Hud'
 export { default as RestartButton } from './RestartButton'
 export { default as RichText } from './RichText'
 export { default as SceneView } from './SceneView'
