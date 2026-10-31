@@ -17,8 +17,8 @@ export class MissingSceneError extends Error {
 function getScene(story: Story, sceneId: string): Scene {
   const scene = story[sceneId]
   // A missing scene is a mistake in the story data, not something a player can
-  // cause, so it throws instead of returning a refusal. The UI catches it for
-  // the Act 2 scenes that are not written yet.
+  // cause, so it throws instead of returning a refusal. The UI catches it so a
+  // scene that is not written yet shows a notice instead of crashing.
   if (!scene) throw new MissingSceneError(sceneId)
   return scene
 }
