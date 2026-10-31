@@ -29,7 +29,7 @@ export function listChoices(scene: Scene, state: GameState): ListedChoice[] {
 export function choiceIdForKey(key: string, listed: ListedChoice[]): string | null {
   if (!/^[1-4]$/.test(key)) return null
   const entry = listed[Number(key) - 1]
-  return entry ? entry.choice.id : null
+  return entry && !entry.locked ? entry.choice.id : null
 }
 
 /**
