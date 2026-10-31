@@ -3,12 +3,13 @@ import './ChoiceList.css'
 
 type Props = {
   choices: ListedChoice[]
+  blurred: boolean // painkillers: the text is hard to read for one choice
   onChoose: (choiceId: string) => void
 }
 
-function ChoiceList({ choices, onChoose }: Props) {
+function ChoiceList({ choices, blurred, onChoose }: Props) {
   return (
-    <ul className="choice-list" aria-label="Choices">
+    <ul className={blurred ? 'choice-list choice-list--blurred' : 'choice-list'} aria-label="Choices">
       {choices.map(({ choice, locked }, index) => (
         <li key={choice.id}>
           {/* aria-disabled, not disabled, so keyboard and screen reader users can still find a locked choice. */}

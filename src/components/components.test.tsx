@@ -42,6 +42,7 @@ describe('SceneView', () => {
 describe('ChoiceList', () => {
   const html = renderToStaticMarkup(
     <ChoiceList
+      blurred={false}
       onChoose={() => undefined}
       choices={[
         { choice: { id: 'stay', label: 'STAY', text: '"Okay."', goto: 'a' }, locked: false },
@@ -60,6 +61,14 @@ describe('ChoiceList', () => {
     expect(html).toContain('aria-disabled="true"')
     expect(html).toContain('(locked)')
     expect(html).not.toContain('disabled=""')
+  })
+
+  it('adds the blur class only after a painkiller', () => {
+    const blurred = renderToStaticMarkup(
+      <ChoiceList blurred onChoose={() => undefined} choices={[{ choice: { id: 'a', label: 'A', goto: 'x' }, locked: false }]} />,
+    )
+    expect(blurred).toContain('choice-list--blurred')
+    expect(html).not.toContain('choice-list--blurred')
   })
 
   it('shows the line under a choice label', () => {
