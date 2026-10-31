@@ -1,4 +1,4 @@
-# Flatline — Script
+# Flatline — Act 1 Script
 
 Nov 1, 2026 · @Emma
 
@@ -257,13 +257,13 @@ The chip pulses. The second heartbeat skips.
 
 `> she's close. i can feel her. she built me to feel her.`
 
-**▸ PAY MAMA OURO** — "Name your price." · −0:20 · → Act 2: Ouro's Price
+**▸ PAY MAMA OURO** — "Name your price." · −0:20 · → Scene 08
 
-**▸ BREAK INTO HALCYON** — "I'm going to the tower." · −0:50 · +1 Heat · → Act 2: The Lab
+**▸ BREAK INTO HALCYON** — "I'm going to the tower." · −0:50 · +1 Heat · → Scene 10
 
-**▸ \[LOCKED\] LISTEN TO THE CHIP** — needs *deaths ≥ 2* · −0:10 · → Act 2: The Drowned Line
+**▸ \[LOCKED\] LISTEN TO THE CHIP** — needs *deaths ≥ 2* · −0:10 · → Scene 12
 
-**▸ GO TO LINE 4** — *only with vale\_hint* · −0:35 · → Act 2: The Drowned Line
+**▸ GO TO LINE 4** — *only with vale\_hint* · −0:35 · → Scene 13
 
 As you stand, the chip speaks one more time, clearer than it has all night. Not static. A woman's voice. Tired. Gentle. Familiar in a way that makes your skin crawl.
 
@@ -342,9 +342,9 @@ She counts on her fingers again. She seems to enjoy it.
 
 *\[if with\_tavi\]* Tavi steps in front of you. "Take mine," Tavi says, rolling up a sleeve to show the courier implant in their forearm, the one that lets them run all night. "It's worth more than an eye. Please." Ouro looks at Tavi for a long time. "Loyal," she says, and it doesn't sound like a compliment.
 
-**▸ PAY WITH YOUR EYE** — −0:30 · −1 HP · the left third of the screen goes dark for the rest of the run · gain *vale\_code* · → Scene 13
+**▸ PAY WITH YOUR EYE** — −0:30 · −1 HP · the left third of the screen goes dark for the rest of the run · sets eye\_taken · gain *vale\_code* · → Scene 13
 
-**▸ PAY WITH A MEMORY** — −0:20 · Ouro takes the night you and Tavi stole the grid power · gain *vale\_code* · Partners is locked this run · → Scene 13
+**▸ PAY WITH A MEMORY** — −0:20 · Ouro takes the night you and Tavi stole the grid power · gain *vale\_code* · sets memory\_taken · Partners is locked this run · → Scene 13
 
 **▸ LET TAVI PAY** — *only with with\_tavi* · −0:20 · sets *tavi\_paid* · gain *vale\_code* · → Scene 13
 
@@ -574,11 +574,11 @@ The tunnel splits three ways. Every sign has rusted blank.
 
 *\[if listened\]* `> center. stay to the left wall. there's a rail under the water. i'll count your steps.`
 
-**▸ LEFT, TO THE GATE** — −0:10 · *if Heat ≥ 4, or Tavi named it a trap:* Sable is waiting → Scene 11 *(Caught)* · otherwise → Act 3
+**▸ LEFT, TO THE GATE** — −0:10 · *if Heat ≥ 4, or Tavi named it a trap:* Sable is waiting → Scene 11 *(Caught)* · otherwise → Scene 17
 
-**▸ CENTER, THROUGH THE WATER** — −0:15 · −1 HP · *with knows\_route or listened:* → Act 3 · *without either, or at 1 HP, or blurred by painkillers:* → Scene 15
+**▸ CENTER, THROUGH THE WATER** — −0:15 · −1 HP · *with knows\_route or listened:* → Scene 17 · *without either, or at 1 HP, or blurred by painkillers:* → Scene 15
 
-**▸ RIGHT, THE CRAWLWAY** — −0:40 · −1 HP · always safe, but the clock may kill you · → Act 3
+**▸ RIGHT, THE CRAWLWAY** — −0:40 · −1 HP · always safe, but the clock may kill you · → Scene 17
 
 **Writer's note:** the crawlway is the "I don't know anything yet" route: guaranteed safe but very slow, so first-time players often flatline in it at 4:50. That death pushes them to learn the center route.
 
@@ -702,7 +702,7 @@ The second heartbeat goes on a moment longer than yours. Then it stops too.
 
 ## Act 2 reference
 
-Act 2 adds ten new flags, and five of them carry into future runs. The table also lists the two it reuses from Act 1.
+Act 2 adds twelve new flags, and five of them carry into future runs. The table also lists the two it reuses from Act 1.
 
 ### Flags
 
@@ -721,7 +721,7 @@ Act 2 adds ten new flags, and five of them carry into future runs. The table als
 | listened | This run | Scene 12 | Scene 13 center tunnel, the Merged ending |
 | chip\_trust | This run | Scene 12, stay a minute | Act 3 |
 
-Ouro's memory payment also locks Partners for that run, and her eye payment darkens the left third of the screen until the run ends.
+Scene 08 also sets two this-run flags for Ouro's payments: memory\_taken (she took the grid-power night, which locks Partners and strikes through Tavi's lines about it) and eye\_taken (the left third of the screen stays dark until the run ends).
 
 ### Travel and health
 
@@ -748,7 +748,7 @@ The last big reveal lands in Scene 18: Kade was never a random victim. Halcyon i
 | --- | --- | --- |
 | 07 Company Man | Open the door to Sable | Alive, chip removed, working for Halcyon |
 | 08 Removed | At least 1:00 left on the clock | Alive and free, chip destroyed |
-| 09 Partners | *with\_tavi*, *tavi\_forgiven*, Ouro didn't take the memory | Alive, chip dormant, on the run with Tavi, Lina and Vale |
+| 09 Partners | *with\_tavi*, *tavi\_forgiven*, not memory\_taken | Alive, chip dormant, on the run with Tavi, Lina and Vale |
 | 10 Merged | *knows\_lazarus* (typed at the door) and *listened* | Alive, one heartbeat, Kade and LAZARUS together |
 
 If the clock runs out at any point in Act 3, it's a Flatline (Scene 16).
@@ -889,7 +889,7 @@ The timer in your vision (shown here at a typical value): **01:05:00**.
 
 **▸ OPEN THE DOOR FOR SABLE** — "I'm tired. I just want to live." · → Scene 20 *(Company Man)*
 
-**▸ \[LOCKED\] MAKE A DEAL FOR LINA** — needs *with\_tavi*, *tavi\_forgiven*, and Tavi's memory not sold · → Scene 22 *(Partners)*
+**▸ \[LOCKED\] MAKE A DEAL FOR LINA** — needs *with\_tavi*, *tavi\_forgiven*, and not memory\_taken · → Scene 22 *(Partners)*
 
 **▸ \[LOCKED\] LET IT IN** — needs *door\_lazarus* and *listened* · "Stop fighting it." · → Scene 23 *(Merged)*
 
