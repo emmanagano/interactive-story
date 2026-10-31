@@ -1,11 +1,13 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
-import type { Scene } from '../engine'
+import type { Block, Scene } from '../engine'
+import type { Reveal } from '../hooks'
 import ChoiceList from './ChoiceList'
 import DebugPanel from './DebugPanel'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import Hud from './Hud'
+import { planReveal } from './reveal'
 import { NO_CHANGES } from './runChanges'
 import { makeState } from '../engine/testState'
 import SceneView from './SceneView'
@@ -20,18 +22,17 @@ const scene: Scene = {
   choices: [],
 }
 
+const shownAtOnce = (blocks: Block[]): Reveal => ({ plan: planReveal(blocks), elapsed: 999, revealing: false, skip: () => undefined })
+const midReveal = (blocks: Block[], elapsed: number): Reveal => ({ plan: planReveal(blocks), elapsed, revealing: true, skip: () => undefined })
+
 describe('SceneView', () => {
   it('shows the title, bold marks, system notes and chip lines with a ">"', () => {
-    const html = renderToStaticMarkup(
-      <SceneView
-        scene={scene}
-        blocks={[
-          { type: 'text', text: 'The timer: **05:59:58**.' },
-          { type: 'system', text: '*(The timer flickers.)*' },
-          { type: 'chip', text: 'k…kade.' },
-        ]}
-      />,
-    )
+    const blocks: Block[] = [
+      { type: 'text', text: 'The timer: **05:59:58**.' },
+      { type: 'system', text: '*(The timer flickers.)*' },
+      { type: 'chip', text: 'k…kade.' },
+    ]
+    const html = renderToStaticMarkup(<SceneView scene={scene} blocks={blocks} reveal={shownAtOnce(blocks)} sceneKey="a" />)
     expect(html).toContain('<h2')
     expect(html).toContain('THE CLINIC')
     expect(html).toContain('<strong>05:59:58</strong>')
@@ -39,6 +40,29 @@ describe('SceneView', () => {
     expect(html).toContain('class="chip-line"')
     expect(html).toContain('&gt; ')
     expect(html).not.toContain('*')
+    expect(html).not.toContain('Show all text')
+  })
+
+  describe('while the text is typing', () => {
+    const blocks: Block[] = [
+      { type: 'text', text: 'Rain on **the** flyover.' },
+      { type: 'chip', text: 'remember this one.' },
+    ]
+    const html = renderToStaticMarkup(<SceneView scene={scene} blocks={blocks} reveal={midReveal(blocks, 0.03)} sceneKey="a" />)
+
+    it('gives screen readers the whole paragraph and the real chip line, and hides the typed copy from them', () => {
+      expect(html).toContain('<span class="visually-hidden">Rain on the flyover.</span>')
+      expect(html).toContain('<span class="visually-hidden">remember this one.</span>')
+      expect(html).toContain('aria-hidden="true"')
+    })
+
+    it('shows only part of the text, keeping the rest in place but hidden', () => {
+      expect(html).toContain('rich-text__pending')
+    })
+
+    it('offers a way to show all the text', () => {
+      expect(html).toContain('Show all text')
+    })
   })
 })
 

@@ -9,3 +9,8 @@
   color: var(--color-dim);
   text-decoration-thickness: var(--focus-ring-width);
 }
+
+/* Not typed yet: it keeps its place on the page so the text does not jump as it appears. */
+.rich-text__pending {
+  visibility: hidden;
+}

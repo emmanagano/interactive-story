@@ -42,3 +42,18 @@
     --eye-veil-width: 14vw; /* a phone cannot spare a third of its width, so the black is a narrower band */
   }
 }
+
+/* Choices stay usable while text is still appearing, but fade back so the story comes first. */
+.app__choices {
+  transition: opacity 0.3s;
+}
+
+.app__choices--pending {
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app__choices {
+    transition: none;
+  }
+}

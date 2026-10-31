@@ -14,7 +14,7 @@ import {
 import { listStoryFlags } from './engine'
 import { DEBUG_PRESETS } from './story/debugPresets'
 import { story } from './story'
-import { useCalmMode, useChipVoice, useChoiceKeys, useDecay, useGame } from './hooks'
+import { useCalmMode, useChipVoice, useChoiceKeys, useDecay, useGame, useReducedMotion, useReveal } from './hooks'
 import './App.css'
 
 // The debug panel shows in development or with ?debug in the address.
@@ -30,9 +30,15 @@ function App() {
   const eyeTaken = game.state.run.runFlags.includes('eye_taken')
   useDecay(game.state.run, cleanInterface)
   useChipVoice(game.state.memory.deaths)
+  // Text types out and scenes fade in, unless calm mode or the system asks for less motion.
+  const reducedMotion = useReducedMotion()
+  const sceneKey = `${game.scene.id}:${game.state.memory.runs}`
+  const reveal = useReveal(game.blocks, !calm && !reducedMotion, sceneKey)
   useChoiceKeys({
     choices: game.choices,
     isOver: game.isOver,
+    revealing: reveal.revealing,
+    onSkip: reveal.skip,
     onChoose: game.choose,
     onRestart: game.restart,
   })
@@ -59,14 +65,19 @@ function App() {
           saveFailed={game.saveFailed}
           reachedUnwrittenScene={game.reachedUnwrittenScene}
         />
-        <SceneView scene={game.scene} blocks={game.blocks} />
+        <SceneView scene={game.scene} blocks={game.blocks} reveal={reveal} sceneKey={sceneKey} />
         {game.isOver ? (
-          <>
-            <EndingCard scene={game.scene} finalChip={game.finalChip} />
-            <RestartButton onRestart={game.restart} />
-          </>
+          // The ending card waits for the text, so it cannot give the ending away early.
+          !reveal.revealing && (
+            <>
+              <EndingCard scene={game.scene} finalChip={game.finalChip} />
+              <RestartButton onRestart={game.restart} />
+            </>
+          )
         ) : (
-          <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
+          <div className={reveal.revealing ? 'app__choices app__choices--pending' : 'app__choices'}>
+            <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
+          </div>
         )}
         <EndingTracker slots={game.endingSlots} />
         {showDebugPanel && (
