@@ -2,6 +2,8 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import type { Scene } from '../engine'
 import ChoiceList from './ChoiceList'
+import EndingCard from './EndingCard'
+import EndingTracker from './EndingTracker'
 import Hud from './Hud'
 import { NO_CHANGES } from './runChanges'
 import { makeState } from '../engine/testState'
@@ -111,5 +113,44 @@ describe('Hud', () => {
       <Hud run={run} endingsFound={0} changes={NO_CHANGES} changeId={0} announcement="" />,
     )
     expect(calm).not.toContain('hud__value--changed')
+  })
+})
+
+describe('EndingCard', () => {
+  const ending: Scene = {
+    ...scene,
+    title: "DOC'S TABLE",
+    ending: { id: 'docs-table', kind: 'death', number: 1 },
+  }
+
+  it('writes the banner and the final chip line', () => {
+    const html = renderToStaticMarkup(
+      <EndingCard scene={ending} finalChip={{ type: 'chip', text: 'i told you.' }} />,
+    )
+    expect(html).toContain('FLATLINE · ENDING 01 / 10 · DOC&#x27;S TABLE')
+    expect(html).toContain('ending-card--death')
+    expect(html).toContain('i told you.')
+  })
+
+  it('shows nothing for a scene that is not an ending', () => {
+    expect(renderToStaticMarkup(<EndingCard scene={scene} finalChip={null} />)).toBe('')
+  })
+})
+
+describe('EndingTracker', () => {
+  const slots = Array.from({ length: 10 }, (_, index) => ({ number: index + 1, found: false }))
+  const html = renderToStaticMarkup(
+    <EndingTracker slots={[{ number: 1, found: true, title: "DOC'S TABLE", kind: 'death' }, ...slots.slice(1)]} />,
+  )
+
+  it('counts the endings found out of ten', () => {
+    expect(html).toContain('Endings 1/10')
+  })
+
+  it('names a found ending and keeps the rest as silhouettes with no name', () => {
+    expect(html).toContain('DOC&#x27;S TABLE')
+    expect(html.match(/ending-tracker__slot--locked/g)?.length).toBe(9)
+    expect(html).toContain('Ending 2, not found yet')
+    expect(html).toContain('02 ???')
   })
 })

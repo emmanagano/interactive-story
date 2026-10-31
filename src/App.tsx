@@ -1,4 +1,15 @@
-import { Backdrop, CalmToggle, ChoiceList, DecayPreview, GameNotices, Hud, RestartButton, SceneView } from './components'
+import {
+  Backdrop,
+  CalmToggle,
+  ChoiceList,
+  DecayPreview,
+  EndingCard,
+  EndingTracker,
+  GameNotices,
+  Hud,
+  RestartButton,
+  SceneView,
+} from './components'
 import { useCalmMode, useChoiceKeys, useDecay, useGame } from './hooks'
 import './App.css'
 
@@ -38,10 +49,14 @@ function App() {
         />
         <SceneView scene={game.scene} blocks={game.blocks} />
         {game.isOver ? (
-          <RestartButton onRestart={game.restart} />
+          <>
+            <EndingCard scene={game.scene} finalChip={game.finalChip} />
+            <RestartButton onRestart={game.restart} />
+          </>
         ) : (
           <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
         )}
+        <EndingTracker slots={game.endingSlots} />
         {showDecayPreview && <DecayPreview run={game.state.run} onChange={game.previewRun} />}
       </main>
     </>

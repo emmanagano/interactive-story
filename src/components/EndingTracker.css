@@ -1,0 +1,53 @@
+.ending-tracker {
+  max-width: var(--measure);
+  margin-top: var(--space-7);
+}
+
+.ending-tracker__title {
+  margin-bottom: var(--space-3);
+  color: var(--color-dim);
+  font-size: var(--text-sm);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ending-tracker__slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ending-tracker__slot {
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-thin) solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--glass-night);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* An unfound ending is only a silhouette: a dashed outline and no name. */
+.ending-tracker__slot--locked {
+  border-style: dashed;
+  border-color: var(--color-dim);
+  color: var(--color-dim);
+}
+
+.ending-tracker__slot--death {
+  border-color: var(--color-red);
+}
+
+.ending-tracker__slot--survive {
+  border-color: var(--color-green);
+}
+
+.ending-tracker__slot--secret {
+  border-color: var(--color-amber);
+}
+
+.ending-tracker__number {
+  color: var(--color-dim);
+}

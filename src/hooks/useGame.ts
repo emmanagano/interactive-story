@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import { choose as takeChoice, listChoices, loadMemory, MissingSceneError, saveMemory, startRun, visibleBlocks } from '../engine'
-import type { Block, GameState, ListedChoice, LoadStatus, RunState, Scene } from '../engine'
+import { choose as takeChoice, listChoices, listEndingSlots, loadMemory, MissingSceneError, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
+import type { Block, EndingSlot, GameState, ListedChoice, LoadStatus, RunState, Scene } from '../engine'
 import { describeChanges, describeNewRun, diffRun, NO_CHANGES } from '../components/runChanges'
 import type { RunChanges } from '../components/runChanges'
 import { story } from '../story'
@@ -15,7 +15,9 @@ export type LastChange = {
 export type Game = {
   state: GameState
   scene: Scene
-  blocks: Block[]
+  blocks: Block[] // the story text; on an ending, without its closing chip line
+  finalChip: Block | null // shown on the ending card
+  endingSlots: EndingSlot[]
   choices: ListedChoice[]
   isOver: boolean
   loadStatus: LoadStatus
@@ -68,10 +70,13 @@ export function useGame(): Game {
   }, [])
 
   const scene = story[state.run.sceneId]
+  const ending = splitEndingBlocks(scene, visibleBlocks(scene, state))
   return {
     state,
     scene,
-    blocks: visibleBlocks(scene, state),
+    blocks: ending.story,
+    finalChip: ending.finalChip,
+    endingSlots: listEndingSlots(story, state.memory.endingsSeen),
     choices: listChoices(scene, state),
     isOver: scene.ending !== undefined,
     loadStatus: loaded.status,
