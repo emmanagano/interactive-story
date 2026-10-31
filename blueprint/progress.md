@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 5.3 · Emma's playtest (needs Emma)
+**Current step:** 6.2 · Title and settings screens (5.3, Emma's playtest, is still open)
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -40,7 +40,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [ ] 5.3 Emma's playtest
 
 ### Phase 6 · Polish and accessibility
-- [ ] 6.1 Text reveal and transitions
+- [x] 6.1 Text reveal and transitions
 - [ ] 6.2 Title and settings screens
 - [ ] 6.3 Accessibility audit
 
@@ -58,6 +58,11 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 6.1 | Text types out at 320 characters per second (about 8 s for Scene 01), with 0.12 s between paragraphs. Chip lines scramble and resolve left to right (0.03 s per character, at most 1.2 s). Speeds are constants in `reveal.ts` for Step 6.2's text-speed setting. Each new scene fades in and rises over 0.3 s |
+| 2026-11-01 | 6.1 | Accessibility: while typing, screen readers get the whole paragraph in a visually hidden copy and the animated copy is `aria-hidden`; when typing ends the page swaps to plain text. The typed text keeps its place (hidden, not removed) so nothing jumps |
+| 2026-11-01 | 6.1 | Skip: click the story, Escape, Enter or Space (when no button has focus), or the visible "Show all text" button beside the title. Number keys still choose at once (replays stay fast). Choices fade back while text types but stay usable. The ending card and Wake up button appear once the text is done, so they cannot give the ending away or take Enter early |
+| 2026-11-01 | 6.1 | Off with calm mode or `prefers-reduced-motion` (`useReducedMotion`, live). The same scene shown again, such as after a painkiller, is not retyped. `SceneView` keeps its page in a keyed wrapper so the entrance animation replays per scene while heading focus still works |
+| 2026-11-01 | 6.1 | The terminal-line typing from 4.3 was removed: the new reveal types every block, terminal lines included |
 | 2026-11-01 | 5.2 | `story/endings.test.ts` plays one scripted run to each of the ten endings through the real story and checks the ten ids match the story's own ending list. A three-run campaign follows the Act 3 reference's fastest path to Merged: Doc's Table, then Reyes's office, the Lab files and a drowning (two deaths, the name and the route learned), then listen, type LAZARUS, let it in. A second test shows the chip route is still locked after one death |
 | 2026-11-01 | 5.2 | Checked the tests can fail: renaming `door_lazarus` in Merged's lock made four tests fail (this one, the Act 3 test, and the story checker). The older route tests in `acts.test.ts` stay; they check details (costs, flags) that this file does not |
 | 2026-11-01 | 5.2 | The Flatline path in the table is the script's slowest route, which runs health to zero around three hours in. It is there on purpose and ties to the open balance issue |
