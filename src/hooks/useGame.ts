@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { applyDebugPatch, choose as takeChoice, createEmptyMemory, listChoices, listEndingSlots, loadMemory, MissingSceneError, resetMemory, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
+import { applyDebugPatch, choose as takeChoice, createEmptyMemory, listChoices, listEndingSlots, loadMemory, resetMemory, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
 import type { Block, DebugPatch, EndingSlot, GameState, ListedChoice, LoadStatus, Memory, Scene } from '../engine'
 import { describeChanges, describeNewRun, diffRun, INTERFACE_RESTORED, NO_CHANGES } from '../components/runChanges'
 import type { RunChanges } from '../components/runChanges'
@@ -22,7 +22,6 @@ export type Game = {
   isOver: boolean
   loadStatus: LoadStatus
   saveFailed: boolean
-  reachedUnwrittenScene: boolean
   lastChange: LastChange
   choose: (choiceId: string) => void
   restart: () => void
@@ -38,33 +37,24 @@ export function useGame(): Game {
   const [loaded] = useState(() => loadMemory())
   const [state, setState] = useState<GameState>(() => startRun(loaded.memory))
   const [saveFailed, setSaveFailed] = useState(false)
-  const [reachedUnwrittenScene, setReachedUnwrittenScene] = useState(false)
   const [lastChange, setLastChange] = useState<LastChange>({ id: 0, changes: NO_CHANGES, announcement: '' })
 
   const choose = useCallback(
     (choiceId: string) => {
-      try {
-        const result = takeChoice(story, state, choiceId)
-        if (!result.ok) return
-        setReachedUnwrittenScene(false)
-        setState(result.state)
-        const changes = diffRun(state.run, result.state.run)
-        const restored = story[result.state.run.sceneId]?.cleanInterface === true
-        const announcement = [describeChanges(changes), restored ? INTERFACE_RESTORED : ''].filter(Boolean).join(' ')
-        setLastChange((previous) => ({ id: previous.id + 1, changes, announcement }))
-        // Memory only changes when a run ends, so that is the only time to save.
-        if (result.state.memory !== state.memory) setSaveFailed(!saveMemory(result.state.memory))
-      } catch (error) {
-        // Act 2 is not written yet, so some choices lead nowhere. Stay in the scene.
-        if (error instanceof MissingSceneError) setReachedUnwrittenScene(true)
-        else throw error
-      }
+      const result = takeChoice(story, state, choiceId)
+      if (!result.ok) return
+      setState(result.state)
+      const changes = diffRun(state.run, result.state.run)
+      const restored = story[result.state.run.sceneId]?.cleanInterface === true
+      const announcement = [describeChanges(changes), restored ? INTERFACE_RESTORED : ''].filter(Boolean).join(' ')
+      setLastChange((previous) => ({ id: previous.id + 1, changes, announcement }))
+      // Memory only changes when a run ends, so that is the only time to save.
+      if (result.state.memory !== state.memory) setSaveFailed(!saveMemory(result.state.memory))
     },
     [state],
   )
 
   const restart = useCallback(() => {
-    setReachedUnwrittenScene(false)
     const fresh = startRun(state.memory)
     setState(fresh)
     setLastChange((previous) => ({ id: previous.id + 1, changes: NO_CHANGES, announcement: describeNewRun(fresh.run) }))
@@ -75,7 +65,6 @@ export function useGame(): Game {
   const debugApply = useCallback(
     (patch: DebugPatch) => {
       const next = applyDebugPatch(state, patch)
-      setReachedUnwrittenScene(false)
       setState(next)
       if (next.memory !== state.memory) setSaveFailed(!saveMemory(next.memory))
     },
@@ -84,7 +73,6 @@ export function useGame(): Game {
 
   const startAgainWith = useCallback((memory: Memory) => {
     const fresh = startRun(memory)
-    setReachedUnwrittenScene(false)
     setState(fresh)
     setLastChange((previous) => ({ id: previous.id + 1, changes: NO_CHANGES, announcement: describeNewRun(fresh.run) }))
   }, [])
@@ -115,7 +103,6 @@ export function useGame(): Game {
     isOver: scene.ending !== undefined,
     loadStatus: loaded.status,
     saveFailed,
-    reachedUnwrittenScene,
     lastChange,
     choose,
     restart,

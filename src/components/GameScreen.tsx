@@ -39,7 +39,7 @@ function GameScreen({ game, reveal, sceneKey, cleanInterface, calm }: Props) {
         announcement={game.lastChange.announcement}
         clean={cleanInterface}
       />
-      <GameNotices loadStatus={game.loadStatus} saveFailed={game.saveFailed} reachedUnwrittenScene={game.reachedUnwrittenScene} />
+      <GameNotices loadStatus={game.loadStatus} saveFailed={game.saveFailed} />
       <SceneView scene={game.scene} blocks={game.blocks} reveal={reveal} sceneKey={sceneKey} />
       {game.isOver ? (
         // The ending card waits for the text, so it cannot give the ending away early.
