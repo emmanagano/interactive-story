@@ -1,0 +1,4 @@
+.chip-line {
+  color: var(--color-amber);
+  font-family: var(--font-mono);
+}

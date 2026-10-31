@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseEmphasis } from './richText'
+import { parseEmphasis } from './parseEmphasis'
 
 describe('parseEmphasis', () => {
   it('leaves plain text alone', () => {

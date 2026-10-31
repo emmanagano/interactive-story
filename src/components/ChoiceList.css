@@ -1,0 +1,54 @@
+.choice-list {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 42rem;
+  margin: var(--space-5) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.choice-list__button {
+  display: grid;
+  grid-template-columns: var(--space-5) 1fr;
+  column-gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-thin) solid var(--color-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--color-panel);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  text-align: left;
+  cursor: pointer;
+}
+
+.choice-list__button:hover:not(.choice-list__button--locked) {
+  box-shadow: var(--glow-cyan);
+}
+
+.choice-list__key {
+  color: var(--color-cyan);
+}
+
+.choice-list__label {
+  grid-column: 2;
+  font-weight: 700;
+}
+
+.choice-list__text {
+  grid-column: 2;
+  color: var(--color-dim);
+}
+
+/* Locked: greyed, dashed amber, and no hint about how to unlock it. */
+.choice-list__button--locked {
+  border-style: dashed;
+  border-color: var(--color-amber);
+  color: var(--color-dim);
+  cursor: not-allowed;
+}
+
+.choice-list__button--locked .choice-list__key {
+  color: var(--color-dim);
+}

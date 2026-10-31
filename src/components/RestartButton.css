@@ -1,0 +1,16 @@
+.restart-button {
+  margin: var(--space-5) 0;
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-thin) solid var(--color-cyan);
+  border-radius: var(--radius-sm);
+  background: var(--color-panel);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.restart-button:hover {
+  box-shadow: var(--glow-cyan);
+}
