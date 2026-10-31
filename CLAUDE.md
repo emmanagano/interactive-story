@@ -172,9 +172,13 @@ Cyberpunk, seen through Kade's eyes. The screen is Kade's neural HUD laid over a
 - Wrap every read and write in try/catch. The game must work, without saving, if storage is unavailable.
 - Settings screen offers: export a save code (base64 JSON), import a save code, reset all progress (with an in-game confirmation, not `confirm()`).
 
-## Audio (later phase)
+## Audio
 
-Monitor beeps, the flatline tone, rain ambience. Off by default, toggle in settings, starts only after the player interacts.
+Made with the Web Audio API, so there are no sound files and nothing to license: rain (filtered noise), a heart-monitor beep that speeds up with the clock and with low health, and one long flat tone on a death ending.
+
+- Off by default. Turned on in Settings or with the Sound button in the game header, and it starts only after the player has clicked or pressed a key. A saved "on" still waits for that.
+- A volume slider sits in Settings. Settings are saved under `flatline:settings:v1` (settings version 3 holds `sound` and `volume`).
+- The browser's audio is never created until sound is on (`src/audio/SoundEngine.ts`); the rules for the beat rate, the volume curve and the flatline cue are pure functions in `src/engine/sound.ts`.
 
 ## Rules
 

@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 7.1 · Sound (5.3, Emma's playtest, is still open)
+**Current step:** 8.1 · Performance and meta tags (5.3, Emma's playtest, is still open)
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -45,7 +45,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 6.3 Accessibility audit
 
 ### Phase 7 · Audio
-- [ ] 7.1 Sound
+- [x] 7.1 Sound
 
 ### Phase 8 · Ship it
 - [ ] 8.1 Performance and meta tags
@@ -58,6 +58,12 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 7.1 | All sound is generated with the Web Audio API (rain from filtered noise, a heart-monitor beep, a flat 1 kHz tone), so there are no files and no licence to track |
+| 2026-11-01 | 7.1 | Never before the player asks: `SoundEngine` creates no audio context until `start()`, which `useSound` calls only when sound is on AND the player has clicked or pressed a key (browsers require that too). A saved "on" waits for the first interaction. Verified in Chrome with a recording wrapper, and by a unit test against a fake context |
+| 2026-11-01 | 7.1 | Tension: the beep interval runs 1.5 s at the start to 0.3 s at the end, set by the larger of the clock pressure (up to 0.6 of the range over 6 hours) and the decay (time under 1:00, health under 3). Measured: about 2.7 beeps per 3 s at the start, 7 per 3 s at 2 minutes and 1 HP. The beat plays only while a run is going (not on the title, in Settings, or after a run ends) |
+| 2026-11-01 | 7.1 | Deaths (kind `death`) play the flat tone once as the scene arrives and stop the beeping; survivals and Merged do not. Rain runs everywhere while sound is on. Volume uses a square curve capped at 0.8 so it cannot clip. Changing the volume plays one beep as feedback |
+| 2026-11-01 | 7.1 | Format change: settings version 3 adds `sound` (default off) and `volume` (default 0.5), upgraded from versions 1 and 2 (tested). The game save is unchanged. A "Sound: on/off" button sits in the game header so ambient audio can always be stopped quickly (WCAG 1.4.2). `CalmToggle` became the general `ToggleSwitch` |
+| 2026-11-01 | 7.1 | Not checkable here: how it sounds. Headless Chrome records what the game asks the browser to play, but it cannot be heard. Emma, please listen with sound on |
 | 2026-11-01 | 6.3 | Audit method: Chrome's own contrast audit (`Audits.checkContrast`) and accessibility tree, plus scripted keyboard, focus, reduced-motion, reflow and tap-target checks, all in headless Chrome. axe-core was fetched to try, but running it was blocked by the auto-mode check (it injects downloaded code), so it was not run and is not in the project |
 | 2026-11-01 | 6.3 | Contrast: 0 low-contrast text issues on the title, a scene, maximum decay (2 min, 1 HP), the last choice with locks, an ending card, settings and the reset dialog. Token pairs at full colour drain were computed in Step 3.3 |
 | 2026-11-01 | 6.3 | Keyboard only, no mouse or number keys: Enter on Start, Tab through Settings, STAY, BOLT and the locked choice, Enter on STAY reaches Doc's Table, focus lands on WAKE UP AGAIN, Enter returns to the clinic. Every tab stop showed a ring or glow. With the sticky HUD, 0 of 34 focus stops were covered when tabbing a short window |
