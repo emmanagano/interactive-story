@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { choose, endRun, startRun } from './engine'
+import { choose, endRun, MissingSceneError, startRun } from './engine'
 import { makeState } from './testState'
 import type { ChooseResult, GameState, Story } from './types'
 
@@ -144,7 +144,9 @@ describe('choose', () => {
     const broken: Story = {
       'scene-01': { ...fakeStory['scene-01'], choices: [{ id: 'oops', label: 'OOPS', goto: 'nowhere' }] },
     }
-    expect(() => choose(broken, startRun(makeState().memory), 'oops')).toThrow('nowhere')
+    const attempt = () => choose(broken, startRun(makeState().memory), 'oops')
+    expect(attempt).toThrow('nowhere')
+    expect(attempt).toThrow(MissingSceneError)
   })
 })
 

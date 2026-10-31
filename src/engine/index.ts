@@ -1,6 +1,8 @@
 export { isConditionMet } from './conditions'
 export { applyEffect } from './effects'
-export { choose, endRun, startRun } from './engine'
+export { choose, endRun, MissingSceneError, startRun } from './engine'
+export { choiceIdForKey, listChoices, visibleBlocks } from './view'
+export type { ListedChoice } from './view'
 export {
   browserStorage,
   createEmptyMemory,

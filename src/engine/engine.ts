@@ -3,11 +3,23 @@ import { FLATLINE_SCENE_ID, MAX_HEALTH, START_SCENE_ID, STARTING_TIME } from './
 import { applyEffect } from './effects'
 import type { Choice, ChooseRefusal, ChooseResult, GameState, Memory, Scene, Story } from './types'
 
+/** Thrown when a choice leads to a scene the story does not have (yet). */
+export class MissingSceneError extends Error {
+  sceneId: string
+
+  constructor(sceneId: string) {
+    super(`Scene "${sceneId}" does not exist in the story`)
+    this.name = 'MissingSceneError'
+    this.sceneId = sceneId
+  }
+}
+
 function getScene(story: Story, sceneId: string): Scene {
   const scene = story[sceneId]
   // A missing scene is a mistake in the story data, not something a player can
-  // cause, so it throws loudly instead of returning a refusal.
-  if (!scene) throw new Error(`Scene "${sceneId}" does not exist in the story`)
+  // cause, so it throws instead of returning a refusal. The UI catches it for
+  // the Act 2 scenes that are not written yet.
+  if (!scene) throw new MissingSceneError(sceneId)
   return scene
 }
 
