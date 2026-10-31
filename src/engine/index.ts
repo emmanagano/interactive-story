@@ -1,4 +1,5 @@
 export { isConditionMet } from './conditions'
+export { applyEffect } from './effects'
 export type {
   Block,
   Branch,

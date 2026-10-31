@@ -85,3 +85,68 @@ describe('items', () => {
     expect(after.run.inventory).toEqual([])
   })
 })
+
+describe('the chip draining health every hour', () => {
+  const hour = 3600
+
+  it('does not drain while the clock stays inside an hour', () => {
+    const after = applyEffect(makeState({ time: 21600 }), { time: -(hour - 1) })
+    expect(after.run.health).toBe(5)
+  })
+
+  it('drains exactly when an hour boundary is reached', () => {
+    const after = applyEffect(makeState({ time: 21600 - (hour - 600) }), { time: -600 })
+    expect(after.run.health).toBe(4)
+  })
+
+  it('drains when a choice crosses an hour boundary', () => {
+    // 5:10:00 left means 50 minutes in. A 20-minute choice lands at 70 minutes.
+    const after = applyEffect(makeState({ time: 21600 - 50 * 60 }), { time: -20 * 60 })
+    expect(after.run.health).toBe(4)
+  })
+
+  it('drains once per hour crossed in a single long choice', () => {
+    const after = applyEffect(makeState({ time: 21600 }), { time: -(2 * hour + 60) })
+    expect(after.run.health).toBe(3)
+  })
+
+  it('does not charge the same hour twice across several choices', () => {
+    let state = makeState({ time: 21600 - (hour - 600) })
+    state = applyEffect(state, { time: -900 }) // crosses 1:00
+    state = applyEffect(state, { time: -900 }) // still inside the second hour
+    state = applyEffect(state, { time: -900 })
+    expect(state.run.health).toBe(4)
+  })
+
+  it('drains the same however a stretch of time is split up', () => {
+    let small = makeState()
+    for (let step = 0; step < 18; step += 1) {
+      small = applyEffect(small, { time: -600 }) // 18 x 10 minutes = 3 hours
+    }
+    const big = applyEffect(makeState(), { time: -3 * hour })
+    expect(small.run.health).toBe(2)
+    expect(big.run.health).toBe(2)
+  })
+
+  it('stacks with the health cost of the choice itself', () => {
+    const before = makeState({ time: 21600 - (hour - 60), health: 4 })
+    const after = applyEffect(before, { time: -600, health: -1 })
+    expect(after.run.health).toBe(2)
+  })
+
+  it('does not let a heal at full health pay for the drain', () => {
+    const before = makeState({ time: 21600 - (hour - 60), health: 5 })
+    const after = applyEffect(before, { time: -600, health: 1 })
+    expect(after.run.health).toBe(4)
+  })
+
+  it('never drops health below zero', () => {
+    const after = applyEffect(makeState({ time: 21600, health: 1 }), { time: -(3 * hour) })
+    expect(after.run.health).toBe(0)
+  })
+
+  it('does not drain when no time passes', () => {
+    const after = applyEffect(makeState({ time: 21600 - hour }), { heat: 1 })
+    expect(after.run.health).toBe(5)
+  })
+})
