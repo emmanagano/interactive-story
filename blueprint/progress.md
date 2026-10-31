@@ -58,6 +58,7 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | Process | Emma asked Claude to make all the decisions. CLAUDE.md now says: no plan approval, no stopping between steps, format and save-format changes allowed if tested, logged and documented. Emma still decides pushes, new npm packages and outside-server requests, and Steps 5.3 and 8.2 need her playtests |
 | 2026-11-01 | 2.1 | Act 1 is `src/story/act1.json` (8 scenes: 01–07 plus `scene-03-office` for the "Searching the office" screen). Text was copied from the script by a script and checked back against it: 93 player-facing lines, none missing |
 | 2026-11-01 | 2.1 | Kept `*` and `**` marks in text exactly as written (Step 2.3 renders them). Chip lines are stored without the `> `; ChipLine adds it. Time costs are H:MM in the script, so −0:40 is −2400 seconds |
 | 2026-11-01 | 2.1 | Scene 07's closing paragraph and two chip lines (printed after the choices in the script) sit at the end of the scene's blocks. "END OF ACT 1" and "WAKE UP AGAIN" are left out (the ending card handles the latter). The Scene 02 "FLATLINE · ENDING 01 / 10" line is a system block |

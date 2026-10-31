@@ -11,7 +11,7 @@ A cyberpunk interactive survival story that runs in the browser. The player is K
 - `blueprint/` holds the plan and the story. Start every task there (see Rules).
 - `blueprint/flatline-script.md` is the full written script (exported from the story doc). It is the authority on scene text, choices, costs and flags.
 - `src/story/*.json` is the script converted to data. If the script and JSON disagree, the script wins; flag the mismatch instead of guessing.
-- Never invent story content. If a scene needs text the script doesn't have, ask.
+- Never invent story content. If a scene needs text the script doesn't have, leave it out, don't write any, and log it in Open issues in `progress.md`.
 
 ## Tech stack
 
@@ -179,10 +179,11 @@ Monitor beeps, the flatline tone, rain ambience. Off by default, toggle in setti
 ### Start every task from the blueprint
 
 1. Before writing any code, read `blueprint/progress.md` to find the current step, then read that step in `blueprint/build-plan.md`. Read the parts of `blueprint/flatline-script.md` the step touches.
-2. Work only on the current step. If a request belongs to a later step, say so and ask before doing it.
-3. If the blueprint is missing, out of date, or contradicts this file or the request, stop and ask. Don't guess.
+2. Work on the current step, then carry straight on to the next one without waiting. A request that belongs to a later step can be done when it comes up; note it in `progress.md`.
+3. If the blueprint is missing, out of date, or contradicts this file or the request, decide and keep going. The order of authority is: the script for story, this file for rules and design, the blueprint for sequence. Log the decision in `progress.md`.
 4. Only edit `progress.md` yourself. Never change `build-plan.md` or `flatline-script.md` unless Emma asks.
-5. When a step is done and its "done when" checks pass, update `progress.md`: tick the step, set the next current step, add any decisions to the log, and list any open issues.
+5. When a step is done and its "done when" checks pass, update `progress.md`: tick the step, set the next current step, add any decisions to the log, and list any open issues. Then start the next step.
+6. Pause only at steps that need Emma herself (5.3 Emma's playtest, 8.2 Outside playtest), at the three things listed under "Emma still decides", or when the checks cannot be made to pass.
 
 ### Git and commits
 
@@ -215,15 +216,15 @@ fixes
 
 ### Working with Emma
 
-1. For anything bigger than a small fix, propose a short plan first (what you'll change, which files, how it will be tested) and wait for a yes.
-2. Explain decisions in plain words. When you choose between approaches, say which you picked and why in a sentence or two.
+1. Make the decisions yourself, including design, format, structure and ordering. Do not wait for a yes. Write the plan down first (what you'll change, which files, how it will be tested) in your report and in `progress.md`, then do it.
+2. Explain decisions in plain words. When you choose between approaches, say which you picked and why in a sentence or two, and log it in the decisions log in `progress.md` so Emma can find and reverse it.
 3. This is a portfolio piece, so Emma needs to understand every part of it. When something is worth talking about in an interview (a tricky bug, a design trade-off, an accessibility detail), point it out.
 4. Prefer the simple, readable solution over the clever one.
 
 ### Protecting the story
 
 1. Copy scene text from `blueprint/flatline-script.md` exactly: same words, punctuation, capitalization, line breaks and name spellings.
-2. Never rewrite, shorten or "improve" story text to fit the code. If the code can't show something as written, ask.
+2. Never rewrite, shorten or "improve" story text to fit the code. If the code can't show something as written, pick the option that changes the text least (keep it, reorder it or leave it out), and log what you chose and why in `progress.md`.
 3. If you spot a typo or a continuity problem in the script, don't fix it. Add it to Open issues in `progress.md`.
 
 ### Code style
@@ -242,7 +243,7 @@ fixes
 
 ### Dependencies
 
-1. Ask before adding any npm package. Say what it does, why it's needed, and roughly how much it adds to the bundle.
+1. Ask before adding any npm package (this is one of the things Emma still decides). Say what it does, why it's needed, and roughly how much it adds to the bundle.
 2. Prefer what the platform already does: CSS, the Web Audio API, localStorage, plain React.
 
 ### Testing
@@ -251,14 +252,24 @@ fixes
 2. Fixing a bug starts with a test that reproduces it, then the fix that makes it pass.
 3. The story validation test must pass after every change to `src/story/`.
 
-### When to stop and ask
+### Decide, then log it
 
-Stop and check with Emma before you:
+You may do all of these yourself:
 
 - Delete or rename files
-- Change the scene data format or any type in `types.ts`
+- Change the scene data format or any type in `types.ts`. Update the Scene data format section of this file to match, and add tests.
 - Change the save format. Any change also needs a version bump and a migration, so players keep their progress.
-- Add a new screen, setting or game mechanic that isn't in the build plan
+- Add a new screen, setting or game mechanic, even one that isn't in the build plan
+
+Each one must be written in the decisions log in `progress.md` with the reason, so Emma can review and undo it.
+
+### Emma still decides
+
+These are the only things to stop and ask about:
+
+- **Pushing.** Never push, force-push or rewrite history unless Emma asks. Pushing to `main` deploys the site.
+- **New npm packages.** They are third-party code. Ask first, as in Dependencies.
+- **Privacy.** Anything that sends data to, or loads from, an outside server beyond Google Fonts.
 
 ### Accessibility is part of done
 
