@@ -1,8 +1,11 @@
 import type { Scene, Story } from '../engine'
-import act1 from './act1.json'
 
-// JSON imports are typed loosely (`act` is a number, not 1 | 2 | 3), so the shape is
-// asserted once here. The story validation test in Step 2.2 proves the data really fits.
-const allScenes: Scene[] = [...(act1 as Scene[])]
+// Every act file is picked up by name, so adding act2.json needs no change here. The
+// generic below is a promise, not a check: story.test.ts is what proves the data fits.
+const actFiles = import.meta.glob<Scene[]>('./act*.json', { eager: true, import: 'default' })
+
+const allScenes: Scene[] = Object.keys(actFiles)
+  .sort()
+  .flatMap((path) => actFiles[path])
 
 export const story: Story = Object.fromEntries(allScenes.map((scene) => [scene.id, scene]))
