@@ -87,6 +87,9 @@ export function validateStory(files: unknown[], options: ValidationOptions): str
     for (const leak of ['[if', '\\_', '\\[', "Writer's note", '▸']) {
       if (text.includes(leak)) problems.push(`${where}: script markup "${leak}" leaked into the text`)
     }
+    if (/^\**(FLATLINE · )?ENDING \d+ \/ \d+/.test(text)) {
+      problems.push(`${where}: the ending card writes this banner line itself, so remove it from the story`)
+    }
     if (isChip && text.startsWith('> ')) problems.push(`${where}: chip text must not start with "> " (the chip line adds it)`)
   }
 

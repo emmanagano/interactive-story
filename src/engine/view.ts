@@ -24,3 +24,13 @@ export function choiceIdForKey(key: string, listed: ListedChoice[]): string | nu
   const entry = listed[Number(key) - 1]
   return entry && !entry.locked ? entry.choice.id : null
 }
+
+/**
+ * An ending scene shows its closing chip line on the ending card, not in the story text.
+ * Anything else is returned unchanged.
+ */
+export function splitEndingBlocks(scene: Scene, blocks: Block[]): { story: Block[]; finalChip: Block | null } {
+  const last = blocks[blocks.length - 1]
+  if (!scene.ending || !last || last.type !== 'chip') return { story: blocks, finalChip: null }
+  return { story: blocks.slice(0, -1), finalChip: last }
+}

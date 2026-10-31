@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { choiceIdForKey, listChoices, visibleBlocks } from './view'
+import { choiceIdForKey, listChoices, splitEndingBlocks, visibleBlocks } from './view'
 import { makeState } from './testState'
 import type { Scene } from './types'
 
@@ -68,5 +68,27 @@ describe('choiceIdForKey', () => {
     expect(choiceIdForKey('5', listed)).toBeNull()
     expect(choiceIdForKey('a', listed)).toBeNull()
     expect(choiceIdForKey('12', listed)).toBeNull()
+  })
+})
+
+describe('splitEndingBlocks', () => {
+  const blocks: Scene['blocks'] = [
+    { type: 'text', text: 'It ends.' },
+    { type: 'chip', text: 'i told you.' },
+  ]
+
+  it('takes the closing chip line out of an ending scene', () => {
+    const ending: Scene = { ...scene, blocks, ending: { id: 'x', kind: 'death', number: 1 } }
+    expect(splitEndingBlocks(ending, blocks)).toEqual({ story: [blocks[0]], finalChip: blocks[1] })
+  })
+
+  it('leaves an ordinary scene alone, even if it ends on a chip line', () => {
+    expect(splitEndingBlocks(scene, blocks)).toEqual({ story: blocks, finalChip: null })
+  })
+
+  it('leaves an ending alone when it does not close on a chip line', () => {
+    const ending: Scene = { ...scene, ending: { id: 'x', kind: 'survive', number: 6 } }
+    const textOnly: Scene['blocks'] = [blocks[0]]
+    expect(splitEndingBlocks(ending, textOnly)).toEqual({ story: textOnly, finalChip: null })
   })
 })

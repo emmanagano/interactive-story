@@ -135,6 +135,13 @@ describe('validateStory', () => {
     expect(problems).toContainEqual(expect.stringContaining('chip text must not start with "> "'))
   })
 
+  it('catches an ending banner line written into the story', () => {
+    const problems = problemsFor((s) => {
+      s[1].blocks.push({ type: 'system', text: "**FLATLINE · ENDING 01 / 10 · DOC'S TABLE**" })
+    })
+    expect(problems).toContainEqual(expect.stringContaining('the ending card writes this banner line itself'))
+  })
+
   it('catches malformed conditions, effects and blocks', () => {
     const problems = problemsFor((s) => {
       Object.assign(s[0].choices[0], {
