@@ -65,7 +65,7 @@ blueprint/
 - `sceneId`, `runFlags` (e.g. `with_tavi`, `vale_code`, `listened`), `inventory` (painkillers), `blurred` (painkiller effect for one scene)
 
 **Memory** (persists across runs, in localStorage):
-- `deaths`, `flatlines`, `runs`
+- `version` (save format, currently 1), `deaths`, `flatlines`, `runs`
 - `endingsSeen`: list of ending IDs
 - `memoryFlags` (e.g. `reyes_lied`, `met_sable`, `tavi_secret`, `knows_route`, `knows_lazarus`, `was_removed`, `saw_sold`, `saw_company`, `saw_partners`, `saw_merged`)
 
@@ -78,6 +78,8 @@ blueprint/
 ```ts
 type Condition =
   | { flag: string }                       // run or memory flag is set
+  | { item: string }                       // the player is carrying this item
+  | { blurred: true }                      // painkillers are blurring this scene
   | { not: Condition }
   | { all: Condition[] }
   | { any: Condition[] }
@@ -91,7 +93,9 @@ type Effect = {
   setMemoryFlags?: string[];
   addItem?: string;
   useItem?: string;
-};
+};                  // no deaths/flatlines: the engine counts those itself
+
+type Branch = { when: Condition; goto: string };
 
 type Choice = {
   id: string;
@@ -101,6 +105,7 @@ type Choice = {
   hiddenUnless?: Condition; // not shown at all if not met
   effect?: Effect;
   goto: string;             // next scene id
+  gotoIf?: Branch[];        // first branch whose condition holds wins; otherwise goto
 };
 
 type Block =
@@ -108,17 +113,20 @@ type Block =
   | { type: 'chip'; text: string; when?: Condition }   // LAZARUS lines
   | { type: 'system'; text: string; when?: Condition }; // timer, interface notes
 
+type SceneEntry = { when?: Condition; effect: Effect };
+
 type Scene = {
   id: string;
   act: 1 | 2 | 3;
   title: string;
   blocks: Block[];
   choices: Choice[];
+  onEnter?: SceneEntry[];   // applied on arrival, e.g. memory flags an ending leaves behind
   ending?: { id: string; kind: 'death' | 'survive' | 'secret'; number: number };
 };
 ```
 
-Variants in the script (`[if reyes_lied]`, `[if Heat ≥ 2]`) become blocks with a `when` condition. Writer's notes in the script are not shown to players; keep them out of the JSON.
+Variants in the script (`[if reyes_lied]`, `[if Heat ≥ 2]`) become blocks with a `when` condition. A script line like `**Sets:** *reyes_lied*` on a scene becomes `onEnter`, and a choice that leads to different scenes (`→ Scene 11 if Heat ≥ 4, otherwise → Act 3`) uses `gotoIf`. Writer's notes in the script are not shown to players; keep them out of the JSON.
 
 ## Visual direction
 
