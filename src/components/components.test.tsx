@@ -7,6 +7,7 @@ import ConfirmDialog from './ConfirmDialog'
 import DebugPanel from './DebugPanel'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
+import BlurNotice from './BlurNotice'
 import Hud from './Hud'
 import SettingsScreen from './SettingsScreen'
 import TitleScreen from './TitleScreen'
@@ -112,7 +113,7 @@ describe('Hud', () => {
     <Hud
       run={run}
       endingsFound={2}
-      changes={{ time: -1200, health: 0, heat: 1 }}
+      changes={{ ...NO_CHANGES, time: -1200, heat: 1 }}
       changeId={1}
       announcement="Time minus 20 minutes. Heat up 1."
       clean={false}
@@ -323,5 +324,27 @@ describe('ConfirmDialog', () => {
     expect(ids).toHaveLength(2)
     expect(new Set(ids).size).toBe(2)
     for (const id of ids) expect(two).toContain(`aria-labelledby="${id}"`)
+  })
+})
+
+describe('showing what a painkiller did (the "nothing happens" bug)', () => {
+  it('lists the items Kade is carrying in the HUD, with counts, and nothing when empty', () => {
+    const withItems = renderToStaticMarkup(
+      <Hud run={makeState({ inventory: ['painkillers', 'painkillers'] }).run} endingsFound={0} changes={NO_CHANGES} changeId={0} announcement="" clean={false} />,
+    )
+    expect(withItems).toContain('Items')
+    expect(withItems).toContain('painkillers')
+    expect(withItems).toContain('×2')
+    const without = renderToStaticMarkup(<Hud run={makeState().run} endingsFound={0} changes={NO_CHANGES} changeId={0} announcement="" clean={false} />)
+    expect(without).not.toContain('Items')
+  })
+
+  it('explains the blur on screen while it lasts, and not otherwise', () => {
+    expect(renderToStaticMarkup(<BlurNotice blurred calm={false} />)).toContain('blurred until you choose again')
+    expect(renderToStaticMarkup(<BlurNotice blurred={false} calm={false} />)).toBe('')
+  })
+
+  it('says calm mode keeps the text sharp, since the blur is off there', () => {
+    expect(renderToStaticMarkup(<BlurNotice blurred calm />)).toContain('Calm mode keeps the text sharp')
   })
 })

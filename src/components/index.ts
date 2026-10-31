@@ -1,4 +1,5 @@
 export { default as Backdrop } from './Backdrop'
+export { default as BlurNotice } from './BlurNotice'
 export { default as ChipLine } from './ChipLine'
 export { default as ChoiceList } from './ChoiceList'
 export { default as EndingCard } from './EndingCard'

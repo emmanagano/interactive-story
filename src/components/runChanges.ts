@@ -1,20 +1,37 @@
 import type { RunState } from '../engine'
 import { formatClock } from './formatClock'
 
-/** How far each meter moved: after minus before. Time is in seconds. */
+/** What a choice changed: how far each meter moved (after minus before, time in seconds), items, and the blur. */
 export type RunChanges = {
   time: number
   health: number
   heat: number
+  itemsGained: string[]
+  itemsUsed: string[]
+  blurStarted: boolean
 }
 
-export const NO_CHANGES: RunChanges = { time: 0, health: 0, heat: 0 }
+export const NO_CHANGES: RunChanges = { time: 0, health: 0, heat: 0, itemsGained: [], itemsUsed: [], blurStarted: false }
+
+/** Items in `from` that `other` has fewer of, counting copies. */
+function missingFrom(from: string[], other: string[]): string[] {
+  const remaining = [...other]
+  return from.filter((item) => {
+    const position = remaining.indexOf(item)
+    if (position === -1) return true
+    remaining.splice(position, 1)
+    return false
+  })
+}
 
 export function diffRun(before: RunState, after: RunState): RunChanges {
   return {
     time: after.time - before.time,
     health: after.health - before.health,
     heat: after.heat - before.heat,
+    itemsGained: missingFrom(after.inventory, before.inventory),
+    itemsUsed: missingFrom(before.inventory, after.inventory),
+    blurStarted: !before.blurred && after.blurred,
   }
 }
 
@@ -44,6 +61,10 @@ export function describeChanges(changes: RunChanges): string {
     const name = meter === 'health' ? 'Health' : 'Heat'
     sentences.push(`${name} ${change > 0 ? 'up' : 'down'} ${Math.abs(change)}.`)
   }
+  // Things that have no meter, so without these a painkiller at full health would say nothing at all.
+  if (changes.itemsGained.length > 0) sentences.push(`Got ${changes.itemsGained.join(', ')}.`)
+  if (changes.itemsUsed.length > 0) sentences.push(`Used ${changes.itemsUsed.join(', ')}.`)
+  if (changes.blurStarted) sentences.push('Choice text is blurred until your next choice.')
   return sentences.join(' ')
 }
 

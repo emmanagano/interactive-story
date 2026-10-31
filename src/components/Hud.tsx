@@ -15,9 +15,14 @@ type Props = {
 
 const HEALTH_SEGMENTS = 5
 
+/** "painkillers ×2": each kind of item once, with how many Kade has. */
+function itemCounts(inventory: string[]): string {
+  return [...new Set(inventory)].map((item) => `${item} ×${inventory.filter((other) => other === item).length}`).join(', ')
+}
+
 function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Props) {
   const health = clean ? HEALTH_SEGMENTS : run.health
-  const changed = (meter: keyof RunChanges) => (changes[meter] !== 0 ? ' hud__value--changed' : '')
+  const changed = (meter: 'time' | 'health' | 'heat') => (changes[meter] !== 0 ? ' hud__value--changed' : '')
 
   return (
     <section className="hud" aria-label="Kade's status">
@@ -62,6 +67,17 @@ function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Prop
             </span>
           </dd>
         </div>
+
+        {run.inventory.length > 0 && (
+          <div className="hud__meter hud__meter--items">
+            <dt className="hud__label">Items</dt>
+            <dd className="hud__value-row">
+              <span className={`hud__value hud__value--small${changes.itemsGained.length + changes.itemsUsed.length > 0 ? ' hud__value--changed' : ''}`} key={changeId}>
+                {itemCounts(run.inventory)}
+              </span>
+            </dd>
+          </div>
+        )}
 
         <div className="hud__meter hud__meter--endings">
           <dt className="hud__label">Endings</dt>

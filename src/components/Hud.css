@@ -145,3 +145,7 @@
     font-size: var(--text-md);
   }
 }
+
+.hud__value--small {
+  font-size: var(--text-base);
+}

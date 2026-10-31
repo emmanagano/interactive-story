@@ -110,7 +110,7 @@ function App() {
                 </button>
               </div>
             </header>
-            <GameScreen game={game} reveal={reveal} sceneKey={sceneKey} cleanInterface={cleanInterface} />
+            <GameScreen game={game} reveal={reveal} sceneKey={sceneKey} cleanInterface={cleanInterface} calm={settings.calm} />
           </>
         )}
       </main>

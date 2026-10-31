@@ -3,6 +3,7 @@ import { listStoryFlags } from '../engine'
 import type { Game, Reveal } from '../hooks'
 import { DEBUG_PRESETS } from '../story/debugPresets'
 import { story } from '../story'
+import BlurNotice from './BlurNotice'
 import ChoiceList from './ChoiceList'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
@@ -23,10 +24,11 @@ type Props = {
   reveal: Reveal
   sceneKey: string
   cleanInterface: boolean
+  calm: boolean
 }
 
 /** Everything in the game itself: the HUD, the scene, the choices and the endings found so far. */
-function GameScreen({ game, reveal, sceneKey, cleanInterface }: Props) {
+function GameScreen({ game, reveal, sceneKey, cleanInterface, calm }: Props) {
   return (
     <>
       <Hud
@@ -49,6 +51,7 @@ function GameScreen({ game, reveal, sceneKey, cleanInterface }: Props) {
         )
       ) : (
         <div className={reveal.revealing ? 'app__choices app__choices--pending' : 'app__choices'}>
+          <BlurNotice blurred={game.state.run.blurred} calm={calm} />
           <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
         </div>
       )}

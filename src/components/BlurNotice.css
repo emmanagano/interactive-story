@@ -1,0 +1,10 @@
+.blur-notice {
+  max-width: var(--measure);
+  margin: var(--space-4) 0 0;
+  padding: var(--space-2) var(--space-4);
+  border-left: var(--focus-ring-width) solid var(--color-amber);
+  background: var(--glass-night);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
