@@ -13,7 +13,7 @@ function GameNotices({ loadStatus, saveFailed, reachedUnwrittenScene }: Props) {
     <div className="game-notices" role="status">
       {loadStatus === 'corrupted' && <p>Your saved progress couldn't be read, so this is a fresh start.</p>}
       {(loadStatus === 'unavailable' || saveFailed) && <p>Progress can't be saved in this browser.</p>}
-      {reachedUnwrittenScene && <p>That road leads into Act 2, which isn't written yet. Choose another.</p>}
+      {reachedUnwrittenScene && <p>That road leads into part of the story that isn't written yet. Choose another.</p>}
     </div>
   )
 }

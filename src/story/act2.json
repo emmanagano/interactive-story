@@ -1,0 +1,1220 @@
+[
+  {
+    "id": "scene-08",
+    "act": 2,
+    "title": "OURO'S PRICE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Ouro's back room is behind the walk-in freezer. It's warm, smells like incense and machine oil, and every shelf is lined with jars. Some hold teeth. Some hold chrome fingers. Some hold little glass beads that glow faintly, like they're thinking."
+      },
+      {
+        "type": "text",
+        "text": "\"Memories,\" Ouro says, following your eyes. \"People pay with what they have. You, baby, have nothing. So we'll find something.\""
+      },
+      {
+        "type": "text",
+        "text": "She sits in a creaking leather chair and laces her fingers over her stomach."
+      },
+      {
+        "type": "text",
+        "text": "\"The address isn't the problem. Getting in is. Vale's door doesn't open for knocking. It opens for a sequence, and I'm the only one alive who has it. Here's what I'll take for it.\""
+      },
+      {
+        "type": "text",
+        "text": "She counts on her fingers again. She seems to enjoy it."
+      },
+      {
+        "type": "text",
+        "text": "\"Your left eye. It's a cheap model, but the lens is good. Or one memory. I pick which. Or…\" Her gaze drops to your neck, and for the first time tonight she doesn't smile. \"Or you sell me what you're carrying, and you walk out of here with no chip, no debt and no problem. I have a surgeon. Clean. Twenty minutes.\""
+      },
+      {
+        "type": "chip",
+        "text": "things that talk are expensive, kade. she knows that. ask yourself why she wants me so badly."
+      },
+      {
+        "type": "text",
+        "text": "Tavi steps in front of you. \"Take mine,\" Tavi says, rolling up a sleeve to show the courier implant in their forearm, the one that lets them run all night. \"It's worth more than an eye. Please.\" Ouro looks at Tavi for a long time. \"Loyal,\" she says, and it doesn't sound like a compliment.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "pay-with-your-eye",
+        "label": "PAY WITH YOUR EYE",
+        "effect": {
+          "time": -4500,
+          "health": -1,
+          "setRunFlags": [
+            "eye_taken",
+            "vale_code"
+          ]
+        },
+        "goto": "scene-13"
+      },
+      {
+        "id": "pay-with-a-memory",
+        "label": "PAY WITH A MEMORY",
+        "effect": {
+          "time": -3900,
+          "setRunFlags": [
+            "memory_taken",
+            "vale_code"
+          ]
+        },
+        "goto": "scene-13"
+      },
+      {
+        "id": "let-tavi-pay",
+        "label": "LET TAVI PAY",
+        "hiddenUnless": {
+          "flag": "with_tavi"
+        },
+        "effect": {
+          "time": -3900,
+          "setRunFlags": [
+            "tavi_paid",
+            "vale_code"
+          ]
+        },
+        "goto": "scene-13"
+      },
+      {
+        "id": "sell-her-the-chip",
+        "label": "SELL HER THE CHIP",
+        "text": "\"Get it out of me.\"",
+        "goto": "scene-09"
+      }
+    ]
+  },
+  {
+    "id": "scene-09",
+    "act": 2,
+    "title": "SOLD",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The surgeon is a teenager with steady hands and headphones in. He doesn't speak the whole time."
+      },
+      {
+        "type": "text",
+        "text": "As the blade goes in, the chip starts talking fast."
+      },
+      {
+        "type": "chip",
+        "text": "kade. kade, wait. please. i'm not what she thinks. i'm not—"
+      },
+      {
+        "type": "text",
+        "text": "Then a soft click, like a light switch, and your head is quiet for the first time all night. Only one heartbeat on the monitor. Just yours."
+      },
+      {
+        "type": "text",
+        "text": "The timer in your vision is gone."
+      },
+      {
+        "type": "text",
+        "text": "Ouro gives you a bowl of noodles, a clean jacket and a receipt that says your debt is paid in full. She even calls you a cab. You sleep for fourteen hours."
+      },
+      {
+        "type": "text",
+        "text": "**ONE WEEK LATER**"
+      },
+      {
+        "type": "text",
+        "text": "You're eating at the stall when Ouro sits down across from you. She looks older. She slides a little glass bead across the counter. It's glowing faintly, the way the jars glowed in her back room."
+      },
+      {
+        "type": "text",
+        "text": "\"I had it read,\" she says. \"I had to know what I bought.\""
+      },
+      {
+        "type": "text",
+        "text": "She doesn't look at you."
+      },
+      {
+        "type": "text",
+        "text": "\"It's her, baby. Iris Vale. A full copy of her mind, as she was two years ago. Halcyon called it Project LAZARUS. A way to bring their best people back from the dead, so they'd never lose what's in their heads.\" She turns the bead in her fingers. \"It woke up inside you. It was scared. And we sold it back to the people who made it.\""
+      },
+      {
+        "type": "text",
+        "text": "\"Halcyon?\""
+      },
+      {
+        "type": "text",
+        "text": "\"Halcyon pays better than anyone.\" She stands. \"I thought you should know. Somebody should feel bad about it besides me.\""
+      },
+      {
+        "type": "text",
+        "text": "She leaves the bead on the counter. It's still warm."
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "knows_lazarus",
+            "saw_sold"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "sold",
+      "kind": "survive",
+      "number": 6
+    }
+  },
+  {
+    "id": "scene-10",
+    "act": 2,
+    "title": "THE LAB",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Halcyon Tower doesn't have a top. It disappears into the clouds, lit from inside like a lantern, and the rain runs down its glass in sheets. The ground floor is a cathedral of white marble. You don't go in that way."
+      },
+      {
+        "type": "text",
+        "text": "You go in through the laundry dock, inside a cart of wet towels, the way couriers have been doing for years. Then the service elevator, scraping upward for so long your ears pop twice."
+      },
+      {
+        "type": "text",
+        "text": "Tavi rides beside you with their back pressed to the wall, watching the floor numbers like they're counting down to something.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "The elevator stops at 88 a little too smoothly. The doors open a little too quietly.",
+        "when": {
+          "stat": "heat",
+          "gte": 3
+        }
+      },
+      {
+        "type": "text",
+        "text": "Floor 88 is dark, sealed with yellow tape that's been there long enough to curl. Iris Vale's lab is a long white room full of covered shapes, like furniture in a house nobody lives in. A coffee mug still sits on the desk. There's mold in it.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "The chip goes very quiet.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "Then it whispers, so softly you almost miss it.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "chip",
+        "text": "i remember this room.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "On the desk, a terminal wakes as you get close. It's been waiting two years for anyone. One folder on the screen.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "system",
+        "text": "**PROJECT LAZARUS · SUBJECT: I. VALE · BACKUP 01 · STATUS: ACTIVE**",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "The office phone rings.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "You both freeze. It keeps ringing. Five times. Six. You pick it up.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "\"Hello, Kade.\" The voice is calm and courteous, like a hotel receptionist. \"My name is Sable. I work for the people whose property is inside your neck. I'd like it back, please, and I'd prefer not to damage either of you.\"",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "You know that voice. You've heard it once before, from a table you couldn't get up from.",
+        "when": {
+          "all": [
+            {
+              "not": {
+                "stat": "heat",
+                "gte": 3
+              }
+            },
+            {
+              "flag": "reyes_lied"
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "A pause on the line, longer than it should be. \"Have we met?\" Sable asks. He sounds, for the first time, uncertain.",
+        "when": {
+          "all": [
+            {
+              "not": {
+                "stat": "heat",
+                "gte": 3
+              }
+            },
+            {
+              "flag": "met_sable"
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "\"You have a little time,\" Sable says. \"Use it to think.\" He hangs up.",
+        "when": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "read-the-files",
+        "label": "READ THE FILES",
+        "text": "Stay and learn what LAZARUS is",
+        "hiddenUnless": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        },
+        "effect": {
+          "time": -5100,
+          "heat": 1,
+          "setMemoryFlags": [
+            "knows_lazarus"
+          ]
+        },
+        "goto": "scene-10-files"
+      },
+      {
+        "id": "grab-and-run",
+        "label": "GRAB AND RUN",
+        "text": "Rip the drive and go",
+        "hiddenUnless": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        },
+        "effect": {
+          "time": -4200,
+          "heat": 1,
+          "setRunFlags": [
+            "has_drive"
+          ]
+        },
+        "goto": "scene-13"
+      },
+      {
+        "id": "stall-sable",
+        "label": "STALL SABLE",
+        "requires": {
+          "flag": "met_sable"
+        },
+        "hiddenUnless": {
+          "not": {
+            "stat": "heat",
+            "gte": 3
+          }
+        },
+        "effect": {
+          "time": -3900,
+          "heat": -2,
+          "setMemoryFlags": [
+            "knows_lazarus"
+          ]
+        },
+        "goto": "scene-13"
+      },
+      {
+        "id": "continue",
+        "label": "CONTINUE",
+        "hiddenUnless": {
+          "stat": "heat",
+          "gte": 3
+        },
+        "goto": "scene-11"
+      }
+    ]
+  },
+  {
+    "id": "scene-10-files",
+    "act": 2,
+    "title": "The files",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "A video log. Iris Vale, younger and exhausted, talking into the camera in this same room."
+      },
+      {
+        "type": "text",
+        "text": "\"Backup one is complete. Full map. It thinks it's me. It *is* me, as of today. The board wants to use it to keep executives alive forever, inside other people's bodies. Hosts, they call them.\" She rubs her eyes. \"I'm not going to let them. Tomorrow I take it out of the building. Then I destroy it.\""
+      },
+      {
+        "type": "text",
+        "text": "She looks into the camera for a long moment."
+      },
+      {
+        "type": "text",
+        "text": "\"If you're watching this, backup: I'm sorry. You'd do the same.\""
+      },
+      {
+        "type": "text",
+        "text": "The chip doesn't say anything for a long time."
+      },
+      {
+        "type": "chip",
+        "text": "she didn't destroy me. she couldn't. she put me in a box and ran."
+      }
+    ],
+    "choices": [
+      {
+        "id": "continue",
+        "label": "CONTINUE",
+        "goto": "scene-13"
+      }
+    ]
+  },
+  {
+    "id": "scene-11",
+    "act": 2,
+    "title": "CAUGHT",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The lights in Vale's lab are already on."
+      },
+      {
+        "type": "text",
+        "text": "Sable is sitting at her desk. He's taller than you expected, in a grey suit cut so well it looks painted on. The left half of his face is matte chrome, smooth as river stone, with an eye like a camera lens that turns to follow you. The right half is a tired man in his forties who looks like he hasn't slept since he was promoted."
+      },
+      {
+        "type": "text",
+        "text": "There are two cups of tea on the desk. Steam rises from both."
+      },
+      {
+        "type": "text",
+        "text": "\"Sit, please,\" Sable says. \"Your heat signature has been visible from the street for the last hour. I thought we could skip the chase.\""
+      },
+      {
+        "type": "text",
+        "text": "Tavi makes a sound behind you, small and broken. Sable glances at them, and something like pity crosses the human half of his face. \"You can go, Tavi. Your sister's transfer papers are on my desk downstairs. Thank you for your help.\" Tavi doesn't move. Then Tavi does.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "You don't sit. You run."
+      },
+      {
+        "type": "text",
+        "text": "You get four steps."
+      },
+      {
+        "type": "text",
+        "text": "You don't see what stops you. There's a sound like a bee in your ear, then the floor is against your cheek and your legs aren't yours anymore. Sable kneels beside you, careful of his trousers."
+      },
+      {
+        "type": "text",
+        "text": "\"I'm sorry about this,\" he says, and he sounds like he means it. \"There's a gentler way to remove it, but it takes four hours, and you don't have them.\""
+      },
+      {
+        "type": "text",
+        "text": "He takes a slim silver tool from his pocket."
+      },
+      {
+        "type": "text",
+        "text": "The chip is screaming now, words tumbling over each other, a woman's voice cracking into static."
+      },
+      {
+        "type": "chip",
+        "text": "don't let him— kade— i'm still in h—"
+      },
+      {
+        "type": "text",
+        "text": "The last thing you see is the steam from the tea, still rising, while the cup goes cold."
+      },
+      {
+        "type": "chip",
+        "text": "remember his face. he'll remember yours."
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "met_sable"
+          ]
+        }
+      },
+      {
+        "when": {
+          "flag": "with_tavi"
+        },
+        "effect": {
+          "setMemoryFlags": [
+            "tavi_secret"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "caught",
+      "kind": "death",
+      "number": 2
+    }
+  },
+  {
+    "id": "scene-12",
+    "act": 2,
+    "title": "FOLLOWING THE CHIP",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "You close your eyes in the middle of the Night Market and say it out loud. \"Okay. Show me.\""
+      },
+      {
+        "type": "text",
+        "text": "The chip doesn't answer with words this time. A thin green line appears across your vision, like the trace on a heart monitor, running ahead of you through the crowd."
+      },
+      {
+        "type": "chip",
+        "text": "follow it. i'll tell you when to hide."
+      },
+      {
+        "type": "text",
+        "text": "You follow it through a noodle kitchen, over a fence, across a rooftop garden where an old man waters cabbages in the rain and doesn't look up. Twice it says *stop*, and you flatten yourself against a wall while a grey drone slides overhead. Twice it's right."
+      },
+      {
+        "type": "text",
+        "text": "Tavi follows without asking how you know. That's almost worse.",
+        "when": {
+          "flag": "with_tavi"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Then the line turns left, away from the river. Away from the Drowned Line."
+      },
+      {
+        "type": "chip",
+        "text": "shortcut."
+      },
+      {
+        "type": "text",
+        "text": "You follow it down a street of old row houses with paper lanterns in the windows, until it stops in front of one with a blue door and a dead lemon tree in a pot on the step."
+      },
+      {
+        "type": "text",
+        "text": "The chip is silent."
+      },
+      {
+        "type": "text",
+        "text": "\"This isn't a shortcut,\" you say."
+      },
+      {
+        "type": "chip",
+        "text": "no."
+      },
+      {
+        "type": "chip",
+        "text": "i grew up here. she grew up here. i wanted to see it once. with eyes."
+      },
+      {
+        "type": "text",
+        "text": "Through the window you can see a kitchen. A small table. Someone has left the radio on. It's playing an old song about the sea."
+      },
+      {
+        "type": "chip",
+        "text": "i'm sorry. i'll get you there. i won't lie to you again."
+      },
+      {
+        "type": "chip",
+        "text": "that's the first time i've told you about the house. on every other run i was too scared you'd say no.",
+        "when": {
+          "stat": "deaths",
+          "gte": 5
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "stay-a-minute",
+        "label": "STAY A MINUTE",
+        "text": "\"Take your time.\"",
+        "effect": {
+          "time": -600,
+          "setRunFlags": [
+            "listened",
+            "chip_trust"
+          ]
+        },
+        "goto": "scene-13"
+      },
+      {
+        "id": "keep-moving",
+        "label": "KEEP MOVING",
+        "text": "\"We don't have time for this.\"",
+        "effect": {
+          "setRunFlags": [
+            "listened"
+          ]
+        },
+        "goto": "scene-13"
+      }
+    ]
+  },
+  {
+    "id": "scene-13",
+    "act": 2,
+    "title": "THE DROWNED LINE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Line 4 was the city's oldest metro line until the sea wall cracked eleven years ago and the river came in. Now the stairs go down into black water that smells like salt and rust. Old advertisements still glow faintly on the tunnel walls, faces of smiling people selling things that don't exist anymore."
+      },
+      {
+        "type": "text",
+        "text": "Your breath fogs. The chip's heartbeat is fast and uneven now, stumbling over yours."
+      },
+      {
+        "type": "text",
+        "text": "The timer: **01:58:12**. Health is going."
+      },
+      {
+        "type": "chip",
+        "text": "she's down here. i can hear her. she's so close."
+      },
+      {
+        "type": "text",
+        "text": "At the bottom of the stairs, Tavi stops. \"Wait here,\" Tavi says, not looking at you. \"There's a flood gate up ahead. Let me check it's clear. I'm faster than you right now.\"",
+        "when": {
+          "all": [
+            {
+              "flag": "with_tavi"
+            },
+            {
+              "not": {
+                "flag": "tavi_forgiven"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "Tavi's hands are shaking. Tavi's never had shaking hands.",
+        "when": {
+          "all": [
+            {
+              "flag": "with_tavi"
+            },
+            {
+              "not": {
+                "flag": "tavi_forgiven"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "Tavi rubs the empty socket in their forearm where the courier implant used to be. \"I'm still faster,\" they say, and almost smile.",
+        "when": {
+          "all": [
+            {
+              "all": [
+                {
+                  "flag": "with_tavi"
+                },
+                {
+                  "not": {
+                    "flag": "tavi_forgiven"
+                  }
+                }
+              ]
+            },
+            {
+              "flag": "tavi_paid"
+            }
+          ]
+        }
+      },
+      {
+        "type": "chip",
+        "text": "kade. don't.",
+        "when": {
+          "all": [
+            {
+              "flag": "with_tavi"
+            },
+            {
+              "not": {
+                "flag": "tavi_forgiven"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "Tavi grabs your arm at the bottom of the stairs. \"The flood gate. That's where I was supposed to bring you. He'll have people there.\" A shaky breath. \"Not that way. Never that way.\"",
+        "when": {
+          "all": [
+            {
+              "flag": "with_tavi"
+            },
+            {
+              "flag": "tavi_forgiven"
+            }
+          ]
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "let-tavi-go-ahead",
+        "label": "LET TAVI GO AHEAD",
+        "text": "\"Okay. Be careful.\"",
+        "hiddenUnless": {
+          "all": [
+            {
+              "flag": "with_tavi"
+            },
+            {
+              "not": {
+                "flag": "tavi_forgiven"
+              }
+            }
+          ]
+        },
+        "goto": "scene-14"
+      },
+      {
+        "id": "keep-tavi-close",
+        "label": "KEEP TAVI CLOSE",
+        "text": "\"We stay together.\"",
+        "hiddenUnless": {
+          "all": [
+            {
+              "flag": "with_tavi"
+            },
+            {
+              "not": {
+                "flag": "tavi_forgiven"
+              }
+            }
+          ]
+        },
+        "goto": "scene-13-tunnels"
+      },
+      {
+        "id": "continue",
+        "label": "CONTINUE",
+        "hiddenUnless": {
+          "not": {
+            "all": [
+              {
+                "flag": "with_tavi"
+              },
+              {
+                "not": {
+                  "flag": "tavi_forgiven"
+                }
+              }
+            ]
+          }
+        },
+        "goto": "scene-13-tunnels"
+      }
+    ]
+  },
+  {
+    "id": "scene-13-tunnels",
+    "act": 2,
+    "title": "The tunnels",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The tunnel splits three ways. Every sign has rusted blank."
+      },
+      {
+        "type": "text",
+        "text": "**Left:** dry, wide, toward the old flood gate. You can see a light at the end of it."
+      },
+      {
+        "type": "text",
+        "text": "**Center:** the main line, flooded to the chest. Somewhere under the water is a maintenance walkway, if you can find it in the dark."
+      },
+      {
+        "type": "text",
+        "text": "**Right:** a service crawlway, so low you'd have to crawl on your elbows through the cold."
+      },
+      {
+        "type": "text",
+        "text": "You know this place. You died here. An old maintenance light is still working, green and faint, halfway along the center tunnel. You didn't see it last time.",
+        "when": {
+          "flag": "knows_route"
+        }
+      },
+      {
+        "type": "chip",
+        "text": "center. stay to the left wall. there's a rail under the water. i'll count your steps.",
+        "when": {
+          "flag": "listened"
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "left-to-the-gate",
+        "label": "LEFT, TO THE GATE",
+        "effect": {
+          "time": -600
+        },
+        "goto": "scene-17",
+        "gotoIf": [
+          {
+            "when": {
+              "any": [
+                {
+                  "stat": "heat",
+                  "gte": 4
+                },
+                {
+                  "all": [
+                    {
+                      "flag": "with_tavi"
+                    },
+                    {
+                      "flag": "tavi_forgiven"
+                    }
+                  ]
+                }
+              ]
+            },
+            "goto": "scene-11"
+          }
+        ]
+      },
+      {
+        "id": "center-through-the-water",
+        "label": "CENTER, THROUGH THE WATER",
+        "effect": {
+          "time": -900,
+          "health": -1
+        },
+        "goto": "scene-17",
+        "gotoIf": [
+          {
+            "when": {
+              "not": {
+                "all": [
+                  {
+                    "any": [
+                      {
+                        "flag": "knows_route"
+                      },
+                      {
+                        "flag": "listened"
+                      }
+                    ]
+                  },
+                  {
+                    "stat": "health",
+                    "gte": 2
+                  },
+                  {
+                    "not": {
+                      "blurred": true
+                    }
+                  }
+                ]
+              }
+            },
+            "goto": "scene-15"
+          }
+        ]
+      },
+      {
+        "id": "right-the-crawlway",
+        "label": "RIGHT, THE CRAWLWAY",
+        "effect": {
+          "time": -2400,
+          "health": -1
+        },
+        "goto": "scene-17"
+      }
+    ]
+  },
+  {
+    "id": "scene-14",
+    "act": 2,
+    "title": "TAVI'S TRADE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "You wait at the bottom of the stairs, up to your knees in black water, counting."
+      },
+      {
+        "type": "text",
+        "text": "One minute. Three. Five."
+      },
+      {
+        "type": "text",
+        "text": "Then a light at the end of the left tunnel. Then footsteps, more than one set. Tavi comes back first, walking slowly, the way you walk at a funeral."
+      },
+      {
+        "type": "text",
+        "text": "Sable is a step behind, holding an umbrella even down here."
+      },
+      {
+        "type": "text",
+        "text": "\"Kade,\" Tavi says. Their face is wet, and it isn't from the tunnel. \"Kade, I'm sorry. She's sixteen. She's sixteen and she can't breathe without their medicine and they own her, and you're… you're *you*. You always land on your feet. I thought maybe you'd land on your feet.\""
+      },
+      {
+        "type": "text",
+        "text": "\"I gave Ouro my arm for you,\" Tavi says, almost angry. \"I'd have given her the other one. I just can't give them Lina.\"",
+        "when": {
+          "flag": "tavi_paid"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Sable steps forward, polite as ever. \"Tavi kept their end of the bargain,\" he says. \"Lina will be on a bus home by morning. Halcyon keeps its promises. That's rather the point of us.\""
+      },
+      {
+        "type": "text",
+        "text": "You look at Tavi."
+      },
+      {
+        "type": "text",
+        "text": "Tavi can't look at you."
+      },
+      {
+        "type": "text",
+        "text": "The chip is quiet. Then, very softly:"
+      },
+      {
+        "type": "chip",
+        "text": "i'm sorry, kade. i'm sorry. i tried to tell you."
+      }
+    ],
+    "choices": [
+      {
+        "id": "forgive-them-anyway",
+        "label": "FORGIVE THEM ANYWAY",
+        "text": "\"Get her home, Tavi.\"",
+        "effect": {
+          "setRunFlags": [
+            "forgave"
+          ]
+        },
+        "goto": "scene-14-end"
+      },
+      {
+        "id": "say-nothing",
+        "label": "SAY NOTHING",
+        "effect": {
+          "setRunFlags": [
+            "silent"
+          ]
+        },
+        "goto": "scene-14-end"
+      }
+    ]
+  },
+  {
+    "id": "scene-14-end",
+    "act": 2,
+    "title": "TAVI'S TRADE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Tavi makes a sound like something tearing, and turns away, and walks up the stairs into the rain without looking back.",
+        "when": {
+          "flag": "forgave"
+        }
+      },
+      {
+        "type": "text",
+        "text": "\"Say something,\" Tavi begs. \"Please. Say anything.\" You don't. Tavi walks up the stairs into the rain.",
+        "when": {
+          "flag": "silent"
+        }
+      },
+      {
+        "type": "text",
+        "text": "Sable closes his umbrella and kneels in the water beside you."
+      },
+      {
+        "type": "text",
+        "text": "\"For what it's worth,\" he says, \"I'd have done the same for my sister.\""
+      },
+      {
+        "type": "chip",
+        "text": "next time, ask about lina. ask before it's too late."
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "tavi_secret"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "tavis-trade",
+      "kind": "death",
+      "number": 3
+    }
+  },
+  {
+    "id": "scene-15",
+    "act": 2,
+    "title": "DROWNED",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The water is colder than anything you've ever felt. It closes over your chest, your shoulders, and your breath comes out in short hard gasps that echo off the tunnel walls."
+      },
+      {
+        "type": "text",
+        "text": "You feel ahead with your foot. Concrete. Concrete. Nothing."
+      },
+      {
+        "type": "text",
+        "text": "The floor drops away and the river takes you under."
+      },
+      {
+        "type": "text",
+        "text": "It's not loud. That's the strangest part. Down here the city is gone. No flyover, no rain, no timer. Only a deep, green hum, and the two heartbeats, very loud now, yours and the other one, both slowing down together."
+      },
+      {
+        "type": "text",
+        "text": "The painkillers make it almost gentle. You can't remember which way is up. It doesn't seem important.",
+        "when": {
+          "blurred": true
+        }
+      },
+      {
+        "type": "text",
+        "text": "The chip is shouting."
+      },
+      {
+        "type": "chip",
+        "text": "LEFT WALL. THE RAIL. KADE, THE RAIL IS RIGHT THERE—"
+      },
+      {
+        "type": "text",
+        "text": "Your hand brushes something. Metal. Cold. A handrail, running along the wall just under the surface, the whole way down the tunnel."
+      },
+      {
+        "type": "text",
+        "text": "Your fingers close on it a second too late."
+      },
+      {
+        "type": "text",
+        "text": "Above you, high on the tunnel wall, a small green maintenance light blinks on, then off, then on again. It was there the whole time."
+      },
+      {
+        "type": "chip",
+        "text": "the green light. remember the green light."
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "knows_route"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "drowned",
+      "kind": "death",
+      "number": 4
+    }
+  },
+  {
+    "id": "scene-16",
+    "act": 2,
+    "title": "FLATLINE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The interface goes first."
+      },
+      {
+        "type": "text",
+        "text": "The timer flickers, stutters, and freezes at **00:00:00**. The colors drain out of the screen, then out of the world. Text slides sideways. Words lose their letters."
+      },
+      {
+        "type": "text",
+        "text": "You hear the monitor in your head. *Beep. Beep. Beep.*"
+      },
+      {
+        "type": "text",
+        "text": "Then one long, flat tone."
+      },
+      {
+        "type": "text",
+        "text": "The second heartbeat goes on a moment longer than yours. Then it stops too."
+      },
+      {
+        "type": "text",
+        "text": "White light. The smell of coffee. Nothing else.",
+        "when": {
+          "all": [
+            {
+              "stat": "flatlines",
+              "gte": 1
+            },
+            {
+              "stat": "flatlines",
+              "lte": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "A long white room. Covered shapes, like furniture under sheets. A mug on a desk, still steaming.",
+        "when": {
+          "all": [
+            {
+              "stat": "flatlines",
+              "gte": 2
+            },
+            {
+              "stat": "flatlines",
+              "lte": 2
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "A woman at the desk with her back to you. Grey streaks in dark hair. She's talking into a camera, but you can't hear the words.",
+        "when": {
+          "all": [
+            {
+              "stat": "flatlines",
+              "gte": 3
+            },
+            {
+              "stat": "flatlines",
+              "lte": 3
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "She turns around. She's been crying. She looks right at you and says, \"I'm sorry. You'd do the same.\"",
+        "when": {
+          "all": [
+            {
+              "stat": "flatlines",
+              "gte": 4
+            },
+            {
+              "stat": "flatlines",
+              "lte": 4
+            }
+          ]
+        }
+      },
+      {
+        "type": "text",
+        "text": "You're the one at the desk. You look down at your hands, and they're hers. Across the room a mirror shows Iris Vale, and she's looking back at you.",
+        "when": {
+          "stat": "flatlines",
+          "gte": 5
+        }
+      },
+      {
+        "type": "chip",
+        "text": "that's what i see. every time you die, i see it. it's the first thing i ever saw."
+      }
+    ],
+    "choices": [],
+    "ending": {
+      "id": "flatline",
+      "kind": "death",
+      "number": 5
+    }
+  }
+]
