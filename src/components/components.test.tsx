@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import type { Scene } from '../engine'
 import ChoiceList from './ChoiceList'
+import DebugPanel from './DebugPanel'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import Hud from './Hud'
@@ -163,5 +164,29 @@ describe('EndingTracker', () => {
     expect(html.match(/ending-tracker__slot--locked/g)?.length).toBe(9)
     expect(html).toContain('Ending 2, not found yet')
     expect(html).toContain('02 ???')
+  })
+})
+
+describe('DebugPanel', () => {
+  const html = renderToStaticMarkup(
+    <DebugPanel
+      state={makeState({ runFlags: ['listened'] }, { memoryFlags: ['knows_lazarus'] })}
+      scenes={[{ id: 'scene-01', title: 'THE CLINIC' }, { id: 'scene-19', title: 'THE LAST CHOICE' }]}
+      flags={{ runFlags: ['listened', 'with_tavi'], memoryFlags: ['knows_lazarus'], items: ['painkillers'] }}
+      presets={[{ label: 'Last choice, Merged unlocked', patch: { sceneId: 'scene-19' } }]}
+      onApply={() => undefined}
+      onResetMemory={() => undefined}
+    />,
+  )
+
+  it('lists the presets, every scene and the reset button', () => {
+    expect(html).toContain('Last choice, Merged unlocked')
+    expect(html).toContain('scene-19 · THE LAST CHOICE')
+    expect(html).toContain('Reset memory')
+  })
+
+  it('shows which flags are set right now', () => {
+    expect(html.match(/checked=""/g)?.length).toBe(2) // listened (run) and knows_lazarus (memory)
+    expect(html).toContain('item: painkillers')
   })
 })

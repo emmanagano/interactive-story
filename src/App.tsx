@@ -2,7 +2,7 @@ import {
   Backdrop,
   CalmToggle,
   ChoiceList,
-  DecayPreview,
+  DebugPanel,
   EndingCard,
   EndingTracker,
   EyeVeil,
@@ -11,11 +11,17 @@ import {
   RestartButton,
   SceneView,
 } from './components'
+import { listStoryFlags } from './engine'
+import { DEBUG_PRESETS } from './story/debugPresets'
+import { story } from './story'
 import { useCalmMode, useChipVoice, useChoiceKeys, useDecay, useGame } from './hooks'
 import './App.css'
 
-// Temporary: the preview sliders show in development or with ?debug in the address.
-const showDecayPreview = import.meta.env.DEV || new URLSearchParams(window.location.search).has('debug')
+// The debug panel shows in development or with ?debug in the address.
+const showDebugPanel = import.meta.env.DEV || new URLSearchParams(window.location.search).has('debug')
+
+const debugScenes = Object.values(story).map((scene) => ({ id: scene.id, title: scene.title }))
+const debugFlags = listStoryFlags(story)
 
 function App() {
   const game = useGame()
@@ -63,7 +69,16 @@ function App() {
           <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
         )}
         <EndingTracker slots={game.endingSlots} />
-        {showDecayPreview && <DecayPreview run={game.state.run} onChange={game.previewRun} />}
+        {showDebugPanel && (
+          <DebugPanel
+            state={game.state}
+            scenes={debugScenes}
+            flags={debugFlags}
+            presets={DEBUG_PRESETS}
+            onApply={game.debugApply}
+            onResetMemory={game.debugResetMemory}
+          />
+        )}
       </main>
     </>
   )
