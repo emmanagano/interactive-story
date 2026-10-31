@@ -1,5 +1,5 @@
 import { isConditionMet } from './conditions'
-import { MAX_HEALTH, START_SCENE_ID, STARTING_TIME } from './constants'
+import { FLATLINE_SCENE_ID, MAX_HEALTH, START_SCENE_ID, STARTING_TIME } from './constants'
 import { applyEffect } from './effects'
 import type { Choice, ChooseRefusal, ChooseResult, GameState, Memory, Scene, Story } from './types'
 
@@ -38,11 +38,44 @@ function pickDestination(choice: Choice, stateWhenChosen: GameState): string {
   return branch ? branch.goto : choice.goto
 }
 
+// Time or health at zero means Flatline from any scene. The one exception is a
+// destination that is already a death: the player dies in the right place either way.
+function redirectIfFlatlined(story: Story, state: GameState, destinationId: string): string {
+  const flatlined = state.run.time <= 0 || state.run.health <= 0
+  if (!flatlined) return destinationId
+  return getScene(story, destinationId).ending?.kind === 'death' ? destinationId : FLATLINE_SCENE_ID
+}
+
 function applySceneEntry(state: GameState, scene: Scene): GameState {
   return (scene.onEnter ?? []).reduce(
     (current, entry) => (isConditionMet(entry.when, current) ? applyEffect(current, entry.effect) : current),
     state,
   )
+}
+
+/**
+ * Records what a finished run teaches the next one. Does nothing unless the scene
+ * is an ending. Entry effects run first, so an ending's memory flags are already set.
+ */
+export function endRun(state: GameState, scene: Scene): GameState {
+  if (!scene.ending) return state
+  const { memory } = state
+  const endingsSeen = memory.endingsSeen.includes(scene.ending.id)
+    ? memory.endingsSeen
+    : [...memory.endingsSeen, scene.ending.id]
+  const died = scene.ending.kind === 'death'
+
+  return {
+    ...state,
+    memory: {
+      ...memory,
+      endingsSeen,
+      deaths: memory.deaths + (died ? 1 : 0),
+      // A flatline is a death too; the script sets deaths +1 and flatlines +1.
+      flatlines: memory.flatlines + (scene.id === FLATLINE_SCENE_ID ? 1 : 0),
+      runs: memory.runs + 1,
+    },
+  }
 }
 
 /** Takes one choice. Never throws for player input: it returns why it said no. */
@@ -55,13 +88,14 @@ export function choose(story: Story, state: GameState, choiceId: string): Choose
   if (!isConditionMet(choice.hiddenUnless, state)) return refuse('hidden')
   if (!isConditionMet(choice.requires, state)) return refuse('locked')
 
-  const destinationId = pickDestination(choice, state)
   const afterEffect = choice.effect ? applyEffect(state, choice.effect) : state
+  const destinationId = redirectIfFlatlined(story, afterEffect, pickDestination(choice, state))
   const arrived: GameState = {
     ...afterEffect,
     // The blur lasts until the next choice, so every choice sets it afresh.
     run: { ...afterEffect.run, sceneId: destinationId, blurred: choice.effect?.blur === true },
   }
 
-  return { ok: true, state: applySceneEntry(arrived, getScene(story, destinationId)) }
+  const destination = getScene(story, destinationId)
+  return { ok: true, state: endRun(applySceneEntry(arrived, destination), destination) }
 }

@@ -1,5 +1,6 @@
 export { isConditionMet } from './conditions'
 export { applyEffect } from './effects'
+export { choose, endRun, startRun } from './engine'
 export type {
   Block,
   Branch,
