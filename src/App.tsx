@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Backdrop, EyeVeil, GameScreen, SettingsScreen, TitleScreen } from './components'
+import { Backdrop, EyeVeil, GameScreen, GuideScreen, SettingsScreen, TitleScreen } from './components'
 import { SPEED_MULTIPLIER } from './components/reveal'
 import { heartbeatInterval, soundCueForScene } from './engine'
 import { useChipVoice, useChoiceKeys, useDecay, useGame, useReducedMotion, useReveal, useSettings, useSound } from './hooks'
 import './App.css'
 
-type Screen = 'title' | 'game' | 'settings'
+type Screen = 'title' | 'game' | 'settings' | 'guide'
 
 function App() {
   const game = useGame()
   const settings = useSettings()
   const [screen, setScreen] = useState<Screen>('title')
-  const [leaveSettingsTo, setLeaveSettingsTo] = useState<'title' | 'game'>('title')
+  const [leaveTo, setLeaveTo] = useState<'title' | 'game'>('title')
   const [started, setStarted] = useState(false)
 
   const cleanInterface = game.scene.cleanInterface === true
@@ -52,10 +52,13 @@ function App() {
     if (screen !== 'title') document.querySelector<HTMLElement>('[data-screen-heading]')?.focus()
   }, [screen])
 
-  const openSettings = () => {
-    setLeaveSettingsTo(screen === 'game' ? 'game' : 'title')
-    setScreen('settings')
+  // Settings and the guide both open from the title or the game, and Back returns to where you were.
+  const openFromHere = (next: 'settings' | 'guide') => {
+    setLeaveTo(screen === 'game' ? 'game' : 'title')
+    setScreen(next)
   }
+  const openSettings = () => openFromHere('settings')
+  const openGuide = () => openFromHere('guide')
   const memory = game.state.memory
   const returning = memory.runs > 0 || memory.deaths > 0 || memory.endingsSeen.length > 0
 
@@ -72,8 +75,12 @@ function App() {
               setStarted(true)
               setScreen('game')
             }}
+            onGuide={openGuide}
             onSettings={openSettings}
           />
+        )}
+        {screen === 'guide' && (
+          <GuideScreen foundNumbers={game.endingSlots.filter((slot) => slot.found).map((slot) => slot.number)} onBack={() => setScreen(leaveTo)} />
         )}
         {screen === 'settings' && (
           <SettingsScreen
@@ -91,7 +98,7 @@ function App() {
             }}
             onImport={game.replaceProgress}
             onReset={game.resetProgress}
-            onBack={() => setScreen(leaveSettingsTo)}
+            onBack={() => setScreen(leaveTo)}
           />
         )}
         {screen === 'game' && (
@@ -104,6 +111,9 @@ function App() {
                 {/* Always in reach, so ambient sound can be stopped without opening Settings. */}
                 <button type="button" className="app__settings" onClick={() => settings.setSound(!settings.sound)}>
                   Sound: {settings.sound ? 'on' : 'off'}
+                </button>
+                <button type="button" className="app__settings" onClick={openGuide}>
+                  Summary
                 </button>
                 <button type="button" className="app__settings" onClick={openSettings}>
                   Settings

@@ -8,6 +8,7 @@ import DebugPanel from './DebugPanel'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import BlurNotice from './BlurNotice'
+import GuideScreen from './GuideScreen'
 import Hud from './Hud'
 import SettingsScreen from './SettingsScreen'
 import TitleScreen from './TitleScreen'
@@ -223,7 +224,7 @@ describe('TitleScreen', () => {
   const noop = () => undefined
 
   it('offers Start to a new player and no progress', () => {
-    const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={noop} onSettings={noop} />)
+    const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={noop} onGuide={noop} onSettings={noop} />)
     expect(html).toContain('>Start<')
     expect(html).not.toContain('Continue')
     expect(html).not.toContain('Endings ')
@@ -231,14 +232,14 @@ describe('TitleScreen', () => {
   })
 
   it('offers Continue to a returning player, with how many endings they have', () => {
-    const html = renderToStaticMarkup(<TitleScreen returning endingsFound={3} onStart={noop} onSettings={noop} />)
+    const html = renderToStaticMarkup(<TitleScreen returning endingsFound={3} onStart={noop} onGuide={noop} onSettings={noop} />)
     expect(html).toContain('>Continue<')
     expect(html).not.toContain('>Start<')
     expect(html).toContain('Endings 3/10')
   })
 
   it('hides the decorative heartbeat lines from assistive technology', () => {
-    const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={noop} onSettings={noop} />)
+    const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={noop} onGuide={noop} onSettings={noop} />)
     expect(html).toMatch(/<svg[^>]*aria-hidden="true"/)
   })
 })
@@ -346,5 +347,50 @@ describe('showing what a painkiller did (the "nothing happens" bug)', () => {
 
   it('says calm mode keeps the text sharp, since the blur is off there', () => {
     expect(renderToStaticMarkup(<BlurNotice blurred calm />)).toContain('Calm mode keeps the text sharp')
+  })
+})
+
+describe('GuideScreen', () => {
+  const gated = renderToStaticMarkup(<GuideScreen foundNumbers={[]} onBack={() => undefined} />)
+  const open = renderToStaticMarkup(<GuideScreen foundNumbers={[1, 6]} onBack={() => undefined} startShown />)
+
+  it('starts behind a spoiler warning that gives nothing away', () => {
+    expect(gated).toContain('spoils the whole story and every ending')
+    expect(gated).toContain('Show the summary')
+    for (const spoiler of ["Doc&#x27;s Table", 'Sable', 'LAZARUS', 'Merged', 'Halcyon']) expect(gated).not.toContain(spoiler)
+  })
+
+  it('shows the recap by act and all ten endings once opened', () => {
+    for (const heading of ['The set-up', 'Act 1: the clinic to the Night Market', 'Act 2: the search', 'Act 3: Vale&#x27;s door']) expect(open).toContain(heading)
+    expect(open.match(/guide-screen__ending /g)).toHaveLength(10)
+    expect(open).toContain('Stay at the clinic')
+    expect(open).toContain('Scenes 01 to 07')
+  })
+
+  it('marks which endings you have found and which you have not', () => {
+    expect(open.match(/>Found</g)).toHaveLength(2)
+    expect(open.match(/>Not found yet</g)).toHaveLength(8)
+  })
+
+  it('has one top-level heading and headings in order, so a screen reader can move through it', () => {
+    for (const html of [gated, open]) {
+      const levels = [...html.matchAll(/<h([1-6])/g)].map((match) => Number(match[1]))
+      expect(levels[0]).toBe(1)
+      expect(levels.filter((level) => level === 1)).toHaveLength(1)
+      for (let i = 1; i < levels.length; i += 1) expect(levels[i] - levels[i - 1]).toBeLessThanOrEqual(1)
+    }
+  })
+
+  it('always offers a way back', () => {
+    expect(gated).toContain('>Back<')
+    expect(open).toContain('>Back<')
+  })
+})
+
+describe('the Summary buttons', () => {
+  it('sit on the title screen next to Settings', () => {
+    const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={() => undefined} onGuide={() => undefined} onSettings={() => undefined} />)
+    expect(html.indexOf('>Summary<')).toBeGreaterThan(html.indexOf('>Start<'))
+    expect(html.indexOf('>Summary<')).toBeLessThan(html.indexOf('>Settings<'))
   })
 })
