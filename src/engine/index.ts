@@ -1,5 +1,8 @@
 export { isConditionMet } from './conditions'
 export { applyEffect } from './effects'
+export { computeDecay } from './decay'
+export { loadSettings, saveSettings } from './settings'
+export type { Settings, SettingsResult } from './settings'
 export { choose, endRun, MissingSceneError, startRun } from './engine'
 export { choiceIdForKey, listChoices, visibleBlocks } from './view'
 export type { ListedChoice } from './view'

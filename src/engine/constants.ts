@@ -8,3 +8,4 @@ export const SAVE_KEY = 'flatline:v1'
 export const SAVE_VERSION = 1
 export const MAX_SAVE_CODE_LENGTH = 10_000 // far above a real save, so a pasted wall of text is refused
 export const TOTAL_ENDINGS = 10 // 5 deaths, 4 survivals and the secret one
+export const SETTINGS_KEY = 'flatline:settings:v1' // kept apart from the save, so settings never change the save format
