@@ -18,6 +18,15 @@
   --glow-amber: 0 0 12px rgb(255 176 0 / 50%);
   --glow-red: 0 0 12px rgb(255 77 77 / 55%);
 
+  /* Translucent layers, built from the colors above so nothing new is invented */
+  --glass-panel: color-mix(in srgb, var(--color-panel) 88%, transparent);
+  --glass-night: color-mix(in srgb, var(--color-night) 80%, transparent);
+  --haze-magenta: color-mix(in srgb, var(--color-magenta) 22%, transparent);
+  --haze-cyan: color-mix(in srgb, var(--color-cyan) 16%, transparent);
+  --haze-amber: color-mix(in srgb, var(--color-amber) 55%, transparent);
+  --scanline: color-mix(in srgb, var(--color-night) 55%, transparent);
+  --rain-streak: color-mix(in srgb, var(--color-cyan) 45%, transparent);
+
   /* Fonts */
   --font-display: 'Oxanium', system-ui, sans-serif;
   --font-body: 'IBM Plex Sans', system-ui, sans-serif;
@@ -46,9 +55,14 @@
   --space-7: 3rem;
   --space-8: 4rem;
 
+  /* Layout */
+  --measure: 40rem; /* width of the story column, about 70 characters */
+  --hud-clearance: 9rem; /* room kept above focused items so the sticky HUD never covers them */
+
   /* Shape */
   --radius-sm: 2px;
   --radius-md: 6px;
   --border-thin: 1px;
   --focus-ring-width: 2px;
+  --aberration: 2px; /* how far the red and cyan ghosts sit from glitching text */
 }
