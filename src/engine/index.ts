@@ -6,7 +6,7 @@ export type { EndingSlot } from './endings'
 export { loadSettings, saveSettings } from './settings'
 export type { Settings, SettingsResult } from './settings'
 export { choose, endRun, MissingSceneError, startRun } from './engine'
-export { choiceIdForKey, listChoices, splitEndingBlocks, visibleBlocks } from './view'
+export { choiceIdForEnter, choiceIdForKey, CONTINUE_CHOICE_ID, listChoices, splitEndingBlocks, visibleBlocks } from './view'
 export type { ListedChoice } from './view'
 export {
   browserStorage,

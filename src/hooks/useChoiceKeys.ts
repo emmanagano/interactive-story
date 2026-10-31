@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { choiceIdForKey } from '../engine'
+import { choiceIdForEnter, choiceIdForKey } from '../engine'
 import type { ListedChoice } from '../engine'
 
 type Options = {
@@ -9,7 +9,7 @@ type Options = {
   onRestart: () => void
 }
 
-/** Number keys 1–4 pick a choice. Enter wakes up again once the run has ended. */
+/** Number keys 1–4 pick a choice. Enter continues a scene that only needs pressing on, or wakes up again after an ending. */
 export function useChoiceKeys({ choices, isOver, onChoose, onRestart }: Options): void {
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent): void {
@@ -19,9 +19,16 @@ export function useChoiceKeys({ choices, isOver, onChoose, onRestart }: Options)
 
       if (event.key === 'Enter') {
         // A focused button already handles Enter itself, so only step in when focus is elsewhere.
-        if (isOver && !target?.closest('button, a')) {
+        if (target?.closest('button, a')) return
+        if (isOver) {
           event.preventDefault()
           onRestart()
+          return
+        }
+        const continueId = choiceIdForEnter(choices)
+        if (continueId) {
+          event.preventDefault()
+          onChoose(continueId)
         }
         return
       }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { choiceIdForKey, listChoices, splitEndingBlocks, visibleBlocks } from './view'
+import { choiceIdForEnter, choiceIdForKey, listChoices, splitEndingBlocks, visibleBlocks } from './view'
 import { makeState } from './testState'
 import type { Scene } from './types'
 
@@ -90,5 +90,21 @@ describe('splitEndingBlocks', () => {
     const ending: Scene = { ...scene, ending: { id: 'x', kind: 'survive', number: 6 } }
     const textOnly: Scene['blocks'] = [blocks[0]]
     expect(splitEndingBlocks(ending, textOnly)).toEqual({ story: textOnly, finalChip: null })
+  })
+})
+
+describe('choiceIdForEnter', () => {
+  it('takes the continue choice when the scene has one', () => {
+    const listed = [{ choice: { id: 'continue', label: 'CONTINUE', goto: 'x' }, locked: false }]
+    expect(choiceIdForEnter(listed)).toBe('continue')
+  })
+
+  it('does nothing in a scene that asks the player to decide', () => {
+    expect(choiceIdForEnter(listChoices(scene, makeState()))).toBeNull()
+  })
+
+  it('does nothing if the continue choice is locked', () => {
+    const listed = [{ choice: { id: 'continue', label: 'CONTINUE', goto: 'x' }, locked: true }]
+    expect(choiceIdForEnter(listed)).toBeNull()
   })
 })

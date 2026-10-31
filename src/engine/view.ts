@@ -1,6 +1,9 @@
 import { isConditionMet } from './conditions'
 import type { Block, Choice, GameState, Scene } from './types'
 
+/** A scene that only needs the player to press on uses a choice with this id; Enter takes it. */
+export const CONTINUE_CHOICE_ID = 'continue'
+
 export type ListedChoice = {
   choice: Choice
   locked: boolean // shown greyed out, with no hint how to unlock it
@@ -33,4 +36,10 @@ export function splitEndingBlocks(scene: Scene, blocks: Block[]): { story: Block
   const last = blocks[blocks.length - 1]
   if (!scene.ending || !last || last.type !== 'chip') return { story: blocks, finalChip: null }
   return { story: blocks.slice(0, -1), finalChip: last }
+}
+
+/** Enter takes the "continue" choice when the scene has one, and does nothing otherwise. */
+export function choiceIdForEnter(listed: ListedChoice[]): string | null {
+  const entry = listed.find((candidate) => candidate.choice.id === CONTINUE_CHOICE_ID)
+  return entry && !entry.locked ? entry.choice.id : null
 }
