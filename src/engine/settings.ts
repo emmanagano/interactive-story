@@ -5,12 +5,15 @@ import type { StorageLike } from './memory'
 export const TEXT_SPEEDS = ['slow', 'normal', 'fast', 'instant'] as const
 export type TextSpeed = (typeof TEXT_SPEEDS)[number]
 export const DEFAULT_TEXT_SPEED: TextSpeed = 'normal'
+export const DEFAULT_VOLUME = 0.5
 
 /** Preferences, kept apart from progress so changing one never touches the other. */
 export type Settings = {
-  version: 2
+  version: 3
   calmMode: boolean
   textSpeed: TextSpeed
+  sound: boolean // off until the player turns it on
+  volume: number // 0 to 1
 }
 
 export type SettingsResult = {
@@ -22,18 +25,24 @@ function isTextSpeed(value: unknown): value is TextSpeed {
 }
 
 /**
- * Version 1 only knew calm mode. It is upgraded here, so a player who saved calm mode before text
- * speed existed keeps it. Anything unreadable falls back to the defaults.
+ * Older settings are upgraded here. Version 1 only knew calm mode and version 2 added text speed;
+ * a player keeps whatever they had chosen, and the new options start at their defaults (sound off).
+ * Anything unreadable falls back to the defaults.
  */
 function migrate(parsed: unknown): Settings | null {
   if (typeof parsed !== 'object' || parsed === null || !('version' in parsed) || !('calmMode' in parsed)) return null
   if (typeof parsed.calmMode !== 'boolean') return null
-  if (parsed.version === 1) return { version: 2, calmMode: parsed.calmMode, textSpeed: DEFAULT_TEXT_SPEED }
-  if (parsed.version === 2) {
-    const textSpeed = 'textSpeed' in parsed && isTextSpeed(parsed.textSpeed) ? parsed.textSpeed : DEFAULT_TEXT_SPEED
-    return { version: 2, calmMode: parsed.calmMode, textSpeed }
-  }
-  return null
+  const calmMode = parsed.calmMode
+  if (parsed.version === 1) return { version: 3, calmMode, textSpeed: DEFAULT_TEXT_SPEED, sound: false, volume: DEFAULT_VOLUME }
+  if (parsed.version !== 2 && parsed.version !== 3) return null
+
+  const textSpeed = 'textSpeed' in parsed && isTextSpeed(parsed.textSpeed) ? parsed.textSpeed : DEFAULT_TEXT_SPEED
+  if (parsed.version === 2) return { version: 3, calmMode, textSpeed, sound: false, volume: DEFAULT_VOLUME }
+
+  const sound = 'sound' in parsed && parsed.sound === true
+  const volume =
+    'volume' in parsed && typeof parsed.volume === 'number' && parsed.volume >= 0 && parsed.volume <= 1 ? parsed.volume : DEFAULT_VOLUME
+  return { version: 3, calmMode, textSpeed, sound, volume }
 }
 
 export function loadSettings(storage: StorageLike | null = browserStorage()): SettingsResult {
