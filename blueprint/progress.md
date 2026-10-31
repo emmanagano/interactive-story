@@ -58,6 +58,7 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 1.2 | Emma updated the script: Scene 08 now sets `memory_taken` and `eye_taken`, and every "→ Act 3" / "→ Act 2: ..." became a scene number (Scene 17 for Act 3). Both open issues are closed |
 | 2026-11-01 | 1.2 | `isConditionMet(condition, state)`: `undefined` means always met; a flag matches run or memory flags; `gte`/`lte` are inclusive; a stat condition with no bounds is met; `all: []` is true and `any: []` is false |
 | 2026-11-01 | 1.1 | Format change (Emma approved): `Scene.onEnter` holds effects that fire on arrival, so endings can leave memory flags without engine special-cases |
 | 2026-11-01 | 1.1 | Format change: `Choice.gotoIf` lists conditional destinations (first match wins, else `goto`), for Scene 13's branching exits |
@@ -83,6 +84,4 @@ Newest first. One line each: date, step, what was decided and why.
 
 Things found during a step that need Emma's input. Remove them once they're answered.
 
-- Script gap: Scene 08's "Pay with a memory" says Partners is locked this run, and Scene 19 needs "Tavi's memory not sold", but the script never names the flag. I need a name (for example `memory_taken`) before Step 2.1 or 4.1. The script is untouched.
-- Script continuity: several choices end in "→ Act 3" (e.g. Scene 13) without naming a scene. I'm assuming Scene 17 (Vale's Door). To confirm in Step 4.1; the script is untouched.
 - `npm audit` reports a moderate minimatch advisory inside the ESLint toolchain (dev only, not shipped). The only offered fix downgrades typescript-eslint, so I left it.
