@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 5.2 · Path tests
+**Current step:** 5.3 · Emma's playtest (needs Emma)
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -36,7 +36,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 
 ### Phase 5 · Debug panel and full playtest
 - [x] 5.1 Debug panel
-- [ ] 5.2 Path tests
+- [x] 5.2 Path tests
 - [ ] 5.3 Emma's playtest
 
 ### Phase 6 · Polish and accessibility
@@ -58,6 +58,9 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 5.2 | `story/endings.test.ts` plays one scripted run to each of the ten endings through the real story and checks the ten ids match the story's own ending list. A three-run campaign follows the Act 3 reference's fastest path to Merged: Doc's Table, then Reyes's office, the Lab files and a drowning (two deaths, the name and the route learned), then listen, type LAZARUS, let it in. A second test shows the chip route is still locked after one death |
+| 2026-11-01 | 5.2 | Checked the tests can fail: renaming `door_lazarus` in Merged's lock made four tests fail (this one, the Act 3 test, and the story checker). The older route tests in `acts.test.ts` stay; they check details (costs, flags) that this file does not |
+| 2026-11-01 | 5.2 | The Flatline path in the table is the script's slowest route, which runs health to zero around three hours in. It is there on purpose and ties to the open balance issue |
 | 2026-11-01 | 5.1 | Debug panel (dev or `?debug` only; verified hidden in the production build without it). Logic is pure and tested: `applyDebugPatch` clamps and replaces, `listStoryFlags` reads flags and items from the scenes. Presets live in `story/debugPresets.ts` and a test fails if one names a flag the story cannot set |
 | 2026-11-01 | 5.1 | Debug changes to past runs are saved, so a reload keeps the tracker and unlocks. "Reset memory" clears the save. The temporary decay sliders were removed. Verified: preset, then "Let it in", reaches Merged in about a second of browser time |
 | 2026-11-01 | 4.3 | Format change (Emma delegated): `Scene.cleanInterface?: true`. Scene 23 sets it. It forces `--decay` to 0 and the HUD to "TIME ∞ / full health / HEAT 0", and announces "Interface restored…". Validated, documented in CLAUDE.md |
