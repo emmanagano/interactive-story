@@ -1,5 +1,7 @@
 export { isConditionMet } from './conditions'
 export { applyEffect } from './effects'
+export { chipVoice } from './chipVoice'
+export type { ChipVoice } from './chipVoice'
 export { computeDecay } from './decay'
 export { endingHeader, listEndingSlots } from './endings'
 export type { EndingSlot } from './endings'

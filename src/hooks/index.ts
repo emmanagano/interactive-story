@@ -1,4 +1,5 @@
 export { useCalmMode } from './useCalmMode'
+export { useChipVoice } from './useChipVoice'
 export { useChoiceKeys } from './useChoiceKeys'
 export { useDecay } from './useDecay'
 export { useGame } from './useGame'

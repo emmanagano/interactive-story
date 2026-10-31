@@ -5,20 +5,37 @@
   text-shadow: var(--glow-amber);
 }
 
+/* How hard the red and cyan split lands depends on how well the chip knows Kade (deaths so far). */
+.chip-line {
+  --chip-glitch: 1;
+}
+
+:root[data-chip-voice='broken'] .chip-line {
+  --chip-glitch: 1.6;
+}
+
+:root[data-chip-voice='human'] .chip-line {
+  --chip-glitch: 0.5;
+}
+
+:root[data-chip-voice='calm'] .chip-line {
+  --chip-glitch: 0;
+}
+
 /* One quick red and cyan split as the chip comes through, then it settles. */
 @keyframes chip-glitch-in {
   0% {
-    transform: translateX(calc(var(--aberration) * -2));
+    transform: translateX(calc(var(--aberration) * var(--chip-glitch) * -2));
     text-shadow:
-      calc(var(--aberration) * -1) 0 var(--color-red),
-      var(--aberration) 0 var(--color-cyan);
+      calc(var(--aberration) * var(--chip-glitch) * -1) 0 var(--color-red),
+      calc(var(--aberration) * var(--chip-glitch)) 0 var(--color-cyan);
   }
 
   40% {
-    transform: translateX(var(--aberration));
+    transform: translateX(calc(var(--aberration) * var(--chip-glitch)));
     text-shadow:
-      var(--aberration) 0 var(--color-red),
-      calc(var(--aberration) * -1) 0 var(--color-cyan);
+      calc(var(--aberration) * var(--chip-glitch)) 0 var(--color-red),
+      calc(var(--aberration) * var(--chip-glitch) * -1) 0 var(--color-cyan);
   }
 
   100% {
@@ -30,5 +47,30 @@
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-calm]) .chip-line {
     animation: chip-glitch-in 0.35s steps(4) 1;
+  }
+}
+
+/* A chip that has never been heard before keeps cutting out. */
+@keyframes chip-cut-out {
+  0%,
+  93%,
+  100% {
+    opacity: 1;
+  }
+
+  95% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-calm])[data-chip-voice='broken'] .chip-line {
+    animation:
+      chip-glitch-in 0.35s steps(4) 1,
+      chip-cut-out 4s steps(1) 0.5s infinite;
+  }
+
+  :root:not([data-calm])[data-chip-voice='calm'] .chip-line {
+    animation: none;
   }
 }
