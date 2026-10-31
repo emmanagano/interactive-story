@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 6.3 · Accessibility audit (5.3, Emma's playtest, is still open)
+**Current step:** 7.1 · Sound (5.3, Emma's playtest, is still open)
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -42,7 +42,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 ### Phase 6 · Polish and accessibility
 - [x] 6.1 Text reveal and transitions
 - [x] 6.2 Title and settings screens
-- [ ] 6.3 Accessibility audit
+- [x] 6.3 Accessibility audit
 
 ### Phase 7 · Audio
 - [ ] 7.1 Sound
@@ -58,6 +58,12 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 6.3 | Audit method: Chrome's own contrast audit (`Audits.checkContrast`) and accessibility tree, plus scripted keyboard, focus, reduced-motion, reflow and tap-target checks, all in headless Chrome. axe-core was fetched to try, but running it was blocked by the auto-mode check (it injects downloaded code), so it was not run and is not in the project |
+| 2026-11-01 | 6.3 | Contrast: 0 low-contrast text issues on the title, a scene, maximum decay (2 min, 1 HP), the last choice with locks, an ending card, settings and the reset dialog. Token pairs at full colour drain were computed in Step 3.3 |
+| 2026-11-01 | 6.3 | Keyboard only, no mouse or number keys: Enter on Start, Tab through Settings, STAY, BOLT and the locked choice, Enter on STAY reaches Doc's Table, focus lands on WAKE UP AGAIN, Enter returns to the clinic. Every tab stop showed a ring or glow. With the sticky HUD, 0 of 34 focus stops were covered when tabbing a short window |
+| 2026-11-01 | 6.3 | Reduced motion (system setting): 0 running animations on the title; the game shows text at once. Reflow: no sideways scroll at 320 and 375 px, nor with text at 200%. Tap targets: every real control is at least 44px after the fix below (only the dev-only debug panel is smaller) |
+| 2026-11-01 | 6.3 | Fixed: (1) both confirmation dialogs shared one title id, so the reset dialog was named "Replace your progress?" (now `useId`); (2) Settings began at an h2 (now h1, then h2); (3) the Calm mode switch was 24px high (now 44px). Each has a test |
+| 2026-11-01 | 6.3 | Not checked, so please do: a real screen reader (VoiceOver: Cmd+F5) for tone and order, forced-colors or high-contrast mode, and the decay's trembling for anyone sensitive to motion (calm mode removes it). Pressing a locked choice does nothing and says nothing beyond its "(locked)" name |
 | 2026-11-01 | 6.2 | The app switches between `title`, `game` and `settings` (state in `App`, no router). The text reveal only starts once the player presses Start, and opening Settings mid-run does not restart it. Number keys only answer on the game screen. Focus goes to each screen's heading on entry (the title focuses Start itself) |
 | 2026-11-01 | 6.2 | Title: Start for a new player, Continue for a returning one (runs, deaths or any ending found), plus Settings and "Endings n/10". Continue starts the next run with everything learned, since runs are not saved midway. The two heartbeat traces (Kade's green, the chip's amber, out of step) sweep across, and sit still in calm mode or with reduced motion. No tagline was added: no new story copy |
 | 2026-11-01 | 6.2 | Settings: calm mode, text speed (slow 0.6x, normal, fast 2.2x, instant), sound (disabled, "not available yet" until Phase 7), save code export (shown on request, with Copy) and import, and reset. Format change: settings are version 2 under the same `flatline:settings:v1` key, upgraded from version 1 on load. The game save format is unchanged. CLAUDE.md notes it |
