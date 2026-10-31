@@ -1,7 +1,5 @@
 .scene-view {
   max-width: var(--measure);
-  scrollbar-color: var(--color-cyan) transparent;
-  scrollbar-width: thin;
   padding: var(--space-5) var(--space-6);
   border: var(--border-thin) solid var(--color-line);
   border-left: var(--focus-ring-width) solid var(--color-magenta);
@@ -88,5 +86,76 @@
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-calm]) .scene-view__page {
     animation: scene-view-enter 0.3s ease-out;
+  }
+}
+
+/* A scrollbar that is always there. macOS hides its own until you scroll, which left nothing to say
+   this panel scrolls. Chrome and Safari draw this one; Firefox gets the standard properties below. */
+.scene-view::-webkit-scrollbar {
+  width: 0.75rem;
+}
+
+.scene-view::-webkit-scrollbar-track {
+  background: var(--glass-panel);
+  border-left: var(--border-thin) solid var(--color-line);
+}
+
+.scene-view::-webkit-scrollbar-thumb {
+  border: var(--space-1) solid transparent;
+  border-radius: var(--space-3);
+  background: var(--color-cyan);
+  background-clip: content-box;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .scene-view {
+    scrollbar-color: var(--color-cyan) var(--glass-panel);
+    scrollbar-width: auto;
+  }
+}
+
+/* "Scroll for more": a fade over the bottom of the panel while there is text below. It sits at the
+   end of the content and is pulled up over it, so it adds no height. The panel's padding holds a
+   sticky element back from the edge, so it is pushed out into that padding to reach the real bottom. */
+.scene-view__more {
+  --cue-height: 4.5rem;
+
+  position: sticky;
+  bottom: calc(var(--space-5) * -1);
+  display: flex;
+  gap: var(--space-1);
+  align-items: flex-end;
+  justify-content: center;
+  height: var(--cue-height);
+  margin-top: calc(var(--cue-height) * -1);
+  padding-bottom: var(--space-2);
+  background: linear-gradient(to bottom, transparent, var(--glass-night) 75%);
+  color: var(--color-cyan);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-shadow: var(--glow-cyan);
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.scene-view__more--visible {
+  opacity: 1;
+}
+
+@keyframes scene-view-nudge {
+  50% {
+    translate: 0 var(--space-1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scene-view__more {
+    transition: opacity 0.2s;
+  }
+
+  :root:not([data-calm]) .scene-view__more--visible .scene-view__more-arrow {
+    animation: scene-view-nudge 1.4s ease-in-out infinite;
   }
 }

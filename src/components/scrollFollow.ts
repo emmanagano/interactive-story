@@ -9,3 +9,8 @@ export function scrollTopToShow(bottom: number, scrollTop: number, viewHeight: n
   if (bottom + margin <= visibleBottom) return null
   return bottom + margin - viewHeight
 }
+
+/** True while there is more to read below the visible part of a scrolling panel (a few pixels of slack for rounding). */
+export function hasMoreBelow(scrollHeight: number, scrollTop: number, clientHeight: number): boolean {
+  return scrollHeight - scrollTop - clientHeight > 4
+}

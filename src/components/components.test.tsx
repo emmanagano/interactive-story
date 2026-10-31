@@ -49,6 +49,14 @@ describe('SceneView', () => {
     expect(html).not.toContain('Show all text')
   })
 
+  it('has a hidden-from-readers "scroll for more" cue, which starts out off', () => {
+    const blocks: Block[] = [{ type: 'text', text: 'A long scene.' }]
+    const html = renderToStaticMarkup(<SceneView scene={scene} blocks={blocks} reveal={shownAtOnce(blocks)} sceneKey="a" />)
+    expect(html).toMatch(/<div class="scene-view__more" aria-hidden="true">/)
+    expect(html).toContain('Scroll for more')
+    expect(html).not.toContain('scene-view__more--visible')
+  })
+
   it('is a focusable, labelled region, because it scrolls by itself', () => {
     const blocks: Block[] = [{ type: 'text', text: 'A long scene.' }]
     const html = renderToStaticMarkup(<SceneView scene={scene} blocks={blocks} reveal={shownAtOnce(blocks)} sceneKey="a" />)

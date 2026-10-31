@@ -1,11 +1,11 @@
-import { useEffect, useId, useRef } from 'react'
+import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import type { Block, Scene } from '../engine'
 import type { Reveal } from '../hooks'
 import ChipLine from './ChipLine'
 import { plainText } from './parseEmphasis'
 import { revealedCount } from './reveal'
 import RichText from './RichText'
-import { scrollTopToShow } from './scrollFollow'
+import { hasMoreBelow, scrollTopToShow } from './scrollFollow'
 import './SceneView.css'
 
 type Props = {
@@ -23,12 +23,28 @@ function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
   const following = useRef(true) // keep the newest typed line in view, until the reader scrolls themselves
   const shownSceneId = useRef<string | null>(null)
   const headingId = useId()
+  const [moreBelow, setMoreBelow] = useState(false)
+
+  const updateMoreBelow = useCallback(() => {
+    const panel = panelRef.current
+    if (panel) setMoreBelow(hasMoreBelow(panel.scrollHeight, panel.scrollTop, panel.clientHeight))
+  }, [])
+
+  // The panel can change size (a window resize) as well as scroll, and either changes whether there is more to read.
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!panel) return
+    const observer = new ResizeObserver(updateMoreBelow)
+    observer.observe(panel)
+    return () => observer.disconnect()
+  }, [updateMoreBelow])
 
   // A new scene starts at the top and follows the typing again.
   useEffect(() => {
     following.current = true
     panelRef.current?.scrollTo({ top: 0 })
-  }, [sceneKey])
+    updateMoreBelow()
+  }, [sceneKey, updateMoreBelow])
 
   // While text types out, the panel scrolls so the newest line stays in view.
   useEffect(() => {
@@ -62,6 +78,7 @@ function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
       ref={panelRef}
       tabIndex={0}
       aria-labelledby={headingId}
+      onScroll={updateMoreBelow}
       onWheel={stopFollowing}
       onTouchMove={stopFollowing}
       onPointerDown={(event) => {
@@ -111,6 +128,10 @@ function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
             </p>
           )
         })}
+      </div>
+      {/* A cue that there is more to read. Screen readers already get all the text, so it is only for the eyes. */}
+      <div className={moreBelow ? 'scene-view__more scene-view__more--visible' : 'scene-view__more'} aria-hidden="true">
+        <span>Scroll for more</span> <span className="scene-view__more-arrow">▾</span>
       </div>
     </article>
   )
