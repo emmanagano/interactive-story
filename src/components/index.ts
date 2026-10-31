@@ -1,7 +1,6 @@
 export { default as Backdrop } from './Backdrop'
 export { default as ChipLine } from './ChipLine'
 export { default as ChoiceList } from './ChoiceList'
-export { default as DebugPanel } from './DebugPanel'
 export { default as EndingCard } from './EndingCard'
 export { default as EndingTracker } from './EndingTracker'
 export { default as EyeVeil } from './EyeVeil'

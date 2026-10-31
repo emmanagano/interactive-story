@@ -1,9 +1,9 @@
+import { lazy, Suspense } from 'react'
 import { listStoryFlags } from '../engine'
 import type { Game, Reveal } from '../hooks'
 import { DEBUG_PRESETS } from '../story/debugPresets'
 import { story } from '../story'
 import ChoiceList from './ChoiceList'
-import DebugPanel from './DebugPanel'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import GameNotices from './GameNotices'
@@ -11,7 +11,9 @@ import Hud from './Hud'
 import RestartButton from './RestartButton'
 import SceneView from './SceneView'
 
-// The debug panel shows in development or with ?debug in the address.
+// The debug panel shows in development or with ?debug in the address. It is loaded only then,
+// so ordinary players never download it.
+const DebugPanel = lazy(() => import('./DebugPanel'))
 const showDebugPanel = import.meta.env.DEV || new URLSearchParams(window.location.search).has('debug')
 const debugScenes = Object.values(story).map((scene) => ({ id: scene.id, title: scene.title }))
 const debugFlags = listStoryFlags(story)
@@ -52,14 +54,16 @@ function GameScreen({ game, reveal, sceneKey, cleanInterface }: Props) {
       )}
       <EndingTracker slots={game.endingSlots} />
       {showDebugPanel && (
-        <DebugPanel
-          state={game.state}
-          scenes={debugScenes}
-          flags={debugFlags}
-          presets={DEBUG_PRESETS}
-          onApply={game.debugApply}
-          onResetMemory={game.resetProgress}
-        />
+        <Suspense fallback={null}>
+          <DebugPanel
+            state={game.state}
+            scenes={debugScenes}
+            flags={debugFlags}
+            presets={DEBUG_PRESETS}
+            onApply={game.debugApply}
+            onResetMemory={game.resetProgress}
+          />
+        </Suspense>
       )}
     </>
   )
