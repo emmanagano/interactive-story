@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** 2.1 · Convert Act 1
+**Current step:** 2.2 · Story validation
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -19,7 +19,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 1.5 Memory
 
 ### Phase 2 · Act 1, playable and plain
-- [ ] 2.1 Convert Act 1
+- [x] 2.1 Convert Act 1
 - [ ] 2.2 Story validation
 - [ ] 2.3 Minimal UI
 
@@ -58,6 +58,12 @@ Newest first. One line each: date, step, what was decided and why.
 
 | Date | Step | Decision |
 | --- | --- | --- |
+| 2026-11-01 | 2.1 | Act 1 is `src/story/act1.json` (8 scenes: 01–07 plus `scene-03-office` for the "Searching the office" screen). Text was copied from the script by a script and checked back against it: 93 player-facing lines, none missing |
+| 2026-11-01 | 2.1 | Kept `*` and `**` marks in text exactly as written (Step 2.3 renders them). Chip lines are stored without the `> `; ChipLine adds it. Time costs are H:MM in the script, so −0:40 is −2400 seconds |
+| 2026-11-01 | 2.1 | Scene 07's closing paragraph and two chip lines (printed after the choices in the script) sit at the end of the scene's blocks. "END OF ACT 1" and "WAKE UP AGAIN" are left out (the ending card handles the latter). The Scene 02 "FLATLINE · ENDING 01 / 10" line is a system block |
+| 2026-11-01 | 2.1 | Ending id `docs-table`. Planned ids for the rest: `caught`, `tavis-trade`, `drowned`, `flatline`, `sold`, `company-man`, `removed`, `partners`, `merged` (saved in `endingsSeen`, so do not rename) |
+| 2026-11-01 | 2.1 | Scene 01's opening chip line follows the Act 3 priority list: the broken default shows only when none of saw_merged, deaths ≥ 5, was_removed, saw_company, saw_sold applies, and exactly one of those variants shows |
+| 2026-11-01 | 2.1 | Left out as not player text: the purpose paragraph at the top of every scene, writer's notes, `Sets`/`Gains` lines (turned into effects), and notes like "Tavi stays behind" and "then choose a road" |
 | 2026-11-01 | 1.5 | Save format v1 is the `Memory` object as JSON under `flatline:v1`. All data from storage or an import goes through one validator, `parseMemory`, which is also where future migrations go |
 | 2026-11-01 | 1.5 | `loadMemory` always returns usable memory plus a status (`loaded`, `empty`, `corrupted`, `unavailable`) so the UI can explain. `saveMemory` returns false when a save did not stick |
 | 2026-11-01 | 1.5 | Import replaces progress rather than merging (Emma approved); unreadable saves get overwritten by the next save; save codes are plain base64, not secret. Codes over 10,000 characters are refused |
@@ -97,4 +103,8 @@ Newest first. One line each: date, step, what was decided and why.
 
 Things found during a step that need Emma's input. Remove them once they're answered.
 
+- Script mismatch: Scene 01's was_removed chip line (`you let her cut me out last time. i'm asking you not to let him put me to sleep.`) differs from the Act 3 reference's (`you let her kill me last time.`). I used Scene 01's. The Act 3 reference also shortens the deaths ≥ 5 line to `run six. hi, kade. it's me again.`; I used Scene 01's full line.
+- Script mismatch: "run six" is meant to count up with each run (Act 3 reference), but story text is fixed. It is stored as written; needs a small template feature if you want the number to change.
+- Format question: when the opening chip line is a variant, the default line is hidden, so "The words aren't on the monitor. They're behind your eyes, flickering like a bad sign." follows no chip line. Read Scene 01 on a later run and tell me if it reads wrong.
+- Scene 07 and others point at `scene-08`, `scene-10`, `scene-12` and `scene-13`, which do not exist until Step 4.1. `choose` throws on a missing scene, so Step 2.2's validator must allow those four and Step 2.3 must show a gentle placeholder.
 - `npm audit` reports a moderate minimatch advisory inside the ESLint toolchain (dev only, not shipped). The only offered fix downgrades typescript-eslint, so I left it.
