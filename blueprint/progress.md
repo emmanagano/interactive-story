@@ -1,6 +1,11 @@
 # Progress
 
-**Current step:** 8.2 · Outside playtest (needs Emma; 5.3 and the 8.1 Lighthouse run are still open; 8.3 README is written)
+**Current step:** None to build. 26 of 28 steps are done and the code is finished. What is left needs people:
+
+- 5.3 Emma's playtest (five or more full runs)
+- 8.2 Outside playtest (two or three other players)
+- 8.1 final checks on the live site: a Lighthouse run, and a look at the shared-link preview
+- The README's live link, and the story questions under Open issues
 
 Claude Code updates this file at the end of every step: mark the step done, set the next current step, and log anything decided along the way.
 
@@ -37,7 +42,7 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 ### Phase 5 · Debug panel and full playtest
 - [x] 5.1 Debug panel
 - [x] 5.2 Path tests
-- [ ] 5.3 Emma's playtest
+- [ ] 5.3 Emma's playtest (needs Emma: play five or more full runs, then bring the notes back)
 
 ### Phase 6 · Polish and accessibility
 - [x] 6.1 Text reveal and transitions
@@ -48,8 +53,8 @@ Claude Code updates this file at the end of every step: mark the step done, set 
 - [x] 7.1 Sound
 
 ### Phase 8 · Ship it
-- [x] 8.1 Performance and meta tags
-- [ ] 8.2 Outside playtest
+- [x] 8.1 Performance and meta tags (built and tested; the Lighthouse run and the share-preview check on the live site are still Emma's, see Open issues)
+- [ ] 8.2 Outside playtest (needs Emma and other people: send the link, watch one person play, bring the notes back)
 - [x] 8.3 README for the portfolio
 
 ## Decisions log
