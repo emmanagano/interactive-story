@@ -1,6 +1,8 @@
 export { default as Backdrop } from './Backdrop'
+export { default as CalmToggle } from './CalmToggle'
 export { default as ChipLine } from './ChipLine'
 export { default as ChoiceList } from './ChoiceList'
+export { default as DecayPreview } from './DecayPreview'
 export { default as GameNotices } from './GameNotices'
 export { default as Hud } from './Hud'
 export { default as RestartButton } from './RestartButton'

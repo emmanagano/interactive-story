@@ -4,8 +4,17 @@
   padding: var(--space-6) var(--space-4) var(--space-8);
 }
 
-.app__title {
+.app__header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: var(--space-4);
+}
+
+.app__title {
+  margin: 0;
   font-size: var(--text-3xl);
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -17,7 +26,6 @@
   }
 
   .app__title {
-    margin-bottom: var(--space-3);
     font-size: var(--text-xl);
   }
 }

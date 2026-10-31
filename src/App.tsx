@@ -1,9 +1,14 @@
-import { Backdrop, ChoiceList, GameNotices, Hud, RestartButton, SceneView } from './components'
-import { useChoiceKeys, useGame } from './hooks'
+import { Backdrop, CalmToggle, ChoiceList, DecayPreview, GameNotices, Hud, RestartButton, SceneView } from './components'
+import { useCalmMode, useChoiceKeys, useDecay, useGame } from './hooks'
 import './App.css'
+
+// Temporary: the preview sliders show in development or with ?debug in the address.
+const showDecayPreview = import.meta.env.DEV || new URLSearchParams(window.location.search).has('debug')
 
 function App() {
   const game = useGame()
+  const { calm, setCalm } = useCalmMode()
+  useDecay(game.state.run)
   useChoiceKeys({
     choices: game.choices,
     isOver: game.isOver,
@@ -15,7 +20,10 @@ function App() {
     <>
       <Backdrop />
       <main className="app">
-        <h1 className="app__title">Flatline</h1>
+        <header className="app__header">
+          <h1 className="app__title">Flatline</h1>
+          <CalmToggle calm={calm} onChange={setCalm} />
+        </header>
         <Hud
           run={game.state.run}
           endingsFound={game.state.memory.endingsSeen.length}
@@ -32,8 +40,9 @@ function App() {
         {game.isOver ? (
           <RestartButton onRestart={game.restart} />
         ) : (
-          <ChoiceList choices={game.choices} onChoose={game.choose} />
+          <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
         )}
+        {showDecayPreview && <DecayPreview run={game.state.run} onChange={game.previewRun} />}
       </main>
     </>
   )

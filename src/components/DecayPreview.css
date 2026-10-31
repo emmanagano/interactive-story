@@ -1,0 +1,15 @@
+.decay-preview {
+  max-width: var(--measure);
+  margin: var(--space-6) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-thin) dashed var(--color-dim);
+  color: var(--color-dim);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.decay-preview__row {
+  display: grid;
+  gap: var(--space-1);
+  margin: var(--space-2) 0;
+}

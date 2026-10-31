@@ -74,6 +74,8 @@
 
 .hud__meter--heat .hud__value {
   color: var(--color-red);
+  /* Large text (24px) so the red still passes contrast (3:1) when decay drains its colour. */
+  font-size: var(--text-lg);
 }
 
 .hud__bars {
