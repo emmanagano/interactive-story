@@ -17,6 +17,7 @@ export type Effect = {
   setMemoryFlags?: string[]
   addItem?: string
   useItem?: string
+  blur?: true // blur choice text until the player's next choice (painkillers)
   // deaths, flatlines and runs are deliberately absent: the engine counts them
   // automatically, so a story file cannot get them wrong.
 }
@@ -90,3 +91,16 @@ export type GameState = {
   run: RunState
   memory: Memory
 }
+
+/** Every scene in the game, looked up by id. */
+export type Story = Record<string, Scene>
+
+export type ChooseRefusal =
+  | 'unknown-choice' // no such choice in the current scene
+  | 'hidden' // hiddenUnless is not met
+  | 'locked' // requires is not met
+  | 'run-over' // the current scene is an ending
+
+export type ChooseResult =
+  | { ok: true; state: GameState }
+  | { ok: false; reason: ChooseRefusal }

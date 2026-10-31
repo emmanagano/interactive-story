@@ -93,6 +93,7 @@ type Effect = {
   setMemoryFlags?: string[];
   addItem?: string;
   useItem?: string;
+  blur?: true;        // blur choice text until the player's next choice (painkillers)
 };                  // no deaths/flatlines: the engine counts those itself
 
 type Branch = { when: Condition; goto: string };
@@ -126,7 +127,7 @@ type Scene = {
 };
 ```
 
-Variants in the script (`[if reyes_lied]`, `[if Heat ≥ 2]`) become blocks with a `when` condition. A script line like `**Sets:** *reyes_lied*` on a scene becomes `onEnter`, and a choice that leads to different scenes (`→ Scene 11 if Heat ≥ 4, otherwise → Act 3`) uses `gotoIf`. Writer's notes in the script are not shown to players; keep them out of the JSON.
+Variants in the script (`[if reyes_lied]`, `[if Heat ≥ 2]`) become blocks with a `when` condition. A script line like `**Sets:** *reyes_lied*` on a scene becomes `onEnter`, and a choice that leads to different scenes (`→ Scene 11 if Heat ≥ 4, otherwise → Scene 17`) uses `gotoIf`. `gotoIf` conditions are checked against the state as it was when the player chose, before the choice's own cost. Writer's notes in the script are not shown to players; keep them out of the JSON.
 
 ## Visual direction
 

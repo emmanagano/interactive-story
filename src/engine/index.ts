@@ -3,6 +3,8 @@ export { applyEffect } from './effects'
 export type {
   Block,
   Branch,
+  ChooseRefusal,
+  ChooseResult,
   Choice,
   Condition,
   Effect,
@@ -14,4 +16,5 @@ export type {
   Scene,
   SceneEntry,
   StatName,
+  Story,
 } from './types'
