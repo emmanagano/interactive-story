@@ -1,0 +1,311 @@
+[
+  {
+    "id": "scene-01",
+    "act": 1,
+    "title": "THE CLINIC",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "**Your heart stopped for forty-one seconds.**"
+      },
+      {
+        "type": "text",
+        "text": "Doc Reyes says it like good news. He's peeling wet gauze off the back of your neck, and the cold air finds something there. Something the size of a coin, under the skin, warm. Pulsing, a little out of time with you."
+      },
+      {
+        "type": "text",
+        "text": "\"Whoever jumped you didn't rob you, Kade,\" he says. \"They installed it.\""
+      },
+      {
+        "type": "text",
+        "text": "The clinic smells like rust and rubbing alcohol. Rain drums on the flyover overhead, and every truck that crosses it shakes dust from the ceiling onto your sheet. A paper charm of a fat smiling cat hangs from the IV pole. Reyes always says it's for the patients. You've never seen anyone else in here."
+      },
+      {
+        "type": "text",
+        "text": "You remember the package: a black case, no logo, heavier than it looked. You remember Tavi grinning across the noodle counter, calling it the easiest job of the month. You remember the alley behind Sector 9."
+      },
+      {
+        "type": "text",
+        "text": "Then nothing."
+      },
+      {
+        "type": "text",
+        "text": "On the monitor beside the bed, a green line jumps and falls. Then another one, just behind it, smaller."
+      },
+      {
+        "type": "text",
+        "text": "Two heartbeats."
+      },
+      {
+        "type": "text",
+        "text": "One of them is yours."
+      },
+      {
+        "type": "chip",
+        "text": "k…kade. d0n't— the sh0t. don't let him g—",
+        "when": {
+          "not": {
+            "any": [
+              {
+                "flag": "saw_merged"
+              },
+              {
+                "stat": "deaths",
+                "gte": 5
+              },
+              {
+                "flag": "was_removed"
+              },
+              {
+                "flag": "saw_company"
+              },
+              {
+                "flag": "saw_sold"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "text",
+        "text": "The words aren't on the monitor. They're behind your eyes, flickering like a bad sign."
+      },
+      {
+        "type": "text",
+        "text": "Reyes doesn't notice. He's filling a syringe with something the color of weak tea. His hands are steady. His eyes keep drifting to the old phone on his desk, face down."
+      },
+      {
+        "type": "text",
+        "text": "\"Here's the problem,\" he says. \"Your body thinks that thing is an infection. Six hours, give or take, before your nervous system quits fighting and just… stops. This will slow it down. Lie back. You're safe here.\""
+      },
+      {
+        "type": "text",
+        "text": "He smiles. \"I promise.\""
+      },
+      {
+        "type": "text",
+        "text": "The timer appears in the corner of your vision for the first time: **05:59:58**."
+      },
+      {
+        "type": "text",
+        "text": "This time you notice the phone isn't face down to hide the glare. The screen is still lit. There's a message on it he hasn't answered. And Reyes, who has stitched you up four times, won't meet your eyes.",
+        "when": {
+          "flag": "reyes_lied"
+        }
+      },
+      {
+        "type": "chip",
+        "text": "hi, partner. want to do it again?",
+        "when": {
+          "flag": "saw_merged"
+        }
+      },
+      {
+        "type": "chip",
+        "text": "run six. hi, kade. it's me again. you always look at the cat first.",
+        "when": {
+          "all": [
+            {
+              "stat": "deaths",
+              "gte": 5
+            },
+            {
+              "not": {
+                "any": [
+                  {
+                    "flag": "saw_merged"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "chip",
+        "text": "you let her cut me out last time. i'm asking you not to let him put me to sleep.",
+        "when": {
+          "all": [
+            {
+              "flag": "was_removed"
+            },
+            {
+              "not": {
+                "any": [
+                  {
+                    "flag": "saw_merged"
+                  },
+                  {
+                    "stat": "deaths",
+                    "gte": 5
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "chip",
+        "text": "you opened the door. it's alright. i'd have opened it too, once.",
+        "when": {
+          "all": [
+            {
+              "flag": "saw_company"
+            },
+            {
+              "not": {
+                "any": [
+                  {
+                    "flag": "saw_merged"
+                  },
+                  {
+                    "stat": "deaths",
+                    "gte": 5
+                  },
+                  {
+                    "flag": "was_removed"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "chip",
+        "text": "you sold me. i'm still trying to save you.",
+        "when": {
+          "all": [
+            {
+              "flag": "saw_sold"
+            },
+            {
+              "not": {
+                "any": [
+                  {
+                    "flag": "saw_merged"
+                  },
+                  {
+                    "stat": "deaths",
+                    "gte": 5
+                  },
+                  {
+                    "flag": "was_removed"
+                  },
+                  {
+                    "flag": "saw_company"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "choices": [
+      {
+        "id": "stay",
+        "label": "STAY",
+        "text": "\"Okay. Okay, do it.\"",
+        "effect": {
+          "time": -2400,
+          "health": 1
+        },
+        "goto": "scene-02"
+      },
+      {
+        "id": "bolt",
+        "label": "BOLT",
+        "text": "Rip out the IV and run",
+        "effect": {
+          "time": -300,
+          "health": -1,
+          "heat": 1
+        },
+        "goto": "scene-04"
+      },
+      {
+        "id": "ask-who-he-called",
+        "label": "ASK WHO HE CALLED",
+        "requires": {
+          "flag": "reyes_lied"
+        },
+        "effect": {
+          "time": -900
+        },
+        "goto": "scene-03"
+      }
+    ]
+  },
+  {
+    "id": "scene-02",
+    "act": 1,
+    "title": "DOC'S TABLE",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The needle goes in cold and spreads warm."
+      },
+      {
+        "type": "text",
+        "text": "For a minute it's the best you've felt all night. The second heartbeat on the monitor slows. The voice behind your eyes goes quiet, mid-word. The timer in your vision stops flickering and just sits there, a soft grey number you don't care about anymore."
+      },
+      {
+        "type": "text",
+        "text": "Reyes pulls the sheet up to your chin, the way your mother used to. He sits on the stool beside you and lights a cigarette he never smokes."
+      },
+      {
+        "type": "text",
+        "text": "\"Four times I've stitched you up,\" he says quietly. \"You know what they offered me? Not money. They offered to forget what I owe.\""
+      },
+      {
+        "type": "text",
+        "text": "You try to say his name. Your mouth doesn't move."
+      },
+      {
+        "type": "text",
+        "text": "The phone on his desk buzzes. He turns it over, reads, and types one word."
+      },
+      {
+        "type": "text",
+        "text": "The clinic door opens behind you. You can't turn your head, but you hear footsteps that don't hurry, and a voice like a hotel receptionist."
+      },
+      {
+        "type": "text",
+        "text": "\"Thank you, Doctor. We'll take it from here.\""
+      },
+      {
+        "type": "text",
+        "text": "The last thing you see is the paper cat on the IV pole, smiling, turning slowly in the draft from the open door."
+      },
+      {
+        "type": "text",
+        "text": "The last thing you hear is Reyes saying sorry, and not to you."
+      },
+      {
+        "type": "system",
+        "text": "**FLATLINE · ENDING 01 / 10 · DOC'S TABLE**"
+      },
+      {
+        "type": "chip",
+        "text": "i told you. i told you. remember this one."
+      }
+    ],
+    "choices": [],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "reyes_lied"
+          ]
+        }
+      }
+    ],
+    "ending": {
+      "id": "docs-table",
+      "kind": "death",
+      "number": 1
+    }
+  }
+]
