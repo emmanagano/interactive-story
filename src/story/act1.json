@@ -307,5 +307,97 @@
       "kind": "death",
       "number": 1
     }
+  },
+  {
+    "id": "scene-03",
+    "act": 1,
+    "title": "WHO DID YOU CALL?",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "\"Who did you call, Doc?\""
+      },
+      {
+        "type": "text",
+        "text": "The syringe stops an inch from your arm."
+      },
+      {
+        "type": "text",
+        "text": "For a second Reyes looks at you like you've said something in a language he's only heard in dreams. Then his face folds, all at once, the way a tired man's does when he stops pretending."
+      },
+      {
+        "type": "text",
+        "text": "\"How did you…\" He sets the syringe down. \"They called *me*, Kade. Twenty minutes before you woke up. A man with half a face. He knew your name. He knew mine. He knew exactly how much I owe and to who.\""
+      },
+      {
+        "type": "text",
+        "text": "He looks at the door. \"He'll be here in thirty minutes. Maybe less.\""
+      },
+      {
+        "type": "chip",
+        "text": "he's telling the truth. this time."
+      }
+    ],
+    "choices": [
+      {
+        "id": "make-him-help",
+        "label": "MAKE HIM HELP",
+        "text": "\"Then you've got thirty minutes to make it right.\"",
+        "effect": {
+          "time": -600
+        },
+        "goto": "scene-03-office"
+      },
+      {
+        "id": "leave-now",
+        "label": "LEAVE NOW",
+        "text": "Pull the IV and go before he changes his mind",
+        "effect": {
+          "time": -300,
+          "health": -1
+        },
+        "goto": "scene-04"
+      }
+    ]
+  },
+  {
+    "id": "scene-03-office",
+    "act": 1,
+    "title": "Searching the office",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Reyes doesn't stop you. He sits on the stool and watches you tear through his drawers like he's watching his own house burn down."
+      },
+      {
+        "type": "text",
+        "text": "Under a stack of unpaid bills you find what you need. A strip of military painkillers, still sealed. And a delivery slip with a handwritten address he must have copied down for his own reasons: *I.V. — Line 4, past the flood gate. Knock twice.*"
+      },
+      {
+        "type": "text",
+        "text": "\"She came to me once,\" Reyes says. \"Before. Needed stitches she couldn't explain. I never told them.\" He swallows. \"Tell her I never told them.\""
+      }
+    ],
+    "choices": [
+      {
+        "id": "go",
+        "label": "GO",
+        "text": "Out the back, through the kitchen of the noodle shop next door",
+        "effect": {
+          "time": -600
+        },
+        "goto": "scene-04"
+      }
+    ],
+    "onEnter": [
+      {
+        "effect": {
+          "addItem": "painkillers",
+          "setRunFlags": [
+            "vale_hint"
+          ]
+        }
+      }
+    ]
   }
 ]
