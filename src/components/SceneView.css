@@ -45,3 +45,21 @@
     font-size: var(--text-lg);
   }
 }
+
+/* A terminal line is typed out left to right. Without motion it simply appears. */
+@keyframes scene-view-type {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-calm]) .scene-view__system--terminal {
+    width: fit-content;
+    animation: scene-view-type 0.9s steps(18) 1 both;
+  }
+}

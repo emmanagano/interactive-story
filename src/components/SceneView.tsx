@@ -26,7 +26,10 @@ function SceneView({ scene, blocks }: Props) {
       </h2>
       {blocks.map((block, index) => {
         if (block.type === 'chip') return <ChipLine key={index} text={block.text} />
-        const className = block.type === 'system' ? 'scene-view__system' : 'scene-view__text'
+        // Terminal lines (**`LIKE THIS`**) are typed out; other system notes just appear.
+        const isTerminal = block.type === 'system' && block.text.startsWith('**`')
+        let className = 'scene-view__text'
+        if (block.type === 'system') className = isTerminal ? 'scene-view__system scene-view__system--terminal' : 'scene-view__system'
         return (
           <p key={index} className={className}>
             <RichText text={block.text} />
