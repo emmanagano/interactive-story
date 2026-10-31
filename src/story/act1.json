@@ -399,5 +399,188 @@
         }
       }
     ]
+  },
+  {
+    "id": "scene-04",
+    "act": 1,
+    "title": "UNDER THE FLYOVER",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The rain hits you like a slap."
+      },
+      {
+        "type": "text",
+        "text": "You're barefoot on wet concrete in a paper gown and somebody's jacket you grabbed off a hook. Your neck throbs where the chip sits. Every step sends a bright wire of pain down your spine, and the second heartbeat speeds up to match yours, as if it's running too."
+      },
+      {
+        "type": "text",
+        "text": "Above you, the flyover roars. Below it, Sector 9 is all steam and noodle smoke and pink signs buzzing in a language half the city has forgotten. Nobody looks at you. Nobody ever looks at anyone here. That's the only reason you've lived this long."
+      },
+      {
+        "type": "text",
+        "text": "Your wrist buzzes. You still have your band. One new message, then a call."
+      },
+      {
+        "type": "text",
+        "text": "**TAVI.**"
+      },
+      {
+        "type": "text",
+        "text": "Your thumb hovers. You know what Tavi is going to say. You know what Tavi has already done. You answer anyway.",
+        "when": {
+          "flag": "tavi_secret"
+        }
+      },
+      {
+        "type": "text",
+        "text": "\"Kade? Kade, oh my god, you're alive.\" Tavi's voice cracks right down the middle. \"They told me you were dead. I've been calling every clinic in Sector 9. Where are you?\""
+      },
+      {
+        "type": "text",
+        "text": "Behind Tavi's voice you can hear the Night Market: the clatter of woks, the bell over Mama Ouro's stall."
+      },
+      {
+        "type": "text",
+        "text": "\"I didn't know,\" Tavi says. \"About the case. I swear on Lina I didn't know what was in it. Just… come to the market. I'll get you somewhere safe. I promise.\""
+      },
+      {
+        "type": "text",
+        "text": "That's the second person tonight who's promised you that."
+      },
+      {
+        "type": "chip",
+        "text": "two promises. one hour. pick a road."
+      },
+      {
+        "type": "system",
+        "text": "*(The timer flickers. Every choice from here costs time.)*"
+      }
+    ],
+    "choices": [
+      {
+        "id": "flyover-stairs",
+        "label": "THE FLYOVER STAIRS",
+        "text": "Fast, lit, full of cameras",
+        "effect": {
+          "time": -1200,
+          "heat": 1
+        },
+        "goto": "scene-05"
+      },
+      {
+        "id": "storm-drains",
+        "label": "THE STORM DRAINS",
+        "text": "Slow, dark, knee-deep in water",
+        "effect": {
+          "time": -2700,
+          "health": -1,
+          "heat": -1
+        },
+        "goto": "scene-05"
+      },
+      {
+        "id": "take-a-painkiller",
+        "label": "TAKE A PAINKILLER",
+        "hiddenUnless": {
+          "item": "painkillers"
+        },
+        "effect": {
+          "health": 1,
+          "useItem": "painkillers",
+          "blur": true
+        },
+        "goto": "scene-04"
+      }
+    ]
+  },
+  {
+    "id": "scene-05",
+    "act": 1,
+    "title": "THE NIGHT MARKET",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "The Night Market hums like a living thing. Five hundred stalls packed under a tarp roof the color of a bruise, lit by strings of mismatched bulbs and the blue glow of a thousand screens. It smells like grilled squid, burnt sugar and hot solder. Somebody is selling secondhand eyes from a cooler. Somebody else is selling fortunes. Both are lying."
+      },
+      {
+        "type": "text",
+        "text": "You spot Tavi before Tavi spots you. You always do."
+      },
+      {
+        "type": "text",
+        "text": "Tavi's crouched on a crate behind Mama Ouro's noodle stall, hood up, knee bouncing, chewing the strap of their bag the way they've done since they were nine. The same scuffed courier jacket with the patch you sewed on crooked, the night you two stole power off the grid to watch a cartoon. The same green streak in their hair, faded now."
+      },
+      {
+        "type": "text",
+        "text": "Then Tavi looks up and sees you, and their face does something you've never seen it do. It breaks."
+      },
+      {
+        "type": "text",
+        "text": "They're across the alley in three steps and hugging you so hard the chip flares white-hot. You don't pull away."
+      },
+      {
+        "type": "text",
+        "text": "\"You look like garbage,\" Tavi says into your shoulder, laughing and crying at once."
+      },
+      {
+        "type": "text",
+        "text": "\"You booked the job,\" you say."
+      },
+      {
+        "type": "text",
+        "text": "Tavi lets go. Steps back. Nods. \"Yeah. I did.\""
+      },
+      {
+        "type": "text",
+        "text": "Overhead, a matte-grey drone drifts across the gap in the tarp, slow and patient. Tavi sees it and goes very still.",
+        "when": {
+          "stat": "heat",
+          "gte": 2
+        }
+      },
+      {
+        "type": "chip",
+        "text": "they love you. that's not the same as being safe."
+      },
+      {
+        "type": "text",
+        "text": "At the stall, a broad woman in a gold silk robe stops stirring a pot the size of a bathtub. Mama Ouro looks at you, then at the back of your neck, and her eyebrows climb."
+      },
+      {
+        "type": "text",
+        "text": "\"Well,\" she says. \"Look who came back from the dead owing me money.\""
+      }
+    ],
+    "choices": [
+      {
+        "id": "stay-with-tavi",
+        "label": "STAY WITH TAVI",
+        "text": "\"We do this together. Like always.\"",
+        "effect": {
+          "setRunFlags": [
+            "with_tavi"
+          ]
+        },
+        "goto": "scene-07"
+      },
+      {
+        "id": "go-alone",
+        "label": "GO ALONE",
+        "text": "\"I can't trust anybody tonight. Not even you.\"",
+        "goto": "scene-07"
+      },
+      {
+        "id": "ask-about-lina",
+        "label": "ASK ABOUT LINA",
+        "requires": {
+          "flag": "tavi_secret"
+        },
+        "effect": {
+          "time": -600
+        },
+        "goto": "scene-06"
+      }
+    ]
   }
 ]
