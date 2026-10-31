@@ -1,10 +1,11 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useId, useRef } from 'react'
 import type { Block, Scene } from '../engine'
 import type { Reveal } from '../hooks'
 import ChipLine from './ChipLine'
 import { plainText } from './parseEmphasis'
 import { revealedCount } from './reveal'
 import RichText from './RichText'
+import { scrollTopToShow } from './scrollFollow'
 import './SceneView.css'
 
 type Props = {
@@ -18,7 +19,32 @@ const TICKS_PER_SECOND = 25
 
 function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
   const headingRef = useRef<HTMLHeadingElement>(null)
+  const panelRef = useRef<HTMLElement>(null)
+  const following = useRef(true) // keep the newest typed line in view, until the reader scrolls themselves
   const shownSceneId = useRef<string | null>(null)
+  const headingId = useId()
+
+  // A new scene starts at the top and follows the typing again.
+  useEffect(() => {
+    following.current = true
+    panelRef.current?.scrollTo({ top: 0 })
+  }, [sceneKey])
+
+  // While text types out, the panel scrolls so the newest line stays in view.
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!panel || !reveal.revealing || !following.current) return
+    const newest = reveal.plan.steps.filter((step) => revealedCount(step, reveal.elapsed) > 0).length - 1
+    const paragraph = panel.querySelectorAll<HTMLElement>('.scene-view__page > p')[newest]
+    if (!paragraph) return
+    const bottom = paragraph.getBoundingClientRect().bottom - panel.getBoundingClientRect().top + panel.scrollTop
+    const next = scrollTopToShow(bottom, panel.scrollTop, panel.clientHeight, 24)
+    if (next !== null) panel.scrollTop = next
+  }, [reveal])
+
+  const stopFollowing = () => {
+    following.current = false
+  }
 
   // Move focus to the new scene's title so screen readers start reading it, but not on first load.
   useEffect(() => {
@@ -29,15 +55,27 @@ function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
   const tick = Math.floor(reveal.elapsed * TICKS_PER_SECOND)
 
   return (
-    // Clicking anywhere on the story shows all of the text at once.
+    // Clicking anywhere on the story shows all of the text at once. The panel scrolls on its own, so it
+    // takes focus too: that is how a keyboard user scrolls it with the arrow keys.
     <article
       className="scene-view"
+      ref={panelRef}
+      tabIndex={0}
+      aria-labelledby={headingId}
+      onWheel={stopFollowing}
+      onTouchMove={stopFollowing}
+      onPointerDown={(event) => {
+        if (event.target === event.currentTarget) stopFollowing() // the scrollbar itself
+      }}
+      onKeyDown={(event) => {
+        if (['ArrowUp', 'PageUp', 'Home'].includes(event.key)) stopFollowing()
+      }}
       onClick={(event) => {
         if (reveal.revealing && !(event.target as HTMLElement).closest('button')) reveal.skip()
       }}
     >
       <div key={sceneKey} className="scene-view__page">
-        <h2 className="scene-view__title" ref={headingRef} tabIndex={-1}>
+        <h2 id={headingId} className="scene-view__title" ref={headingRef} tabIndex={-1}>
           {scene.title}
         </h2>
         {reveal.revealing && (
@@ -48,7 +86,7 @@ function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
         {blocks.map((block, index) => {
           const resolved = revealedCount(reveal.plan.steps[index], reveal.elapsed)
           if (block.type === 'chip') {
-            return <ChipLine key={index} text={block.text} resolving={reveal.revealing ? { resolved, tick } : undefined} />
+            return <ChipLine key={index} text={block.text} resolving={reveal.revealing ? { resolved, tick, waiting: reveal.elapsed < reveal.plan.steps[index].start } : undefined} />
           }
           const className =
             block.type === 'system'

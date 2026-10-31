@@ -4,7 +4,7 @@ import './ChipLine.css'
 type Props = {
   text: string
   /** While the line is arriving: how many characters have resolved, and the animation tick. */
-  resolving?: { resolved: number; tick: number }
+  resolving?: { resolved: number; tick: number; waiting: boolean } // waiting: its turn has not come, so it stays invisible
 }
 
 /** One line of LAZARUS. The data holds the words; the ">" is part of how the chip looks. */
@@ -20,7 +20,7 @@ function ChipLine({ text, resolving }: Props) {
 
   // Screen readers get the real line at once; the flickering copy is only for the eyes.
   return (
-    <p className="chip-line">
+    <p className={resolving.waiting ? 'chip-line chip-line--waiting' : 'chip-line'}>
       <span className="visually-hidden">{text}</span>
       <span aria-hidden="true">&gt; {scrambleFrame(text, resolving.resolved, resolving.tick)}</span>
     </p>

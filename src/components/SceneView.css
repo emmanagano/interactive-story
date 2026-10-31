@@ -1,5 +1,7 @@
 .scene-view {
   max-width: var(--measure);
+  scrollbar-color: var(--color-cyan) transparent;
+  scrollbar-width: thin;
   padding: var(--space-5) var(--space-6);
   border: var(--border-thin) solid var(--color-line);
   border-left: var(--focus-ring-width) solid var(--color-magenta);

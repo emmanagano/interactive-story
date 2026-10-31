@@ -74,3 +74,8 @@
     animation: none;
   }
 }
+
+/* Not its turn yet: it holds its place in the scene but shows nothing until the typing reaches it. */
+.chip-line--waiting {
+  visibility: hidden;
+}

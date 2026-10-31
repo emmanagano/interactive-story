@@ -2,6 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { describe, expect, it } from 'vitest'
 import type { Block, Scene } from '../engine'
 import type { Reveal } from '../hooks'
+import ChipLine from './ChipLine'
 import ChoiceList from './ChoiceList'
 import ConfirmDialog from './ConfirmDialog'
 import DebugPanel from './DebugPanel'
@@ -46,6 +47,15 @@ describe('SceneView', () => {
     expect(html).toContain('&gt; ')
     expect(html).not.toContain('*')
     expect(html).not.toContain('Show all text')
+  })
+
+  it('is a focusable, labelled region, because it scrolls by itself', () => {
+    const blocks: Block[] = [{ type: 'text', text: 'A long scene.' }]
+    const html = renderToStaticMarkup(<SceneView scene={scene} blocks={blocks} reveal={shownAtOnce(blocks)} sceneKey="a" />)
+    expect(html).toMatch(/<article[^>]*tabindex="0"/)
+    const labelledBy = html.match(/<article[^>]*aria-labelledby="([^"]+)"/)?.[1]
+    expect(labelledBy).toBeTruthy()
+    expect(html).toContain(`<h2 id="${labelledBy}"`)
   })
 
   describe('while the text is typing', () => {
@@ -392,5 +402,14 @@ describe('the Summary buttons', () => {
     const html = renderToStaticMarkup(<TitleScreen returning={false} endingsFound={0} onStart={() => undefined} onGuide={() => undefined} onSettings={() => undefined} />)
     expect(html.indexOf('>Summary<')).toBeGreaterThan(html.indexOf('>Start<'))
     expect(html.indexOf('>Summary<')).toBeLessThan(html.indexOf('>Settings<'))
+  })
+})
+
+describe('a chip line that has not had its turn yet', () => {
+  it('keeps its place but stays invisible, instead of flickering as noise below the typing', () => {
+    const waiting = renderToStaticMarkup(<ChipLine text="remember this one." resolving={{ resolved: 0, tick: 3, waiting: true }} />)
+    expect(waiting).toContain('chip-line--waiting')
+    const arriving = renderToStaticMarkup(<ChipLine text="remember this one." resolving={{ resolved: 4, tick: 3, waiting: false }} />)
+    expect(arriving).not.toContain('chip-line--waiting')
   })
 })
