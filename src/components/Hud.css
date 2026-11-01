@@ -159,7 +159,40 @@
   }
 }
 
+/* One hit from death: the remaining bar turns red (a static change, so it stays in calm mode) and
+   trembles. Only the bar moves, never text. */
+.hud__bars--critical .hud__bar {
+  border-color: var(--color-red);
+}
+
+.hud__bars--critical .hud__bar--full {
+  background-color: var(--color-red);
+}
+
+@keyframes hud-critical {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  25% {
+    translate: -2px 1px;
+  }
+
+  50% {
+    translate: 2px -1px;
+  }
+
+  75% {
+    translate: -1px -1px;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
+  :root:not([data-calm]) .hud__bars--critical {
+    animation: hud-critical 0.25s steps(2) infinite;
+  }
+
   :root:not([data-calm]) .hud__value--changed {
     animation: hud-pulse 0.5s ease-out;
   }
@@ -170,6 +203,12 @@
 
   :root:not([data-calm]) .hud__bars--hurt {
     animation: hud-hurt 0.4s ease-in-out;
+  }
+
+  :root:not([data-calm]) .hud__bars--hurt.hud__bars--critical {
+    animation:
+      hud-hurt 0.4s ease-in-out,
+      hud-critical 0.25s steps(2) 0.4s infinite;
   }
 }
 

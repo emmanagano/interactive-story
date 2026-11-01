@@ -1,4 +1,4 @@
-import { TOTAL_ENDINGS } from '../engine/constants'
+import { CRITICAL_HEALTH, TOTAL_ENDINGS } from '../engine/constants'
 import type { RunState } from '../engine'
 import { formatClock } from './formatClock'
 import { describeDelta } from './runChanges'
@@ -34,6 +34,7 @@ function DeltaCallout({ meter, changes, changeId }: { meter: 'time' | 'health' |
 
 function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Props) {
   const health = clean ? HEALTH_SEGMENTS : run.health
+  const critical = !clean && health <= CRITICAL_HEALTH
   const changed = (meter: 'time' | 'health' | 'heat') => (changes[meter] !== 0 ? ' hud__value--changed' : '')
 
   return (
@@ -61,7 +62,7 @@ function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Prop
           <dd className="hud__value-row">
             <span
               key={changeId}
-              className={`hud__bars${changed('health')}${changes.health < 0 ? ' hud__bars--hurt' : ''}`}
+              className={`hud__bars${changed('health')}${changes.health < 0 ? ' hud__bars--hurt' : ''}${critical ? ' hud__bars--critical' : ''}`}
               role="img"
               aria-label={`Health ${health} of ${HEALTH_SEGMENTS}`}
             >

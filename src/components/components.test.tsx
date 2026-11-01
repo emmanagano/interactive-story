@@ -160,6 +160,15 @@ describe('Hud', () => {
     expect(render(0)).not.toContain('hud__bars--hurt')
   })
 
+  it('marks the health bar critical at 1 health or less, and not above it or on the clean interface', () => {
+    const render = (health: number, clean = false) =>
+      renderToStaticMarkup(<Hud run={makeState({ health }).run} endingsFound={0} changes={NO_CHANGES} changeId={1} announcement="" clean={clean} />)
+    expect(render(1)).toContain('hud__bars--critical')
+    expect(render(0)).toContain('hud__bars--critical')
+    expect(render(2)).not.toContain('hud__bars--critical')
+    expect(render(1, true)).not.toContain('hud__bars--critical')
+  })
+
   it('announces the change politely and marks only the meters that moved', () => {
     expect(html).toContain('aria-live="polite"')
     expect(html).toContain('Time minus 20 minutes. Heat up 1.')
