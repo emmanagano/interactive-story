@@ -92,9 +92,38 @@
   }
 }
 
+/* Losing health is a hit, so the bar shakes. It is the one thing on screen that does, and the
+   text never moves. */
+@keyframes hud-hurt {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-6px);
+  }
+
+  40% {
+    transform: translateX(6px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-calm]) .hud__value--changed {
     animation: hud-pulse 0.5s ease-out;
+  }
+
+  :root:not([data-calm]) .hud__bars--hurt {
+    animation: hud-hurt 0.4s ease-in-out;
   }
 }
 

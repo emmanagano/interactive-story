@@ -48,7 +48,7 @@ function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Prop
           <dd className="hud__value-row">
             <span
               key={changeId}
-              className={`hud__bars${changed('health')}`}
+              className={`hud__bars${changed('health')}${changes.health < 0 ? ' hud__bars--hurt' : ''}`}
               role="img"
               aria-label={`Health ${health} of ${HEALTH_SEGMENTS}`}
             >

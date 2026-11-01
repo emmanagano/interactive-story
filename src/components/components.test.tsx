@@ -152,6 +152,14 @@ describe('Hud', () => {
     expect(html).toContain('aria-label="Health 3 of 5"')
   })
 
+  it('shakes the health bar when health is lost, and not when it is gained or unchanged', () => {
+    const render = (health: number) =>
+      renderToStaticMarkup(<Hud run={run} endingsFound={0} changes={{ ...NO_CHANGES, health }} changeId={1} announcement="" clean={false} />)
+    expect(render(-1)).toContain('hud__bars--hurt')
+    expect(render(1)).not.toContain('hud__bars--hurt')
+    expect(render(0)).not.toContain('hud__bars--hurt')
+  })
+
   it('announces the change politely and marks only the meters that moved', () => {
     expect(html).toContain('aria-live="polite"')
     expect(html).toContain('Time minus 20 minutes. Heat up 1.')
