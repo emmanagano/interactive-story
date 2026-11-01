@@ -9,6 +9,7 @@ A cyberpunk survival story that runs in your browser. You play Kade, a courier w
 - 3 acts, 23 scenes, 10 endings (5 deaths, 4 survivals, 1 secret)
 - Make a choice, pay its cost in time, health or heat, die or survive, wake up again knowing more
 - The interface decays as you die: colours drain and the text gets a red and cyan ghost when time or health runs out
+- A black-and-yellow look, a Summary screen for ending hunters, and an unlock screen the first time you find an ending
 - No backend, no accounts, no tracking. Progress lives in your browser
 
 > **Built with Claude Code.** I wrote the story and the design brief; the code was built with Anthropic's Claude Code, working step by step from the written plan in [`blueprint/`](blueprint/) and the rules in [`CLAUDE.md`](CLAUDE.md). The commit history shows the steps.
@@ -40,7 +41,7 @@ npm install
 npm run dev        # local dev server
 npm run build      # production build into dist/
 npm run preview    # serve the production build
-npm run test       # Vitest, 350 tests in 27 files
+npm run test       # Vitest, 366 tests in 29 files
 npm run lint       # ESLint
 npm run typecheck  # tsc, strict mode
 ```
@@ -164,7 +165,7 @@ Accessibility was part of "done" for every step, not a final pass. A full audit 
 
 ## Testing
 
-**350 tests in 27 files**, run with `npm run test`:
+**366 tests in 29 files**, run with `npm run test`:
 
 - **Engine:** conditions, effects, the hourly drain, the run loop, memory and save codes, settings upgrades, decay, sound rules, and the debug tools.
 - **The story itself:** the validator, and scripted runs that reach each of the 10 endings, including the fastest path to the secret one (three runs, two deaths). The ending guide is checked against the script's own table word for word, and against the endings in the game.

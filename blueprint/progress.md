@@ -1,6 +1,6 @@
 # Progress
 
-**Current step:** None to build. 26 of 28 steps are done and the code is finished. What is left needs people:
+**Current step:** None to build. 26 of 28 steps are done and the code is finished (final check on 2026-11-01: typecheck, lint, 366 tests and the build all pass, working tree clean). What is left needs people:
 
 - 5.3 Emma's playtest (five or more full runs)
 - 8.2 Outside playtest (two or three other players)
