@@ -75,3 +75,22 @@ export function describeNewRun(run: RunState): string {
 
 /** What a screen reader hears when the Merged ending restores the interface. */
 export const INTERFACE_RESTORED = 'Interface restored. Time is no longer limited. Health full. Heat 0.'
+
+export type MeterDelta = { text: string; tone: 'cost' | 'gain' }
+
+/**
+ * The little callout shown beside a meter that just moved: "-20:00", "-1 HP", "+1".
+ * Spending time, losing health and gaining heat are costs; the opposite is a gain.
+ * Null when the meter did not move.
+ */
+export function describeDelta(meter: 'time' | 'health' | 'heat', changes: RunChanges): MeterDelta | null {
+  const change = changes[meter]
+  if (change === 0) return null
+  const sign = change < 0 ? '−' : '+'
+  if (meter === 'time') {
+    // Drop the empty hours so twenty minutes reads "20:00", not "00:20:00".
+    return { text: `${sign}${formatClock(Math.abs(change)).replace(/^00:/, '')}`, tone: change < 0 ? 'cost' : 'gain' }
+  }
+  if (meter === 'health') return { text: `${sign}${Math.abs(change)} HP`, tone: change < 0 ? 'cost' : 'gain' }
+  return { text: `${sign}${Math.abs(change)}`, tone: change > 0 ? 'cost' : 'gain' }
+}

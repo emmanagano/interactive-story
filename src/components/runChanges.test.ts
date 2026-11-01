@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { describeChanges, describeNewRun, diffRun, NO_CHANGES } from './runChanges'
+import { describeChanges, describeDelta, describeNewRun, diffRun, NO_CHANGES } from './runChanges'
+import type { RunChanges } from './runChanges'
 import { makeState } from '../engine/testState'
 
 describe('diffRun', () => {
@@ -82,5 +83,26 @@ describe('describeChanges', () => {
 describe('describeNewRun', () => {
   it('reads out the fresh meters', () => {
     expect(describeNewRun(makeState().run)).toBe('New run. 06:00:00 left. Health 5. Heat 0.')
+  })
+})
+
+describe('describeDelta', () => {
+  const moved = (changes: Partial<RunChanges>): RunChanges => ({ ...NO_CHANGES, ...changes })
+
+  it('shows nothing for a meter that did not move', () => {
+    expect(describeDelta('time', NO_CHANGES)).toBeNull()
+    expect(describeDelta('health', moved({ time: -60 }))).toBeNull()
+  })
+
+  it('shows spent time as a cost, without empty hours', () => {
+    expect(describeDelta('time', moved({ time: -1200 }))).toEqual({ text: '−20:00', tone: 'cost' })
+    expect(describeDelta('time', moved({ time: -4500 }))).toEqual({ text: '−01:15:00', tone: 'cost' })
+  })
+
+  it('treats lost health and gained heat as costs, and the opposite as gains', () => {
+    expect(describeDelta('health', moved({ health: -1 }))).toEqual({ text: '−1 HP', tone: 'cost' })
+    expect(describeDelta('health', moved({ health: 1 }))).toEqual({ text: '+1 HP', tone: 'gain' })
+    expect(describeDelta('heat', moved({ heat: 2 }))).toEqual({ text: '+2', tone: 'cost' })
+    expect(describeDelta('heat', moved({ heat: -1 }))).toEqual({ text: '−1', tone: 'gain' })
   })
 })

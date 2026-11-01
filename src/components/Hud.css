@@ -16,6 +16,7 @@
 }
 
 .hud__meter {
+  position: relative; /* the callout floats on the meter's own label row */
   min-width: 5rem;
 }
 
@@ -92,6 +93,47 @@
   }
 }
 
+/* What the last choice did, floating up beside the meter it moved: red for a cost, cyan for a gain.
+   Without motion it simply stays put until the next choice. */
+.hud__delta {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.hud__delta--cost {
+  color: var(--color-red);
+}
+
+.hud__delta--gain {
+  color: var(--color-cyan);
+}
+
+@keyframes hud-delta-float {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+  }
+}
+
 /* Losing health is a hit, so the bar shakes. It is the one thing on screen that does, and the
    text never moves. */
 @keyframes hud-hurt {
@@ -120,6 +162,10 @@
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-calm]) .hud__value--changed {
     animation: hud-pulse 0.5s ease-out;
+  }
+
+  :root:not([data-calm]) .hud__delta {
+    animation: hud-delta-float 1.6s ease-out both;
   }
 
   :root:not([data-calm]) .hud__bars--hurt {

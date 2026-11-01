@@ -1,6 +1,7 @@
 import { TOTAL_ENDINGS } from '../engine/constants'
 import type { RunState } from '../engine'
 import { formatClock } from './formatClock'
+import { describeDelta } from './runChanges'
 import type { RunChanges } from './runChanges'
 import './Hud.css'
 
@@ -18,6 +19,17 @@ const HEALTH_SEGMENTS = 5
 /** "painkillers ×2": each kind of item once, with how many Kade has. */
 function itemCounts(inventory: string[]): string {
   return [...new Set(inventory)].map((item) => `${item} ×${inventory.filter((other) => other === item).length}`).join(', ')
+}
+
+/** What the last choice did to one meter, floating beside it. Decorative: screen readers get the live region. */
+function DeltaCallout({ meter, changes, changeId }: { meter: 'time' | 'health' | 'heat'; changes: RunChanges; changeId: number }) {
+  const delta = describeDelta(meter, changes)
+  if (!delta) return null
+  return (
+    <span key={changeId} className={`hud__delta hud__delta--${delta.tone}`} aria-hidden="true">
+      {delta.text}
+    </span>
+  )
 }
 
 function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Props) {
@@ -40,6 +52,7 @@ function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Prop
                 formatClock(run.time)
               )}
             </span>
+            <DeltaCallout meter="time" changes={changes} changeId={changeId} />
           </dd>
         </div>
 
@@ -56,6 +69,7 @@ function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Prop
                 <span key={index} className={index < health ? 'hud__bar hud__bar--full' : 'hud__bar'} />
               ))}
             </span>
+            <DeltaCallout meter="health" changes={changes} changeId={changeId} />
           </dd>
         </div>
 
@@ -65,6 +79,7 @@ function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Prop
             <span key={changeId} className={`hud__value${changed('heat')}`}>
               {clean ? '0' : `${run.heat}/5`}
             </span>
+            <DeltaCallout meter="heat" changes={changes} changeId={changeId} />
           </dd>
         </div>
 
