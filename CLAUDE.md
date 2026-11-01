@@ -142,7 +142,7 @@ Cyberpunk in the Cyberpunk 2077 poster style, still seen through Kade's eyes: bl
   - No glows and no large soft gradients. Bright colour is used for hard lines, text and the title poster only.
 - Shapes: hard edges. Panels and buttons have a notched (cut) top-right and bottom-left corner (`styles/notch.css`), never rounded corners. Condensed capitals for display text, small mono `///` labels on panels.
 - Fonts (Google Fonts): Barlow Condensed (display, HUD labels), IBM Plex Sans (story text, for readability), JetBrains Mono (chip lines, choices, numbers)
-- Texture: a faint dot grid, subtle scanlines, a faint noise overlay, chromatic aberration on glitches. All of it is light enough that story text stays easy to read, and all of it turns off in calm mode.
+- Texture: subtle scanlines, a faint noise overlay, chromatic aberration on glitches. All of it is light enough that story text stays easy to read, and all of it turns off in calm mode.
 - Single dark theme, on purpose
 - Chip lines are mono, yellow, prefixed with `>`, and glitch in harder at low death counts (see the chip voice table in the script)
 - Locked choices: dashed yellow border, greyed text, no hint about how to unlock them

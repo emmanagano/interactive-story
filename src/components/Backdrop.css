@@ -3,8 +3,6 @@
   inset: 0;
   z-index: -1;
   overflow: hidden;
-  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1.3px);
-  background-size: 22px 22px;
   pointer-events: none;
 }
 
@@ -25,7 +23,7 @@
   opacity: 0.4;
 }
 
-/* Calm mode removes the grain and the scanlines. The dot grid is still, so it stays. */
+/* Calm mode removes the grain and the scanlines. */
 :root[data-calm] .backdrop__noise,
 :root[data-calm] .backdrop__scanlines {
   display: none;

@@ -1,6 +1,6 @@
 import './Backdrop.css'
 
-/** Behind everything: a fine dot grid, grain and scanlines. Purely decorative, so hidden from assistive technology. */
+/** Behind everything: grain and scanlines. Purely decorative, so hidden from assistive technology. */
 function Backdrop() {
   return (
     <div className="backdrop" aria-hidden="true">

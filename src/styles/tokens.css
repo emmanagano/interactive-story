@@ -12,7 +12,6 @@
   /* Surfaces and textures, built from the colors above */
   --surface: #0a0a0a;
   --surface-deep: #070707;
-  --grid-dot: color-mix(in srgb, var(--color-yellow) 20%, transparent);
   --scanline: color-mix(in srgb, var(--color-night) 55%, transparent);
 
   /* Fonts */
