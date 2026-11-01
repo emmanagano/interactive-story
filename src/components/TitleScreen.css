@@ -130,12 +130,12 @@
   }
 
   10% {
-    text-shadow: calc(var(--aberration) * -2) 0 var(--color-red), calc(var(--aberration) * 2) 0 var(--color-cyan);
+    text-shadow: calc(var(--aberration) * -3) 0 var(--color-red), calc(var(--aberration) * 3) 0 var(--color-cyan);
     transform: translateX(-2px) skewX(-4deg);
   }
 
   22% {
-    text-shadow: calc(var(--aberration) * 2) 0 var(--color-red), calc(var(--aberration) * -2) 0 var(--color-cyan);
+    text-shadow: calc(var(--aberration) * 3) 0 var(--color-red), calc(var(--aberration) * -3) 0 var(--color-cyan);
     transform: translateX(3px);
   }
 
