@@ -40,6 +40,24 @@
   color: var(--color-yellow);
 }
 
+.new-ending__how {
+  margin: 0 0 var(--space-3);
+}
+
+.new-ending__how-label {
+  display: block;
+  color: var(--color-dim);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.new-ending__carries {
+  margin: 0 0 var(--space-5);
+  color: var(--color-yellow);
+}
+
 .new-ending__pips {
   display: grid;
   grid-template-columns: repeat(10, 1fr);

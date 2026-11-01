@@ -437,4 +437,11 @@ describe('NewEndingDialog', () => {
     expect(html).toContain('9 still hidden')
     expect(html).toContain('KEEP LOOKING')
   })
+
+  it('says how the ending was reached, in the Summary\'s words, and hints at what carries over without spelling it out', () => {
+    const html = renderToStaticMarkup(<NewEndingDialog open ending={ending} slots={slots} onClose={() => undefined} />)
+    expect(html).toContain('Stay at the clinic')
+    expect(html).toContain('carries into the next one')
+    expect(html).not.toContain('Ask who he called')
+  })
 })

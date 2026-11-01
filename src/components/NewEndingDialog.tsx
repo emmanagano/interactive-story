@@ -1,7 +1,11 @@
 import { useEffect, useId, useRef } from 'react'
 import type { EndingSlot, Scene } from '../engine'
+import { ENDING_GUIDE } from '../story/guide'
 import { rewardMessage } from './endingReward'
 import './NewEndingDialog.css'
+
+// Hints that this ending changes the next run without saying how, so it does not spoil the Summary.
+const CARRIES_OVER = 'Something from this run carries into the next one.'
 
 type Props = {
   open: boolean
@@ -28,6 +32,8 @@ function NewEndingDialog({ open, ending, slots, onClose }: Props) {
 
   const found = slots.filter((slot) => slot.found).length
   const number = ending?.ending?.number
+  // The same script wording the Summary uses, so the two can never disagree.
+  const guideEntry = ENDING_GUIDE.find((entry) => entry.number === number)
 
   return (
     <dialog ref={dialogRef} className="new-ending notch" aria-labelledby={titleId} onCancel={onClose}>
@@ -40,6 +46,13 @@ function NewEndingDialog({ open, ending, slots, onClose }: Props) {
       <p className="new-ending__name">
         <span className="new-ending__number">{String(number ?? 0).padStart(2, '0')}</span> {ending?.title}
       </p>
+      {guideEntry && (
+        <p className="new-ending__how">
+          <span className="new-ending__how-label">How you got here</span>
+          {guideEntry.howToGet}
+        </p>
+      )}
+      {guideEntry?.opens && <p className="new-ending__carries">{CARRIES_OVER}</p>}
       <ol className="new-ending__pips" aria-label={`${found} of ${slots.length} endings found`}>
         {slots.map((slot) => (
           <li
