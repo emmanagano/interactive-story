@@ -64,7 +64,7 @@ export function describeChanges(changes: RunChanges): string {
   // Things that have no meter, so without these a painkiller at full health would say nothing at all.
   if (changes.itemsGained.length > 0) sentences.push(`Got ${changes.itemsGained.join(', ')}.`)
   if (changes.itemsUsed.length > 0) sentences.push(`Used ${changes.itemsUsed.join(', ')}.`)
-  if (changes.blurStarted) sentences.push('Choice text is blurred until your next choice.')
+  if (changes.blurStarted) sentences.push('Choice text is doubled until your next choice.')
   return sentences.join(' ')
 }
 

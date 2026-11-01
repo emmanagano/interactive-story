@@ -54,6 +54,6 @@
   --notch-line: 2px; /* how thick the cut edge is drawn */
   --border-thin: 1px;
   --focus-ring-width: 2px;
-  --blur-painkiller: 1.2px; /* how soft choice text gets for one scene after a painkiller */
+  --double-vision: 0.14em; /* how far the ghost copy of choice text sits after a painkiller */
   --aberration: 2px; /* how far the red and cyan ghosts sit from glitching text */
 }

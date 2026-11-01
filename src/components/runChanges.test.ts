@@ -22,7 +22,7 @@ describe('items and the painkiller blur (the "nothing happens" bug)', () => {
     const changes = diffRun(before, { ...after, blurred: true })
     expect(changes.itemsUsed).toEqual(['painkillers'])
     expect(changes.blurStarted).toBe(true)
-    expect(describeChanges(changes)).toBe('Used painkillers. Choice text is blurred until your next choice.')
+    expect(describeChanges(changes)).toBe('Used painkillers. Choice text is doubled until your next choice.')
   })
 
   it('notices an item picked up', () => {
@@ -39,7 +39,7 @@ describe('items and the painkiller blur (the "nothing happens" bug)', () => {
   it('says it in order: meters first, then items, then the blur', () => {
     const before = makeState({ health: 3, inventory: ['painkillers'] }).run
     const after = { ...makeState({ health: 4, inventory: [] }).run, blurred: true }
-    expect(describeChanges(diffRun(before, after))).toBe('Health up 1. Used painkillers. Choice text is blurred until your next choice.')
+    expect(describeChanges(diffRun(before, after))).toBe('Health up 1. Used painkillers. Choice text is doubled until your next choice.')
   })
 
   it('does not say the blur began again when it simply carries on', () => {

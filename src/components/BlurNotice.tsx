@@ -13,7 +13,7 @@ function BlurNotice({ blurred, calm }: Props) {
   if (!blurred) return null
   return (
     <p className="blur-notice">
-      Painkillers are in your system: choice text is blurred until you choose again.
+      Painkillers are in your system: choice text is doubled until you choose again.
       {calm && ' Calm mode keeps the text sharp.'}
     </p>
   )

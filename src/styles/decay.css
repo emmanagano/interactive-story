@@ -1,7 +1,7 @@
 /*
  * The decaying interface. --decay (0 clean, 1 falling apart) is written on the root by useDecay
  * from time and health. Everything here only reads it; no component sets styles inline.
- * Colour drain is static, so it stays in calm mode. Trembling, ghosting and blur are motion
+ * Colour drain is static, so it stays in calm mode. Trembling and ghosting are motion
  * or texture, so they follow prefers-reduced-motion and calm mode.
  */
 :root {
@@ -50,13 +50,13 @@
   }
 }
 
-/* Painkillers: choice text goes soft for one scene. Calm mode keeps it sharp. */
+/* Painkillers: choice text sees double for one scene, a hard ghost copy beside each letter. Calm mode keeps it sharp. */
 .choice-list--blurred .choice-list__label,
 .choice-list--blurred .choice-list__text {
-  filter: blur(var(--blur-painkiller));
+  text-shadow: var(--double-vision) 0 0 color-mix(in srgb, currentColor 55%, transparent);
 }
 
 :root[data-calm] .choice-list--blurred .choice-list__label,
 :root[data-calm] .choice-list--blurred .choice-list__text {
-  filter: none;
+  text-shadow: none;
 }

@@ -359,11 +359,11 @@ describe('showing what a painkiller did (the "nothing happens" bug)', () => {
   })
 
   it('explains the blur on screen while it lasts, and not otherwise', () => {
-    expect(renderToStaticMarkup(<BlurNotice blurred calm={false} />)).toContain('blurred until you choose again')
+    expect(renderToStaticMarkup(<BlurNotice blurred calm={false} />)).toContain('doubled until you choose again')
     expect(renderToStaticMarkup(<BlurNotice blurred={false} calm={false} />)).toBe('')
   })
 
-  it('says calm mode keeps the text sharp, since the blur is off there', () => {
+  it('says calm mode keeps the text sharp, since the double vision is off there', () => {
     expect(renderToStaticMarkup(<BlurNotice blurred calm />)).toContain('Calm mode keeps the text sharp')
   })
 })
