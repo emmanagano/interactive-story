@@ -31,7 +31,7 @@ function SettingsScreen({ calm, textSpeed, sound, volume, memory, onCalm, onText
       <div className="settings-screen__group">
         <ToggleSwitch label="Calm mode" checked={calm} onChange={onCalm} />
         <p className="settings-screen__hint">
-          Stops trembling, glitching, flicker and the rain. Colours still drain as time runs out.
+          Stops glitching, flicker and the rain. Colours still drain as time runs out.
         </p>
       </div>
 

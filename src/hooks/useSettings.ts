@@ -22,7 +22,7 @@ export type SettingsControls = {
 }
 
 /**
- * The player's preferences. Calm mode removes trembling, glitching, flicker and texture; until
+ * The player's preferences. Calm mode removes glitching, flicker and texture; until
  * the player chooses, it follows the system's reduced-motion setting. Every change is saved.
  */
 export function useSettings(): SettingsControls {

@@ -1,8 +1,8 @@
 /*
  * The decaying interface. --decay (0 clean, 1 falling apart) is written on the root by useDecay
  * from time and health. Everything here only reads it; no component sets styles inline.
- * Colour drain is static, so it stays in calm mode. Trembling and ghosting are motion
- * or texture, so they follow prefers-reduced-motion and calm mode.
+ * Colour drain is static, so it stays in calm mode. Ghosting is texture, so it follows
+ * prefers-reduced-motion and calm mode. Nothing here moves text: it has to stay readable.
  */
 :root {
   --decay: 0;
@@ -14,34 +14,7 @@
   filter: saturate(calc(1 - var(--decay) * 0.85));
 }
 
-@keyframes decay-tremble {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-
-  25% {
-    translate: calc(var(--decay) * -1.6px) calc(var(--decay) * 0.6px);
-  }
-
-  50% {
-    translate: calc(var(--decay) * 1.2px) calc(var(--decay) * -0.8px);
-  }
-
-  75% {
-    translate: calc(var(--decay) * -0.6px) calc(var(--decay) * 1px);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  :root[data-decaying]:not([data-calm]) .scene-view__title,
-  :root[data-decaying]:not([data-calm]) .scene-view__text,
-  :root[data-decaying]:not([data-calm]) .scene-view__system,
-  :root[data-decaying]:not([data-calm]) .choice-list__label,
-  :root[data-decaying]:not([data-calm]) .choice-list__text {
-    animation: decay-tremble 0.2s steps(2) infinite;
-  }
-
   /* Red and cyan ghosts split further apart as decay grows. */
   :root[data-decaying]:not([data-calm]) .scene-view__text {
     text-shadow:

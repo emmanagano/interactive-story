@@ -148,7 +148,7 @@ Cyberpunk in the Cyberpunk 2077 poster style, still seen through Kade's eyes: bl
 - Locked choices: dashed yellow border, greyed text, no hint about how to unlock them
 - Avoid generic "hacker" clichés: no green Matrix rain, no fake terminal walls of code, no skull icons
 
-**The decaying interface:** a CSS variable `--decay` (0 to 1) on the root, computed from time and health. Under 1:00 left, text trembles and color drains. Painkillers double choice text (a ghost copy) for one scene. Effects live in `decay.css` and read from CSS variables, not inline styles. The Merged ending resets the interface to fully clean.
+**The decaying interface:** a CSS variable `--decay` (0 to 1) on the root, computed from time and health. Under 1:00 left, color drains and text gets a red and cyan ghost; text never shakes, because people are reading it. Painkillers double choice text (a ghost copy) for one scene. Effects live in `decay.css` and read from CSS variables, not inline styles. The Merged ending resets the interface to fully clean.
 
 ## Layout and devices
 
@@ -158,7 +158,7 @@ Cyberpunk in the Cyberpunk 2077 poster style, still seen through Kade's eyes: bl
 
 ## Accessibility
 
-- Respect `prefers-reduced-motion`: no trembling, glitching or flicker, only static color changes.
+- Respect `prefers-reduced-motion`: no glitching or flicker, only static color changes.
 - Provide a settings toggle for "calm mode" that does the same.
 - Visible focus states on every control.
 - Meter changes are announced through an `aria-live` region ("Time minus 20 minutes. Heat up 1.").

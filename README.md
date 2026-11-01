@@ -8,7 +8,7 @@ A cyberpunk survival story that runs in your browser. You play Kade, a courier w
 
 - 3 acts, 23 scenes, 10 endings (5 deaths, 4 survivals, 1 secret)
 - Make a choice, pay its cost in time, health or heat, die or survive, wake up again knowing more
-- The interface decays as you die: colours drain and text trembles when time or health runs out
+- The interface decays as you die: colours drain and the text gets a red and cyan ghost when time or health runs out
 - No backend, no accounts, no tracking. Progress lives in your browser
 
 > **Built with Claude Code.** I wrote the story and the design brief; the code was built with Anthropic's Claude Code, working step by step from the written plan in [`blueprint/`](blueprint/) and the rules in [`CLAUDE.md`](CLAUDE.md). The commit history shows the steps.
@@ -27,7 +27,7 @@ A cyberpunk survival story that runs in your browser. You play Kade, a courier w
 | **Continue** | **Enter** presses a lone "Continue", and wakes you up again after an ending |
 | **Locked choices** | Shown greyed out with a dashed border and no hint. They open because of what happened in earlier runs |
 | **Stuck, or hunting every ending?** | **Summary** (title screen or game header) is a recap of the story and a guide to all ten endings, behind a spoiler warning. It marks the endings you have found |
-| **Calm mode, sound, text speed** | Settings (there is also a quick Sound button in the game header). Calm mode removes trembling, glitching and flicker |
+| **Calm mode, sound, text speed** | Settings (there is also a quick Sound button in the game header). Calm mode removes glitching and flicker |
 
 Time only moves when you choose. The chip also takes 1 health for every hour of story time that passes.
 
@@ -157,7 +157,7 @@ Accessibility was part of "done" for every step, not a final pass. A full audit 
 
 - **Keyboard only, start to finish.** Every control is reachable and shows a visible focus ring. Number keys 1 to 4 choose. A choice that removes its own button moves focus to the next one, the game and settings screens move focus to their heading, and the title starts on its Start button.
 - **Screen readers.** A live region announces what each choice cost ("Time minus 20 minutes. Heat up 1."), what was used, and when the interface resets. While text is typing, a hidden copy gives the whole paragraph at once and the animated copy is hidden from assistive technology, so nobody hears it letter by letter. Locked choices stay focusable (`aria-disabled`, not `disabled`) and say "locked", with no hint how to open them.
-- **Motion.** `prefers-reduced-motion` and the Calm mode switch both turn off trembling, glitching, flicker, rain and typing. Colour drain stays, because it is a static change, not motion. Calm mode defaults to the system setting on a first visit.
+- **Motion.** `prefers-reduced-motion` and the Calm mode switch both turn off glitching, flicker, rain and typing. Colour drain stays, because it is a static change, not motion. Calm mode defaults to the system setting on a first visit.
 - **Contrast.** Every text colour meets WCAG AA on both backgrounds, including at full colour drain (computed, and the red heat number is large text so it still passes). The eye payment's black left third moves the story aside instead of covering it, so no word sits under the dark.
 - **Touch targets** are at least 44 px, and the layout works at 320 px and with text at 200%.
 - **Structure.** One `h1` per screen, headings in order, labelled regions, native `<dialog>` for confirmations, and decorative art hidden from assistive technology.
