@@ -3,7 +3,7 @@
   margin: var(--space-6) 0 0;
   padding: var(--space-3) var(--space-4);
   border: var(--border-thin) dashed var(--color-dim);
-  background: var(--glass-night);
+  background: var(--surface-deep);
   color: var(--color-dim);
   font-family: var(--font-mono);
   font-size: var(--text-sm);

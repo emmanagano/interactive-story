@@ -109,13 +109,13 @@ function App() {
               </h1>
               <div className="app__buttons">
                 {/* Always in reach, so ambient sound can be stopped without opening Settings. */}
-                <button type="button" className="app__settings" onClick={() => settings.setSound(!settings.sound)}>
+                <button type="button" className="app__settings notch notch--small" onClick={() => settings.setSound(!settings.sound)}>
                   Sound: {settings.sound ? 'on' : 'off'}
                 </button>
-                <button type="button" className="app__settings" onClick={openGuide}>
+                <button type="button" className="app__settings notch notch--small" onClick={openGuide}>
                   Summary
                 </button>
-                <button type="button" className="app__settings" onClick={openSettings}>
+                <button type="button" className="app__settings notch notch--small" onClick={openSettings}>
                   Settings
                 </button>
               </div>

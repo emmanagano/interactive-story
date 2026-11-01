@@ -20,7 +20,7 @@ function GuideScreen({ foundNumbers, onBack, startShown = false }: Props) {
   }, [shown])
 
   return (
-    <section className="guide-screen" aria-labelledby="guide-title">
+    <section className="guide-screen notch" aria-labelledby="guide-title">
       <h1 id="guide-title" className="guide-screen__title" data-screen-heading tabIndex={-1}>
         Summary and ending guide
       </h1>

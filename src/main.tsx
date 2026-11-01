@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client'
 // always come after the tokens they adjust.
 import './styles/tokens.css'
 import './styles/base.css'
+import './styles/notch.css'
 import './styles/decay.css'
 import App from './App.tsx'
 

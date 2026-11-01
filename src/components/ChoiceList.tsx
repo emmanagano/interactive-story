@@ -28,7 +28,7 @@ function ChoiceList({ choices, blurred, onChoose }: Props) {
           {/* aria-disabled, not disabled, so keyboard and screen reader users can still find a locked choice. */}
           <button
             type="button"
-            className={locked ? 'choice-list__button choice-list__button--locked' : 'choice-list__button'}
+            className={locked ? 'choice-list__button choice-list__button--locked notch notch--small' : 'choice-list__button notch notch--small'}
             aria-disabled={locked || undefined}
             aria-keyshortcuts={index < 4 ? String(index + 1) : undefined}
             onClick={() => {

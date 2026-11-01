@@ -24,7 +24,7 @@ describe('the page head', () => {
   })
 
   it('sets the browser colour and a dark colour scheme', () => {
-    expect(metaContent('name="theme-color"')).toBe('#0b0a14')
+    expect(metaContent('name="theme-color"')).toBe('#050505')
     expect(metaContent('name="color-scheme"')).toBe('dark')
   })
 

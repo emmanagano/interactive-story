@@ -24,8 +24,7 @@
   width: var(--space-7);
   height: var(--space-5);
   border: var(--border-thin) solid var(--color-cyan);
-  border-radius: var(--space-5);
-  background: var(--glass-night);
+  background: var(--surface-deep);
 }
 
 .toggle-switch__track::after {
@@ -34,19 +33,17 @@
   left: var(--space-1);
   width: var(--space-4);
   height: var(--space-4);
-  border-radius: 50%;
   background: var(--color-dim);
   content: '';
 }
 
 .toggle-switch__input:checked + .toggle-switch__track {
-  background: var(--haze-cyan);
+  background: color-mix(in srgb, var(--color-cyan) 22%, var(--surface-deep));
 }
 
 .toggle-switch__input:checked + .toggle-switch__track::after {
   left: calc(100% - var(--space-4) - var(--space-1));
   background: var(--color-cyan);
-  box-shadow: var(--glow-cyan);
 }
 
 .toggle-switch__input:focus-visible + .toggle-switch__track {

@@ -1,34 +1,22 @@
 :root {
-  /* Colors */
-  --color-night: #0b0a14;
-  --color-panel: #141226;
-  --color-line: #2a2545;
-  --color-ink: #e6e3f5;
-  --color-dim: #8d88aa;
-  --color-magenta: #ff2e97;
-  --color-cyan: #2de2e6;
-  --color-green: #5fe08a;
-  --color-amber: #ffb000;
-  --color-red: #ff4d4d;
+  /* Colors: black, one hard yellow, cyan for things you can act on, red for danger. Nothing glows. */
+  --color-night: #050505;
+  --color-panel: #0c0c0c;
+  --color-line: #2c2c14; /* decoration only: too faint to carry meaning */
+  --color-ink: #f2f2f2;
+  --color-dim: #a3a38f;
+  --color-yellow: #fcee09;
+  --color-cyan: #19d5e6;
+  --color-red: #ff3b3b;
 
-  /* Glows: neon as light, never as flat fill. Same hues as above at low alpha. */
-  --glow-magenta: 0 0 12px rgb(255 46 151 / 55%);
-  --glow-cyan: 0 0 12px rgb(45 226 230 / 50%);
-  --glow-green: 0 0 12px rgb(95 224 138 / 50%);
-  --glow-amber: 0 0 12px rgb(255 176 0 / 50%);
-  --glow-red: 0 0 12px rgb(255 77 77 / 55%);
-
-  /* Translucent layers, built from the colors above so nothing new is invented */
-  --glass-panel: color-mix(in srgb, var(--color-panel) 88%, transparent);
-  --glass-night: color-mix(in srgb, var(--color-night) 80%, transparent);
-  --haze-magenta: color-mix(in srgb, var(--color-magenta) 22%, transparent);
-  --haze-cyan: color-mix(in srgb, var(--color-cyan) 16%, transparent);
-  --haze-amber: color-mix(in srgb, var(--color-amber) 55%, transparent);
+  /* Surfaces and textures, built from the colors above */
+  --surface: #0a0a0a;
+  --surface-deep: #070707;
+  --grid-dot: color-mix(in srgb, var(--color-yellow) 20%, transparent);
   --scanline: color-mix(in srgb, var(--color-night) 55%, transparent);
-  --rain-streak: color-mix(in srgb, var(--color-cyan) 45%, transparent);
 
   /* Fonts */
-  --font-display: 'Oxanium', system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
   --font-body: 'IBM Plex Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
@@ -40,7 +28,8 @@
   --text-lg: 1.5rem;
   --text-xl: 1.875rem;
   --text-2xl: 2.375rem;
-  --text-3xl: 3rem;
+  --text-3xl: 3.5rem;
+  --text-display: clamp(5rem, 24vw, 16rem); /* the title poster */
 
   --leading-tight: 1.2;
   --leading-body: 1.6;
@@ -60,9 +49,10 @@
   --eye-veil-width: 33.333vw; /* the left third of the view, lost with Kade's eye */
   --hud-clearance: 9rem; /* room kept above focused items so the sticky HUD never covers them */
 
-  /* Shape */
-  --radius-sm: 2px;
-  --radius-md: 6px;
+  /* Shape: hard edges, with two corners cut at 45 degrees (see notch.css) */
+  --notch: 14px; /* the cut corner on panels and buttons */
+  --notch-small: 8px; /* the same cut on small things */
+  --notch-line: 2px; /* how thick the cut edge is drawn */
   --border-thin: 1px;
   --focus-ring-width: 2px;
   --blur-painkiller: 1.2px; /* how soft choice text gets for one scene after a painkiller */

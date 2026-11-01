@@ -10,7 +10,7 @@ function RestartButton({ onRestart }: { onRestart: () => void }) {
   }, [])
 
   return (
-    <button type="button" className="restart-button" ref={buttonRef} onClick={onRestart}>
+    <button type="button" className="restart-button notch" ref={buttonRef} onClick={onRestart}>
       WAKE UP AGAIN
     </button>
   )

@@ -14,7 +14,7 @@ function EndingCard({ scene, finalChip }: Props) {
   const kind = scene.ending.kind
 
   return (
-    <section className={`ending-card ending-card--${kind}`} aria-labelledby="ending-card-title">
+    <section className={`ending-card ending-card--${kind} notch`} aria-labelledby="ending-card-title">
       <h3 id="ending-card-title" className="ending-card__title">
         {endingHeader(scene.ending, scene.title)}
       </h3>

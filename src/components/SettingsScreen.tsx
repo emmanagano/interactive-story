@@ -23,7 +23,7 @@ const SPEED_LABELS: Record<TextSpeed, string> = { slow: 'Slow', normal: 'Normal'
 
 function SettingsScreen({ calm, textSpeed, sound, volume, memory, onCalm, onTextSpeed, onSound, onVolume, onImport, onReset, onBack }: Props) {
   return (
-    <section className="settings-screen" aria-labelledby="settings-title">
+    <section className="settings-screen notch" aria-labelledby="settings-title">
       <h1 id="settings-title" className="settings-screen__title" data-screen-heading tabIndex={-1}>
         Settings
       </h1>

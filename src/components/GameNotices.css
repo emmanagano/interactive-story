@@ -2,8 +2,8 @@
   max-width: var(--measure);
   margin-bottom: var(--space-4);
   padding: var(--space-2) var(--space-4);
-  border-left: var(--border-thin) dashed var(--color-amber);
-  background: var(--glass-night);
+  border-left: var(--border-thin) dashed var(--color-yellow);
+  background: var(--surface-deep);
   color: var(--color-dim);
   font-family: var(--font-mono);
   font-size: var(--text-sm);

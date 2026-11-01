@@ -27,7 +27,6 @@
   width: 100%;
   padding: var(--space-2) var(--space-3);
   border: var(--border-thin) solid var(--color-dim);
-  border-radius: var(--radius-sm);
   background: var(--color-panel);
   color: var(--color-ink);
   font-family: var(--font-mono);
@@ -39,8 +38,7 @@
   min-height: 2.75rem;
   padding: var(--space-2) var(--space-4);
   border: var(--border-thin) solid var(--color-cyan);
-  border-radius: var(--radius-sm);
-  background: var(--glass-panel);
+  background: var(--surface);
   color: var(--color-ink);
   font-family: var(--font-mono);
   font-size: var(--text-base);
@@ -60,7 +58,7 @@
 .save-tools__message {
   min-height: 1.5em;
   margin: 0;
-  color: var(--color-amber);
+  color: var(--color-yellow);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
 }

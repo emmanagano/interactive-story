@@ -1,0 +1,56 @@
+/*
+ * The cut corner. Panels and buttons have two opposite corners cut at 45 degrees. clip-path makes the
+ * cut, and two small gradients draw the edge of it so the border runs around the corner.
+ *
+ * --edge is the border colour. Elements that use .notch must set their fill with background-color,
+ * never the background shorthand, which would wipe the gradients.
+ *
+ * clip-path would also clip a focus ring, so a focused control drops its cut and shows a full ring.
+ */
+.notch {
+  --edge: var(--color-yellow);
+
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--notch)) 0,
+    100% var(--notch),
+    100% 100%,
+    var(--notch) 100%,
+    0 calc(100% - var(--notch))
+  );
+  background-image:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - var(--notch-line)),
+      var(--edge) calc(50% - var(--notch-line)) 50%,
+      transparent 50%
+    ),
+    linear-gradient(
+      to top right,
+      transparent 50%,
+      var(--edge) 50% calc(50% + var(--notch-line)),
+      transparent calc(50% + var(--notch-line))
+    );
+  background-position:
+    top right,
+    bottom left;
+  background-repeat: no-repeat;
+  background-size: var(--notch) var(--notch);
+}
+
+.notch--small {
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--notch-small)) 0,
+    100% var(--notch-small),
+    100% 100%,
+    var(--notch-small) 100%,
+    0 calc(100% - var(--notch-small))
+  );
+  background-size: var(--notch-small) var(--notch-small);
+}
+
+.notch:focus-visible {
+  clip-path: none;
+  background-image: none;
+}

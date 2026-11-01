@@ -12,7 +12,7 @@ html {
   font-size: 100%;
 }
 
-/* Transparent on purpose: the html element paints the night, so the fixed city backdrop can show through. */
+/* Transparent on purpose: the html element paints the night, so the fixed backdrop can show through. */
 body {
   margin: 0;
   min-height: 100vh;
@@ -26,13 +26,14 @@ h3,
 h4 {
   margin: 0 0 var(--space-3);
   font-family: var(--font-display);
-  line-height: var(--leading-tight);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 h1 {
-  color: var(--color-magenta);
+  color: var(--color-yellow);
   font-size: var(--text-3xl);
-  text-shadow: var(--glow-magenta);
 }
 
 h2 {
@@ -48,7 +49,7 @@ p {
 }
 
 :focus-visible {
-  outline: var(--focus-ring-width) solid var(--color-cyan);
+  outline: calc(var(--focus-ring-width) + 1px) solid var(--color-ink);
   outline-offset: 3px;
 }
 
@@ -75,7 +76,7 @@ p {
   white-space: nowrap;
 }
 
-/* Checkboxes, radios and sliders use the HUD's cyan instead of the browser's default blue. */
+/* Checkboxes, radios and sliders use cyan, the colour of things you can act on. */
 input {
   accent-color: var(--color-cyan);
 }

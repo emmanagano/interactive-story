@@ -8,6 +8,19 @@
   container-type: inline-size;
 }
 
+/* A small module tag above the story. The second content declaration gives it an empty spoken text,
+   where supported; the first is the fallback. */
+.game-screen__frame::before {
+  display: block;
+  margin-bottom: var(--space-2);
+  color: var(--color-yellow);
+  content: '/// STORY.LOG';
+  content: '/// STORY.LOG' / '';
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+}
+
 .game-screen__stage .scene-view {
   height: var(--story-height);
   overflow-y: auto;

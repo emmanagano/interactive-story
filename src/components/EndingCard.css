@@ -1,38 +1,37 @@
 .ending-card {
+  --edge: var(--color-red);
+
   margin-top: 0;
   padding: var(--space-4) var(--space-5);
-  border: var(--border-thin) solid var(--color-red);
-  border-radius: var(--radius-sm);
-  background: var(--glass-night);
-  box-shadow: var(--glow-red);
+  border: 2px solid var(--color-red);
+  background-color: var(--surface-deep);
 }
 
 .ending-card--survive {
-  border-color: var(--color-green);
-  box-shadow: var(--glow-green);
+  --edge: var(--color-cyan);
+
+  border-color: var(--color-cyan);
 }
 
 .ending-card--secret {
-  border-color: var(--color-amber);
-  box-shadow: var(--glow-amber);
+  --edge: var(--color-yellow);
+
+  border-color: var(--color-yellow);
 }
 
 .ending-card__title {
   margin: 0 0 var(--space-3);
   color: var(--color-red);
-  font-size: var(--text-md);
-  letter-spacing: 0.08em;
-  text-shadow: var(--glow-red);
+  font-size: 1.7rem;
+  letter-spacing: 0.04em;
 }
 
 .ending-card--survive .ending-card__title {
-  color: var(--color-green);
-  text-shadow: var(--glow-green);
+  color: var(--color-cyan);
 }
 
 .ending-card--secret .ending-card__title {
-  color: var(--color-amber);
-  text-shadow: var(--glow-amber);
+  color: var(--color-yellow);
 }
 
 .ending-card .chip-line {
@@ -43,9 +42,5 @@
 @media (max-width: 40rem) {
   .ending-card {
     padding: var(--space-3) var(--space-4);
-  }
-
-  .ending-card__title {
-    font-size: var(--text-md);
   }
 }

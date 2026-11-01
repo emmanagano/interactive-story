@@ -25,7 +25,7 @@ function Hud({ run, endingsFound, changes, changeId, announcement, clean }: Prop
   const changed = (meter: 'time' | 'health' | 'heat') => (changes[meter] !== 0 ? ' hud__value--changed' : '')
 
   return (
-    <section className="hud" aria-label="Kade's status">
+    <section className="hud notch" aria-label="Kade's status">
       <dl className="hud__meters">
         <div className="hud__meter hud__meter--time">
           <dt className="hud__label">Time</dt>

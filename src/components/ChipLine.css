@@ -1,8 +1,7 @@
 .chip-line {
   padding-left: var(--space-3);
-  color: var(--color-amber);
+  color: var(--color-yellow);
   font-family: var(--font-mono);
-  text-shadow: var(--glow-amber);
 }
 
 /* How hard the red and cyan split lands depends on how well the chip knows Kade (deaths so far). */
@@ -40,7 +39,6 @@
 
   100% {
     transform: none;
-    text-shadow: var(--glow-amber);
   }
 }
 

@@ -74,7 +74,7 @@ function SceneView({ scene, blocks, reveal, sceneKey }: Props) {
     // Clicking anywhere on the story shows all of the text at once. The panel scrolls on its own, so it
     // takes focus too: that is how a keyboard user scrolls it with the arrow keys.
     <article
-      className="scene-view"
+      className="scene-view notch"
       ref={panelRef}
       tabIndex={0}
       aria-labelledby={headingId}

@@ -1,5 +1,5 @@
 .rich-text__code {
-  color: var(--color-amber);
+  color: var(--color-yellow);
   font-family: var(--font-mono);
   font-size: 0.95em;
 }

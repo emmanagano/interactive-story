@@ -6,20 +6,18 @@
 
 .ecg-line__path {
   fill: none;
-  stroke-width: 2;
-  stroke-linejoin: round;
+  stroke-width: 3;
+  stroke-linejoin: miter;
   vector-effect: non-scaling-stroke;
 }
 
+/* It is drawn on the yellow poster: Kade's heartbeat in black, the chip's in red. */
 .ecg-line__path--kade {
-  stroke: var(--color-green);
-  filter: drop-shadow(var(--glow-green));
+  stroke: var(--color-night);
 }
 
 .ecg-line__path--chip {
-  stroke: var(--color-amber);
-  opacity: 0.7;
-  filter: drop-shadow(var(--glow-amber));
+  stroke: var(--color-red);
 }
 
 @keyframes ecg-sweep {
@@ -32,7 +30,7 @@
   }
 }
 
-/* A bright stretch of trace travels along the line, like a monitor drawing. */
+/* A stretch of trace travels along the line, like a monitor drawing. */
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-calm]) .ecg-line__path {
     stroke-dasharray: 0.45 0.55;

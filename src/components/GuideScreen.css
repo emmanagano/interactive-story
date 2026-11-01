@@ -1,13 +1,13 @@
 .guide-screen {
+  --edge: var(--color-line);
+
   display: grid;
   gap: var(--space-4);
   max-width: 52rem;
   padding: var(--space-5) var(--space-6);
   border: var(--border-thin) solid var(--color-line);
-  border-left: var(--focus-ring-width) solid var(--color-amber);
-  border-radius: var(--radius-sm);
-  background: var(--glass-night);
-  backdrop-filter: blur(3px);
+  border-left: var(--focus-ring-width) solid var(--color-yellow);
+  background-color: var(--surface-deep);
 }
 
 .guide-screen > * {
@@ -36,7 +36,7 @@
   gap: var(--space-4);
   justify-items: start;
   padding: var(--space-4);
-  border: var(--border-thin) dashed var(--color-amber);
+  border: var(--border-thin) dashed var(--color-yellow);
 }
 
 .guide-screen__gate p {
@@ -70,7 +70,6 @@
   padding: var(--space-3) var(--space-4);
   border: var(--border-thin) solid var(--color-line);
   border-left-width: var(--focus-ring-width);
-  border-radius: var(--radius-sm);
 }
 
 .guide-screen__ending--death {
@@ -78,11 +77,11 @@
 }
 
 .guide-screen__ending--survive {
-  border-left-color: var(--color-green);
+  border-left-color: var(--color-cyan);
 }
 
 .guide-screen__ending--secret {
-  border-left-color: var(--color-amber);
+  border-left-color: var(--color-yellow);
 }
 
 .guide-screen__ending h3 {
@@ -116,8 +115,8 @@
 
 .guide-screen__status--found {
   border-style: solid;
-  border-color: var(--color-green);
-  color: var(--color-green);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
 }
 
 .guide-screen__opens {
@@ -135,8 +134,7 @@
   min-height: 2.75rem;
   padding: var(--space-2) var(--space-5);
   border: var(--border-thin) solid var(--color-cyan);
-  border-radius: var(--radius-sm);
-  background: var(--glass-panel);
+  background: var(--surface);
   color: var(--color-ink);
   font-family: var(--font-display);
   font-size: var(--text-base);
