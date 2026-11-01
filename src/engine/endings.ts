@@ -1,5 +1,5 @@
 import { TOTAL_ENDINGS } from './constants'
-import type { Ending, EndingKind, Story } from './types'
+import type { Ending, EndingKind, Scene, Story } from './types'
 
 /**
  * The banner line on an ending, written the way the script writes it:
@@ -36,4 +36,13 @@ export function listEndingSlots(story: Story, endingsSeen: string[]): EndingSlot
     if (!scene?.ending || !endingsSeen.includes(scene.ending.id)) return { number, found: false }
     return { number, found: true, title: scene.title, kind: scene.ending.kind }
   })
+}
+
+/** The ending a run just added to what the player has seen, or null if it was one they already had. */
+export function findNewEndingId(endingsSeenBefore: string[], endingsSeenAfter: string[]): string | null {
+  return endingsSeenAfter.find((endingId) => !endingsSeenBefore.includes(endingId)) ?? null
+}
+
+export function findEndingScene(story: Story, endingId: string): Scene | undefined {
+  return Object.values(story).find((scene) => scene.ending?.id === endingId)
 }

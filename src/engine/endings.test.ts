@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { endingHeader, listEndingSlots } from './endings'
+import { endingHeader, findEndingScene, findNewEndingId, listEndingSlots } from './endings'
 import type { EndingKind, Scene, Story } from './types'
 
 // The ten banner lines exactly as the script writes them.
@@ -52,5 +52,31 @@ describe('listEndingSlots', () => {
   it('keeps endings that are not written yet as silhouettes, and ignores unknown ids', () => {
     const slots = listEndingSlots(story, ['end-zzz'])
     expect(slots.every((slot) => !slot.found)).toBe(true)
+  })
+})
+
+describe('findNewEndingId', () => {
+  it('names the ending a run just added', () => {
+    expect(findNewEndingId(['end-a'], ['end-a', 'end-b'])).toBe('end-b')
+  })
+
+  it('finds nothing when the run ended on an ending already seen', () => {
+    expect(findNewEndingId(['end-a'], ['end-a'])).toBeNull()
+  })
+
+  it('finds nothing when a run is still going', () => {
+    expect(findNewEndingId([], [])).toBeNull()
+  })
+})
+
+describe('findEndingScene', () => {
+  const story: Story = { a: endingScene('a', 1, 'death', "DOC'S TABLE") }
+
+  it('finds the scene that holds an ending id', () => {
+    expect(findEndingScene(story, 'end-a')?.title).toBe("DOC'S TABLE")
+  })
+
+  it('returns nothing for an id no scene has', () => {
+    expect(findEndingScene(story, 'end-zzz')).toBeUndefined()
   })
 })
