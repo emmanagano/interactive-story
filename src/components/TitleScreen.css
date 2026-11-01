@@ -1,4 +1,4 @@
-/* A poster: the whole screen, yellow above and black below, split by a ragged edge. */
+/* A poster: the whole screen, yellow above and black below, split by a stepped edge. */
 .title-screen {
   position: fixed;
   inset: 0;
@@ -18,18 +18,16 @@
   color: var(--color-night);
 }
 
-/* The ragged black edge along the bottom of the yellow, like a torn print. */
+/* The black lower half meets the yellow with straight lines and steep chamfered steps, like the notched corners. */
 .title-screen__poster::after {
   position: absolute;
   right: 0;
   bottom: -1px;
   left: 0;
-  height: 26px;
+  height: 2.5rem;
   background-color: var(--color-night);
   clip-path: polygon(
-    0 100%, 0 80%, 3% 45%, 6% 75%, 10% 20%, 14% 70%, 19% 50%, 24% 85%, 28% 35%, 33% 70%, 38% 15%, 42% 60%,
-    47% 90%, 52% 40%, 57% 75%, 61% 25%, 66% 65%, 71% 85%, 76% 30%, 81% 70%, 86% 50%, 91% 80%, 95% 40%, 100% 75%,
-    100% 100%
+    0 100%, 0 55%, 22% 55%, 24% 15%, 52% 15%, 54% 55%, 78% 55%, 80% 0, 100% 0, 100% 100%
   );
   content: '';
 }
