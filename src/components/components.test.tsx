@@ -9,6 +9,7 @@ import DebugPanel from './DebugPanel'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import BlurNotice from './BlurNotice'
+import NewEndingDialog from './NewEndingDialog'
 import GuideScreen from './GuideScreen'
 import Hud from './Hud'
 import SettingsScreen from './SettingsScreen'
@@ -419,5 +420,21 @@ describe('a chip line that has not had its turn yet', () => {
     expect(waiting).toContain('chip-line--waiting')
     const arriving = renderToStaticMarkup(<ChipLine text="remember this one." resolving={{ resolved: 4, tick: 3, waiting: false }} />)
     expect(arriving).not.toContain('chip-line--waiting')
+  })
+})
+
+describe('NewEndingDialog', () => {
+  const slots = Array.from({ length: 10 }, (_, index) =>
+    index === 0 ? { number: 1, found: true, title: "DOC'S TABLE", kind: 'death' as const } : { number: index + 1, found: false },
+  )
+  const ending = { id: 'scene-x', act: 1 as const, title: "DOC'S TABLE", blocks: [], choices: [], ending: { id: 'docs-table', kind: 'death' as const, number: 1 } }
+
+  it('names the ending, counts progress and says what is left', () => {
+    const html = renderToStaticMarkup(<NewEndingDialog open ending={ending} slots={slots} onClose={() => undefined} />)
+    expect(html).toContain('New ending')
+    expect(html).toContain("DOC&#x27;S TABLE")
+    expect(html).toContain('1 of 10 endings found')
+    expect(html).toContain('9 still hidden')
+    expect(html).toContain('KEEP LOOKING')
   })
 })

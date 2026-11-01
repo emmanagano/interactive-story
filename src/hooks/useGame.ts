@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { applyDebugPatch, choose as takeChoice, createEmptyMemory, listChoices, listEndingSlots, loadMemory, resetMemory, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
+import { applyDebugPatch, choose as takeChoice, createEmptyMemory, findEndingScene, findNewEndingId, listChoices, listEndingSlots, loadMemory, resetMemory, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
 import type { Block, DebugPatch, EndingSlot, GameState, ListedChoice, LoadStatus, Memory, Scene } from '../engine'
 import { describeChanges, describeNewRun, diffRun, INTERFACE_RESTORED, NO_CHANGES } from '../components/runChanges'
 import type { RunChanges } from '../components/runChanges'
@@ -23,6 +23,9 @@ export type Game = {
   loadStatus: LoadStatus
   saveFailed: boolean
   lastChange: LastChange
+  /** The ending this run just found for the first time, or null. Cleared when the player moves on. */
+  newEnding: Scene | null
+  dismissNewEnding: () => void
   choose: (choiceId: string) => void
   restart: () => void
   debugApply: (patch: DebugPatch) => void
@@ -37,6 +40,7 @@ export function useGame(): Game {
   const [loaded] = useState(() => loadMemory())
   const [state, setState] = useState<GameState>(() => startRun(loaded.memory))
   const [saveFailed, setSaveFailed] = useState(false)
+  const [newEndingId, setNewEndingId] = useState<string | null>(null)
   const [lastChange, setLastChange] = useState<LastChange>({ id: 0, changes: NO_CHANGES, announcement: '' })
 
   const choose = useCallback(
@@ -44,6 +48,7 @@ export function useGame(): Game {
       const result = takeChoice(story, state, choiceId)
       if (!result.ok) return
       setState(result.state)
+      setNewEndingId(findNewEndingId(state.memory.endingsSeen, result.state.memory.endingsSeen))
       const changes = diffRun(state.run, result.state.run)
       const restored = story[result.state.run.sceneId]?.cleanInterface === true
       const announcement = [describeChanges(changes), restored ? INTERFACE_RESTORED : ''].filter(Boolean).join(' ')
@@ -57,6 +62,7 @@ export function useGame(): Game {
   const restart = useCallback(() => {
     const fresh = startRun(state.memory)
     setState(fresh)
+    setNewEndingId(null)
     setLastChange((previous) => ({ id: previous.id + 1, changes: NO_CHANGES, announcement: describeNewRun(fresh.run) }))
   }, [state.memory])
 
@@ -74,6 +80,7 @@ export function useGame(): Game {
   const startAgainWith = useCallback((memory: Memory) => {
     const fresh = startRun(memory)
     setState(fresh)
+    setNewEndingId(null)
     setLastChange((previous) => ({ id: previous.id + 1, changes: NO_CHANGES, announcement: describeNewRun(fresh.run) }))
   }, [])
 
@@ -104,6 +111,8 @@ export function useGame(): Game {
     loadStatus: loaded.status,
     saveFailed,
     lastChange,
+    newEnding: newEndingId === null ? null : (findEndingScene(story, newEndingId) ?? null),
+    dismissNewEnding: () => setNewEndingId(null),
     choose,
     restart,
     debugApply,

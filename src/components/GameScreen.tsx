@@ -8,6 +8,7 @@ import ChoiceList from './ChoiceList'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import GameNotices from './GameNotices'
+import NewEndingDialog from './NewEndingDialog'
 import Hud from './Hud'
 import RestartButton from './RestartButton'
 import SceneView from './SceneView'
@@ -64,6 +65,13 @@ function GameScreen({ game, reveal, sceneKey, cleanInterface, calm }: Props) {
         </div>
       </div>
       <EndingTracker slots={game.endingSlots} />
+      {/* Opens only once the ending's text has finished, so it cannot give the ending away early. */}
+      <NewEndingDialog
+        open={game.isOver && !reveal.revealing}
+        ending={game.newEnding}
+        slots={game.endingSlots}
+        onClose={game.dismissNewEnding}
+      />
       {showDebugPanel && (
         <Suspense fallback={null}>
           <DebugPanel
