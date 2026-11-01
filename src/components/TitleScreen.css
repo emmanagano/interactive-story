@@ -119,29 +119,25 @@
   }
 }
 
-/* The same glitch as the NEONCORE sign-up page: the colours split apart, the word shakes and skews.
+/* The same glitch as the NEONCORE sign-up page: the colours split apart. The word itself never moves, so it stays easy to read.
    It plays once when the page loads and again on hover. Calm mode and reduced motion keep it still. */
 @keyframes title-glitch {
   0%,
   46%,
   100% {
     text-shadow: none;
-    transform: none;
   }
 
   10% {
     text-shadow: calc(var(--aberration) * -3) 0 var(--color-red), calc(var(--aberration) * 3) 0 var(--color-cyan);
-    transform: translateX(-2px) skewX(-4deg);
   }
 
   22% {
     text-shadow: calc(var(--aberration) * 3) 0 var(--color-red), calc(var(--aberration) * -3) 0 var(--color-cyan);
-    transform: translateX(3px);
   }
 
   34% {
     text-shadow: calc(var(--aberration) * -1) 0 var(--color-cyan), var(--aberration) 0 var(--color-red);
-    transform: translateX(-1px) skewX(3deg);
   }
 }
 
