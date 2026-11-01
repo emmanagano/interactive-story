@@ -132,21 +132,20 @@ Variants in the script (`[if reyes_lied]`, `[if Heat ≥ 2]`) become blocks with
 
 ## Visual direction
 
-Cyberpunk, seen through Kade's eyes. The screen is Kade's neural HUD laid over a rain-soaked neon city at night: Sector 9's pink signs, steam, chrome and wet concrete. It should feel like a cheap street implant running hot, not a clean corporate UI. The heartbeat monitor is one element of that HUD, not the whole look.
+Cyberpunk in the Cyberpunk 2077 poster style, still seen through Kade's eyes: black screens, one hard yellow, hard edges. It should feel like a cheap street implant HUD, not a clean corporate UI and not a cartoon. The heartbeat monitor is one element of that HUD, not the whole look.
 
 - Colors (tokens in `styles/tokens.css`):
-  - Night `#0b0a14` (background, violet-black) · panel `#141226` · line `#2a2545` · ink `#e6e3f5` · dim `#8d88aa`
-  - Neon magenta `#ff2e97`: the city, display headings, title screen, ambient glow
-  - Neon cyan `#2de2e6`: the HUD frame and the time meter
-  - ECG green `#5fe08a`: the heartbeat trace and health meter
-  - Chip amber `#ffb000`: LAZARUS's voice and run-memory unlocks
-  - Heat red `#ff4d4d`: heat, danger, death
-  - Use neon as light, not fill: glows, thin strokes, text-shadow, never large flat blocks of bright color
-- Fonts (Google Fonts): Oxanium (display, HUD labels), IBM Plex Sans (story text, for readability), JetBrains Mono (chip lines, choices, numbers)
-- Texture: subtle scanlines, a faint rain or noise overlay, chromatic aberration on glitches. All of it is light enough that story text stays easy to read, and all of it turns off in calm mode.
+  - Night `#050505` (background) · panel `#0c0c0c` · line `#2c2c14` · ink `#f2f2f2` · dim `#a3a38f`
+  - Yellow `#fcee09`: headings, the HUD frame, primary actions, the title poster, LAZARUS's run-memory unlocks
+  - Cyan `#19d5e6`: things you can act on (choices, buttons, links), survival endings
+  - Red `#ff3b3b`: heat, danger, death
+  - No glows and no large soft gradients. Bright colour is used for hard lines, text and the title poster only.
+- Shapes: hard edges. Panels and buttons have a notched (cut) top-right and bottom-left corner (`styles/notch.css`), never rounded corners. Condensed capitals for display text, small mono `///` labels on panels.
+- Fonts (Google Fonts): Barlow Condensed (display, HUD labels), IBM Plex Sans (story text, for readability), JetBrains Mono (chip lines, choices, numbers)
+- Texture: a faint dot grid, subtle scanlines, a faint noise overlay, chromatic aberration on glitches. All of it is light enough that story text stays easy to read, and all of it turns off in calm mode.
 - Single dark theme, on purpose
-- Chip lines are mono, amber, prefixed with `>`, and glitch in harder at low death counts (see the chip voice table in the script)
-- Locked choices: dashed amber border, greyed text, no hint about how to unlock them
+- Chip lines are mono, yellow, prefixed with `>`, and glitch in harder at low death counts (see the chip voice table in the script)
+- Locked choices: dashed yellow border, greyed text, no hint about how to unlock them
 - Avoid generic "hacker" clichés: no green Matrix rain, no fake terminal walls of code, no skull icons
 
 **The decaying interface:** a CSS variable `--decay` (0 to 1) on the root, computed from time and health. Under 1:00 left, text trembles and color drains. Painkillers blur choice text for one scene. Effects live in `decay.css` and read from CSS variables, not inline styles. The Merged ending resets the interface to fully clean.

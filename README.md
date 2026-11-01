@@ -2,7 +2,7 @@
 
 A cyberpunk survival story that runs in your browser. You play Kade, a courier with a stolen prototype chip in their spine and six hours to live. Every death teaches the game something, and **the game remembers**: locked choices open, characters react, and the voice in your head gets clearer.
 
-![Flatline's title screen: FLATLINE in neon pink above two heartbeat lines, over a rainy city skyline](public/og-image.jpg)
+![Flatline's title screen: FLATLINE in black on a yellow poster above two heartbeat lines](public/og-image.jpg)
 
 **Play it:** _add your Netlify link here_
 
@@ -52,12 +52,12 @@ Add `?debug` to the address (or use `npm run dev`) for the **debug panel**: jump
 | | Why |
 | --- | --- |
 | **Vite + React 19 + TypeScript (strict)** | Fast to work in, and strict types keep the story data honest |
-| **Plain CSS with custom properties** | One token file for colours, type, spacing and glows. No Tailwind, no CSS-in-JS, no UI library |
+| **Plain CSS with custom properties** | One token file for colours, type and spacing. No Tailwind, no CSS-in-JS, no UI library |
 | **Vitest** | Tests the engine as plain functions, no browser needed |
 | **Web Audio API** | All sound is generated, so there are no audio files and nothing to license |
 | **Netlify** | Static hosting, with security headers set in [`netlify.toml`](netlify.toml) |
 
-Only two runtime dependencies: `react` and `react-dom`. Fonts (Oxanium, IBM Plex Sans, JetBrains Mono) come from Google Fonts.
+Only two runtime dependencies: `react` and `react-dom`. Fonts (Barlow Condensed, IBM Plex Sans, JetBrains Mono) come from Google Fonts.
 
 ## How it works
 
@@ -205,4 +205,4 @@ Each of these is something I can explain, with the trade-off.
 
 ## Credits
 
-Story, design and direction: Emma. Code built with Claude Code. Fonts: Oxanium, IBM Plex Sans and JetBrains Mono, via Google Fonts (SIL Open Font License).
+Story, design and direction: Emma. Code built with Claude Code. Fonts: Barlow Condensed, IBM Plex Sans and JetBrains Mono, via Google Fonts (SIL Open Font License).

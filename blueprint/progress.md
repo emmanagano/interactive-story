@@ -204,6 +204,7 @@ Newest first. One line each: date, step, what was decided and why.
 | 2026-11-01 | 0.1 | Template shipped oxlint; replaced with ESLint (typescript-eslint, react-hooks, react-refresh) as the plan asks |
 | 2026-11-01 | 0.1 | Pinned TypeScript to ~6.0 (template had 7.0): typescript-eslint supports only <6.1. Revisit when it supports 7 |
 | 2026-11-01 | Planning | Stack: Vite + React + TypeScript, plain CSS, Vitest, Netlify, no backend |
+| 2026-11-01 | Request | Emma said the look was "cartoonish" and shared the Cyberpunk 2077 site as the reference. Causes I found: soft glows, rounded corners, a violet-pink palette and a drawn skyline. I offered two directions and she chose A: black with one hard yellow, cyan for things you can act on, red for danger, notched corners, condensed capitals, `///` labels, no glows, no skyline, and a yellow poster title screen (easy to undo: `TitleScreen.css`). Fonts: Oxanium replaced by Barlow Condensed. The old look is in git history (commit before "Restyle the game as hard-edged black and yellow cyberpunk"). Chrome's contrast audit finds no issues on the title, game, fully decayed, settings and dialog screens. CLAUDE.md Visual direction, the README and the favicon, touch icon and share image were updated to match. The share image still shows a focus ring on the Start button (autofocus when captured); retake if it bothers you |
 
 ## Open issues
 
