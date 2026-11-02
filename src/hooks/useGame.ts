@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react'
-import { applyDebugPatch, choose as takeChoice, createEmptyMemory, findEndingScene, findNewEndingId, listChoices, listEndingSlots, loadMemory, resetMemory, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
-import type { Block, DebugPatch, EndingSlot, GameState, ListedChoice, LoadStatus, Memory, Scene } from '../engine'
+import { applyDebugPatch, choose as takeChoice, createEmptyMemory, findEndingScene, findNewEndingId, listChoices, listCharacterSlots, listEndingSlots, loadMemory, resetMemory, saveMemory, splitEndingBlocks, startRun, visibleBlocks } from '../engine'
+import type { Block, CharacterSlot, DebugPatch, EndingSlot, GameState, ListedChoice, LoadStatus, Memory, Scene } from '../engine'
 import { describeChanges, describeNewRun, diffRun, INTERFACE_RESTORED, NO_CHANGES } from '../components/runChanges'
 import type { RunChanges } from '../components/runChanges'
 import { story } from '../story'
+import { CHARACTERS } from '../story/characters'
 
 /** What the last choice did to the meters. The id changes every time, so the HUD can replay its animation. */
 export type LastChange = {
@@ -18,6 +19,7 @@ export type Game = {
   blocks: Block[] // the story text; on an ending, without its closing chip line
   finalChip: Block | null // shown on the ending card
   endingSlots: EndingSlot[]
+  characterSlots: CharacterSlot[]
   choices: ListedChoice[]
   isOver: boolean
   loadStatus: LoadStatus
@@ -106,6 +108,7 @@ export function useGame(): Game {
     blocks: ending.story,
     finalChip: ending.finalChip,
     endingSlots: listEndingSlots(story, state.memory.endingsSeen),
+    characterSlots: listCharacterSlots(CHARACTERS, story, state.memory.memoryFlags),
     choices: listChoices(scene, state),
     isOver: scene.ending !== undefined,
     loadStatus: loaded.status,

@@ -354,6 +354,15 @@
         },
         "goto": "scene-04"
       }
+    ],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "met_reyes"
+          ]
+        }
+      }
     ]
   },
   {
@@ -488,6 +497,16 @@
         },
         "goto": "scene-04"
       }
+    ],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "met_reyes",
+            "met_tavi"
+          ]
+        }
+      }
     ]
   },
   {
@@ -576,6 +595,15 @@
           "time": -600
         },
         "goto": "scene-06"
+      }
+    ],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "met_ouro"
+          ]
+        }
       }
     ]
   },

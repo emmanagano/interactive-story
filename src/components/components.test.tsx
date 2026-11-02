@@ -6,6 +6,8 @@ import ChipLine from './ChipLine'
 import ChoiceList from './ChoiceList'
 import ConfirmDialog from './ConfirmDialog'
 import DebugPanel from './DebugPanel'
+import CharacterTracker from './CharacterTracker'
+import DecisionPrompt from './DecisionPrompt'
 import EndingCard from './EndingCard'
 import EndingTracker from './EndingTracker'
 import BlurNotice from './BlurNotice'
@@ -460,5 +462,34 @@ describe('NewEndingDialog', () => {
     expect(html).toContain('Stay at the clinic')
     expect(html).toContain('carries into the next one')
     expect(html).not.toContain('Ask who he called')
+  })
+})
+
+describe('CharacterTracker', () => {
+  const html = renderToStaticMarkup(
+    <CharacterTracker
+      slots={[
+        { id: 'reyes', found: true, name: 'Doc Reyes', metIn: 'WHO DID YOU CALL?' },
+        { id: 'sable', found: false },
+      ]}
+    />,
+  )
+
+  it('counts the characters met', () => {
+    expect(html).toContain('Characters 1/2')
+  })
+
+  it('names a met character and where, and keeps the rest as silhouettes with no name', () => {
+    expect(html).toContain('Doc Reyes')
+    expect(html).toContain('Met in WHO DID YOU CALL?')
+    expect(html).toContain('Character 2, not met yet')
+    expect(html).not.toContain('Sable')
+  })
+})
+
+describe('DecisionPrompt', () => {
+  it('shows the sentence, and nothing when a scene has none', () => {
+    expect(renderToStaticMarkup(<DecisionPrompt prompt="Pick a road." />)).toContain('Pick a road.')
+    expect(renderToStaticMarkup(<DecisionPrompt prompt={undefined} />)).toBe('')
   })
 })

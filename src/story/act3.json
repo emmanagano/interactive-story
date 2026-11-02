@@ -309,6 +309,15 @@
         "label": "CONTINUE",
         "goto": "scene-19"
       }
+    ],
+    "onEnter": [
+      {
+        "effect": {
+          "setMemoryFlags": [
+            "met_vale"
+          ]
+        }
+      }
     ]
   },
   {

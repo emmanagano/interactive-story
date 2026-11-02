@@ -23,7 +23,7 @@ describe('Act 2 routes', () => {
     expect(choicesHere).toHaveLength(1)
     const caught = take(atLab, 'continue')
     expect(caught.run.sceneId).toBe('scene-11')
-    expect(caught.memory).toMatchObject({ deaths: 1, endingsSeen: ['caught'], memoryFlags: ['met_sable'] })
+    expect(caught.memory).toMatchObject({ deaths: 1, endingsSeen: ['caught'], memoryFlags: ['met_reyes', 'met_tavi', 'met_ouro', 'met_sable'] })
   })
 
   it('reading the files teaches LAZARUS and moves on to the tunnels', () => {
@@ -53,7 +53,7 @@ describe('Act 2 routes', () => {
     const atTunnels = take(freshRun(), 'bolt', 'flyover-stairs', 'go-alone', 'pay-mama-ouro', 'pay-with-a-memory', 'continue')
     const drowned = take(atTunnels, 'center-through-the-water')
     expect(drowned.run.sceneId).toBe('scene-15')
-    expect(drowned.memory).toMatchObject({ endingsSeen: ['drowned'], memoryFlags: ['knows_route'] })
+    expect(drowned.memory).toMatchObject({ endingsSeen: ['drowned'], memoryFlags: ['met_reyes', 'met_tavi', 'met_ouro', 'knows_route'] })
   })
 
   it('knowing the route, or having listened, makes the centre tunnel safe', () => {
@@ -69,7 +69,7 @@ describe('Act 2 routes', () => {
     const silent = take(betrayed, 'say-nothing')
     for (const end of [forgave, silent]) {
       expect(end.run.sceneId).toBe('scene-14-end')
-      expect(end.memory).toMatchObject({ deaths: 1, endingsSeen: ['tavis-trade'], memoryFlags: ['tavi_secret'] })
+      expect(end.memory).toMatchObject({ deaths: 1, endingsSeen: ['tavis-trade'], memoryFlags: ['met_reyes', 'met_tavi', 'met_ouro', 'tavi_secret'] })
     }
     expect(forgave.run.runFlags).toContain('forgave')
     expect(silent.run.runFlags).toContain('silent')
@@ -85,7 +85,7 @@ describe('Act 2 routes', () => {
   it('Ouro buying the chip is a survival that teaches LAZARUS', () => {
     const sold = take(freshRun(), 'bolt', 'flyover-stairs', 'go-alone', 'pay-mama-ouro', 'sell-her-the-chip')
     expect(sold.run.sceneId).toBe('scene-09')
-    expect(sold.memory).toMatchObject({ deaths: 0, endingsSeen: ['sold'], memoryFlags: ['knows_lazarus', 'saw_sold'] })
+    expect(sold.memory).toMatchObject({ deaths: 0, endingsSeen: ['sold'], memoryFlags: ['met_reyes', 'met_tavi', 'met_ouro', 'knows_lazarus', 'saw_sold'] })
   })
 
   it('eye and memory payments set the flags the later acts read', () => {

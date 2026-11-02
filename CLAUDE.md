@@ -44,7 +44,7 @@ src/
     memory.ts     Load/save persistent memory (localStorage)
     *.test.ts     Tests live next to the code they test
   story/        Scene data as JSON, one file per act
-  components/   React UI: Hud, SceneView, ChoiceList, ChipLine, EndingCard, NewEndingDialog, EndingTracker, DebugPanel
+  components/   React UI: Hud, SceneView, DecisionPrompt, ChoiceList, ChipLine, EndingCard, NewEndingDialog, EndingTracker, CharacterTracker, DebugPanel
   hooks/        useGame (wires engine to React), useReducedMotion
   styles/       tokens.css, base.css, decay.css
 blueprint/

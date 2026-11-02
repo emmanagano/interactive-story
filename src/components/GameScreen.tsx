@@ -3,9 +3,12 @@ import { listStoryFlags } from '../engine'
 import type { Game, Reveal } from '../hooks'
 import { DEBUG_PRESETS } from '../story/debugPresets'
 import { story } from '../story'
+import { DECISION_PROMPTS } from '../story/decisionPrompts'
 import BlurNotice from './BlurNotice'
 import ChoiceList from './ChoiceList'
 import EndingCard from './EndingCard'
+import CharacterTracker from './CharacterTracker'
+import DecisionPrompt from './DecisionPrompt'
 import EndingTracker from './EndingTracker'
 import GameNotices from './GameNotices'
 import NewEndingDialog from './NewEndingDialog'
@@ -58,6 +61,7 @@ function GameScreen({ game, reveal, sceneKey, cleanInterface, calm }: Props) {
             ) : (
               <div className={reveal.revealing ? 'app__choices app__choices--pending' : 'app__choices'}>
                 <BlurNotice blurred={game.state.run.blurred} calm={calm} />
+                <DecisionPrompt prompt={DECISION_PROMPTS[game.scene.id]} />
                 <ChoiceList choices={game.choices} blurred={game.state.run.blurred} onChoose={game.choose} />
               </div>
             )}
@@ -65,6 +69,7 @@ function GameScreen({ game, reveal, sceneKey, cleanInterface, calm }: Props) {
         </div>
       </div>
       <EndingTracker slots={game.endingSlots} />
+      <CharacterTracker slots={game.characterSlots} />
       {/* Opens only once the ending's text has finished, so it cannot give the ending away early. */}
       <NewEndingDialog
         open={game.isOver && !reveal.revealing}

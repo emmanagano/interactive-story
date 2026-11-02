@@ -1,0 +1,49 @@
+.character-tracker {
+  margin-top: var(--space-5);
+}
+
+.character-tracker__title {
+  margin-bottom: var(--space-3);
+  color: var(--color-yellow);
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+}
+
+.character-tracker__slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.character-tracker__slot {
+  --edge: var(--color-cyan);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border: var(--border-thin) solid var(--color-cyan);
+  background-color: var(--surface-deep);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* A character not met yet is only a silhouette: a dashed outline and no name. */
+.character-tracker__slot--locked {
+  --edge: transparent; /* a dashed outline has no solid cut edge to draw */
+
+  border-style: dashed;
+  border-color: var(--color-dim);
+  color: var(--color-dim);
+}
+
+.character-tracker__name {
+  color: var(--color-ink);
+}
+
+.character-tracker__met {
+  color: var(--color-dim);
+}
