@@ -18,8 +18,18 @@ function CharacterTracker({ slots }: Props) {
         {slots.map((slot, index) =>
           slot.found ? (
             <li key={slot.id} className="character-tracker__slot notch notch--small">
-              <span className="character-tracker__name">{slot.name}</span>
-              {slot.metIn && <span className="character-tracker__met">Met in {slot.metIn}</span>}
+              <details className="character-tracker__profile">
+                <summary className="character-tracker__summary">
+                  <span className="character-tracker__name">{slot.name}</span>
+                  <span className="character-tracker__role">{slot.role}</span>
+                  {slot.metIn && <span className="character-tracker__met">Met in {slot.metIn}</span>}
+                </summary>
+                <div className="character-tracker__details">
+                  {slot.details?.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </details>
             </li>
           ) : (
             <li key={slot.id} className="character-tracker__slot character-tracker__slot--locked notch notch--small">

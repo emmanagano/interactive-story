@@ -469,7 +469,7 @@ describe('CharacterTracker', () => {
   const html = renderToStaticMarkup(
     <CharacterTracker
       slots={[
-        { id: 'reyes', found: true, name: 'Doc Reyes', metIn: 'WHO DID YOU CALL?' },
+        { id: 'reyes', found: true, name: 'Doc Reyes', role: 'Back-alley doctor', metIn: 'WHO DID YOU CALL?', details: ['Runs the clinic.'] },
         { id: 'sable', found: false },
       ]}
     />,
@@ -483,6 +483,13 @@ describe('CharacterTracker', () => {
     expect(html).toContain('Doc Reyes')
     expect(html).toContain('Met in WHO DID YOU CALL?')
     expect(html).toContain('Character 2, not met yet')
+  })
+
+  it('keeps the profile behind a native details control, so it opens with the keyboard', () => {
+    expect(html).toContain('<details')
+    expect(html).toContain('<summary')
+    expect(html).toContain('Back-alley doctor')
+    expect(html).toContain('Runs the clinic.')
     expect(html).not.toContain('Sable')
   })
 })

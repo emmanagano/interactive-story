@@ -13,6 +13,21 @@ describe('characters', () => {
     }
   })
 
+  it('only gate a paragraph on flags the story can set', () => {
+    for (const character of CHARACTERS) {
+      for (const detail of character.details) {
+        for (const flag of detail.unlockFlags ?? []) expect(memoryFlags, `${character.name}: ${flag}`).toContain(flag)
+      }
+    }
+  })
+
+  it('give every character a role and a paragraph that shows as soon as they are met', () => {
+    for (const character of CHARACTERS) {
+      expect(character.role, character.name).not.toBe('')
+      expect(character.details.some((detail) => !detail.unlockFlags), character.name).toBe(true)
+    }
+  })
+
   it('name a first scene that exists, and the character is named in it', () => {
     for (const character of CHARACTERS) {
       const scene = story[character.firstSceneId]

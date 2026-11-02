@@ -40,10 +40,53 @@
   color: var(--color-dim);
 }
 
-.character-tracker__name {
-  color: var(--color-ink);
+/* An opened profile takes the whole row so its paragraphs have room to read. */
+.character-tracker__slot:has(details[open]) {
+  grid-column: 1 / -1;
 }
 
+.character-tracker__summary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  cursor: pointer;
+}
+
+.character-tracker__summary::after {
+  content: '+ More';
+  color: var(--color-cyan);
+}
+
+.character-tracker__profile[open] .character-tracker__summary::after {
+  content: '\2212  Less';
+}
+
+.character-tracker__name {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.character-tracker__role,
 .character-tracker__met {
   color: var(--color-dim);
+}
+
+.character-tracker__details {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 60ch;
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--border-thin) solid var(--color-line);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+.character-tracker__details p {
+  margin: 0;
 }
