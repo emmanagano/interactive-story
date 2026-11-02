@@ -1,0 +1,14 @@
+.decision-prompt {
+  margin: 0 0 var(--space-3);
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.decision-prompt__label {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--color-yellow);
+  font-family: var(--font-mono);
+  letter-spacing: 0.1em;
+}
