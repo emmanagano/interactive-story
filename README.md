@@ -43,7 +43,7 @@ npm install
 npm run dev        # local dev server
 npm run build      # production build into dist/
 npm run preview    # serve the production build
-npm run test       # Vitest, 379 tests in 31 files
+npm run test       # Vitest, 380 tests in 31 files
 npm run lint       # ESLint
 npm run typecheck  # tsc, strict mode
 ```
@@ -167,7 +167,7 @@ Accessibility was part of "done" for every step, not a final pass. A full audit 
 
 ## Testing
 
-**379 tests in 31 files**, run with `npm run test`:
+**380 tests in 31 files**, run with `npm run test`:
 
 - **Engine:** conditions, effects, the hourly drain, the run loop, memory and save codes, settings upgrades, decay, sound rules, and the debug tools.
 - **The story itself:** the validator, and scripted runs that reach each of the 10 endings, including the fastest path to the secret one (three runs, two deaths). The ending guide is checked against the script's own table word for word, and against the endings in the game.
@@ -209,4 +209,4 @@ Each of these is something I can explain, with the trade-off.
 
 ## Credits
 
-Story, design and direction: Emma. Code built with Claude Code. Fonts: Barlow Condensed, IBM Plex Sans and JetBrains Mono, via Google Fonts (SIL Open Font License).
+Story, design and direction: [Emma Nagano](https://emmanagano.com/). Code built with Claude Code. Fonts: Barlow Condensed, IBM Plex Sans and JetBrains Mono, via Google Fonts (SIL Open Font License).

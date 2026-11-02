@@ -84,6 +84,12 @@ describe('the security headers', () => {
 })
 
 describe('privacy: no requests to anyone but Google Fonts', () => {
+  it('links to the portfolio in a new tab without leaking the opener', () => {
+    const title = readFileSync(join(root, 'src/components/TitleScreen.tsx'), 'utf-8')
+    expect(title).toContain('rel="noopener noreferrer"')
+    expect(title).toContain("PORTFOLIO_URL = 'https://emmanagano.com/'")
+  })
+
   const sourceFiles = (dir: string): string[] =>
     readdirSync(dir).flatMap((name) => {
       const full = join(dir, name)
@@ -92,7 +98,7 @@ describe('privacy: no requests to anyone but Google Fonts', () => {
     })
 
   it('finds no other web address in the page or the code', () => {
-    const allowed = ['fonts.googleapis.com', 'fonts.gstatic.com', 'www.w3.org'] // www.w3.org is an XML namespace, not a request
+    const allowed = ['fonts.googleapis.com', 'fonts.gstatic.com', 'www.w3.org', 'emmanagano.com'] // www.w3.org is an XML namespace, not a request; emmanagano.com is Emma's own portfolio, linked from the title screen and only visited if the player clicks it
     const found = new Set<string>()
     for (const file of [join(root, 'index.html'), ...sourceFiles(join(root, 'src'))]) {
       for (const match of readFileSync(file, 'utf-8').matchAll(/https?:\/\/([a-z0-9.-]+)/gi)) found.add(match[1])

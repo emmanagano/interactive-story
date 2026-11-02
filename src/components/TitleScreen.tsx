@@ -1,6 +1,9 @@
 import EcgLine from './EcgLine'
 import './TitleScreen.css'
 
+// The one link out of the game. It only leaves when the player clicks it: the page itself requests nothing from this address.
+const PORTFOLIO_URL = 'https://emmanagano.com/'
+
 type Props = {
   returning: boolean // has played before: offer Continue instead of Start
   endingsFound: number
@@ -36,6 +39,12 @@ function TitleScreen({ returning, endingsFound, onStart, onGuide, onSettings }: 
             </button>
           </nav>
           {returning && <p className="title-screen__progress">Endings {endingsFound}/10</p>}
+          <p className="title-screen__credit">
+            Made by Emma Nagano ·{' '}
+            <a href={PORTFOLIO_URL} target="_blank" rel="noopener noreferrer">
+              See my portfolio<span className="visually-hidden"> (opens in a new tab)</span>
+            </a>
+          </p>
         </div>
       </div>
     </div>
