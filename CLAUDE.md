@@ -67,7 +67,7 @@ blueprint/
 **Memory** (persists across runs, in localStorage):
 - `version` (save format, currently 1), `deaths`, `flatlines`, `runs`
 - `endingsSeen`: list of ending IDs
-- `memoryFlags` (e.g. `reyes_lied`, `met_sable`, `tavi_secret`, `knows_route`, `knows_lazarus`, `was_removed`, `saw_sold`, `saw_company`, `saw_partners`, `saw_merged`)
+- `memoryFlags` (e.g. `reyes_lied`, `met_sable`, `tavi_secret`, `knows_route`, `knows_lazarus`, `was_removed`, `saw_sold`, `saw_company`, `saw_partners`, `saw_merged`; `met_reyes`, `met_tavi`, `met_ouro` and `met_vale` mark the characters the player has met, and Sable and LAZARUS use `met_sable` and `knows_lazarus`)
 
 **Automatic rules:**
 - Time hits 0 or health hits 0 in any scene → Flatline (Scene 16, Ending 05).
